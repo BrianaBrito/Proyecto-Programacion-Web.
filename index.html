@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Inicio</title>
+        <link rel="stylesheet" href="css/index.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    </head>
+
+    <body>
+        <header>
+            <nav class="navbar">
+                <h2>Advitium</h2>
+                <ul>
+                    <li><a href="pruebaopiniones.html">Inicio</a></li>
+                    <li>Sobre nosotos</li>
+                    <li><img src="img/icon-icons-removebg-preview.png" ></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <main>
+            <section class="contenedor">
+                <div class="texto">
+                    <h1>Advitium</h1>
+                    <h2>Tu inventario al alcance <br> <span class="resaltado">de tu mano</span></h2>
+                    <p>Toma el control de tu inventario de una forma más accesible, cómoda y sobre todo, a tu manera.</p>
+                </div>
+                <div class="logo-container">
+                    LOGO
+                </div>
+            </section>    
+
+            <br>
+
+            <section class="caracteristicas">
+                <div class="img-container">
+                    <img src="img/crecimiento.png" alt="Crecimiento">
+                </div>
+                <div class="txtcaracteristicas">
+                    <h2>¿Por qué es necesario <br>controlar el inventario?</h2>
+                    <br>
+                    <p>La implementación de una aplicación web <br> para la gestión de inventarios es fundamental <br> para asegurar el crecimiento y la supervivencia <br> de las PyMEs.</p>
+                </div>
+            </section>
+
+          
+
+            <section class="opiniones-container">
+                <div class="swiper mySwiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <img src="img/user1.jpg" alt="Cliente" class="image" />
+                            <p>Mi negocio duplico sus ganancias gracias a ellos.</p>
+                            <div class="details">
+                                <span class="name">user2415994</span>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="img/user2.jpg" alt="Cliente" class="image" />
+                            <p>Funcionando perfectamente.</p>
+                            <div class="details">
+                                <span class="name">user245895</span>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="img/user3.png" alt="Cliente" class="image" />
+                            <p>Muy satisfecho con la aplicación.</p>
+                            <div class="details">
+                                <span class="name">user214458</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Botones de navegación -->
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </section>
+        </main>
+
+        <br>
+
+       <footer class="footer">
+    <div class="footer-container">
+        <div class="footer-col">
+            <h3>Advitium</h3>
+            <p class="footer-desc">
+                Tu inventario al alcance de tu mano. 
+                Simplificamos la gestión de inventarios para PyMEs.
+            </p>
+        </div>
+
+        <div class="footer-col">
+            <h4>Enlaces rápidos</h4>
+            <ul>
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#caracteristicas">Características</a></li>
+                <li><a href="#opiniones">Opiniones</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-col">
+            <h4>Contacto</h4>
+            <ul class="contact-list">
+                <li>
+                    <span class="icon">📞</span>
+                    <span>+5555555555</span>
+                </li>
+                <li>
+                    <span class="icon">✉️</span>
+                    <span>info@advitium.com</span>
+                </li>
+                <li>
+                    <span class="icon">📍</span>
+                    <span>Zacatepec, Mexico</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="footer-col">
+            <h4>Síguenos</h4>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook" class="social-link">
+                    <span>Facebook</span>
+                </a>
+              
+                <a href="#" aria-label="Instagram" class="social-link">
+                    <span>Instagram</span>
+                </a>
+                
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2026 Advitium. Todos los derechos reservados.</p>
+        <div class="footer-bottom-links">
+            <a href="#">Política de privacidad</a>
+            <a href="#">Términos y condiciones</a>
+        </div>
+    </div>
+</footer>
+
+      
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var swiper = new Swiper(".mySwiper", {
+                    slidesPerView: 1,
+                    loop: true,
+                    navigation: {
+                        nextEl: ".swiper-button-next",
+                        prevEl: ".swiper-button-prev",
+                    },
+                    pagination: {
+                        el: ".swiper-pagination",
+                        clickable: true,
+                    },
+                });
+            });
+        </script>
+    </body>
+</html>
