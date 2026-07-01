@@ -6,6 +6,8 @@
 </head>
 <body>
     
+    <nav id="navbar-container"></nav>
+
     <h1>Inventario</h1>
     <h2>Registrar producto</h2>
 
@@ -107,6 +109,14 @@
 
     </table>
 
+    <script>
+        fetch('navbar.html')
+        .then(response => response.text())
+        .then( data => {
+            document.getElementById('navbar-container').innerHTML = data;
+        })    
+        .catch(error => console.error("Error al cargar el navbar", error))
+    </script>
 
 </body>
 </html>
