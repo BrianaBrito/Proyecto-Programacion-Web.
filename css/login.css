@@ -1,0 +1,246 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* CSS Header */
+header {
+    margin: 0;
+}
+
+nav.navbar {
+    background: #1E3A8A;
+    border-radius: 15px;
+    padding: 20px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav.navbar h2 {
+    color: white;
+}
+
+.navbar ul {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar li {
+    padding: 1rem;
+    color: white;
+    cursor: pointer;
+}
+
+.navbar ul li a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.navbar ul li a:hover,
+.navbar ul li:hover {
+    color: #93BBFC;
+}
+
+.navbar li img {
+    width: 30px;
+    border-radius: 100px;
+}
+
+/* CSS Body */
+body {
+    background-color: #F3F4F6;
+    margin: 20px;
+}
+
+/* CSS para ponerlo derecha*/
+.login-section {
+    display: flex;
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    min-height: 550px;
+    margin-top: 20px;
+}
+
+/* CSS color lado derecho*/
+.imagen-container {
+    flex: 1;
+    background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* CSS design parte izquierda*/
+.imagen-container::before {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    top: -100px;
+    right: -100px;
+}
+
+.imagen-container::after {
+    content: '';
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    bottom: -50px;
+    left: -50px;
+}
+
+.imagen-contenido {
+    text-align: center;
+    color: white;
+    position: relative;
+    z-index: 1;
+}
+
+.logo-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo-placeholder svg {
+    margin-bottom: 10px;
+}
+
+.logo-placeholder h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: white;
+    margin: 0;
+}
+
+.logo-placeholder p {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* CSS formulario*/
+.formulario-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    background: white;
+}
+
+.contenedor {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 380px;
+    text-align: center;
+}
+
+.formulario {
+    display: none;
+}
+
+.formulario.activo {
+    display: block;
+    animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+
+input {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 10px 0;
+    border: 2px solid #E5E7EB;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 0.95rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus {
+    outline: none;
+    border-color: #1E3A8A;
+    box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+}
+
+input::placeholder {
+    color: #9CA3AF;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background: #1E3A8A;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 10px;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background: #3B82F6;
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+p {
+    font-size: 0.9rem;
+    color: #6B7280;
+    margin-top: 20px;
+}
+
+span {
+    color: #1E3A8A;
+    cursor: pointer;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+span:hover {
+    color: #3B82F6;
+    text-decoration: underline;
+}
+

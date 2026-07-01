@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login y Registro | Advitium</title>
+    <link rel="stylesheet" href="css/login.css">
+</head>
+
+<body>
+    <header>
+        <nav class="navbar">
+            <h2>ADVITIUM</h2>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li>Sobre nosotros</li>
+                <li><a href="login.html"><img src="img/icon-icons-removebg-preview.png" ></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="login-section">
+            <div class="imagen-container">
+                <div class="imagen-contenido">
+                    <div class="logo-placeholder">
+                        
+                        <h2>Advitium</h2>
+                        <p>Tu inventario al alcance<br>de tu mano</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="formulario-container">
+                <div class="contenedor">
+                    <div class="formulario activo" id="login-form">
+                        <h2>Iniciar Sesión</h2>
+                        <form action="#" method="POST">
+                            <input type="email" placeholder="Correo Electrónico" required>
+                            <input type="password" placeholder="Contraseña" required>
+                            <button type="submit">Entrar</button>
+                        </form>
+                        <p>¿No tienes cuenta? <span onclick="mostrarRegistro()">Regístrate aquí</span></p>
+                    </div>
+
+                    <div class="formulario" id="registro-form">
+                        <h2>Crear Cuenta</h2>
+                        <form action="#" method="POST">
+                            <input type="text" placeholder="Nombre Completo" required>
+                            <input type="email" placeholder="Correo Electrónico" required>
+                            <input type="password" placeholder="Contraseña" required>
+                            <button type="submit">Registrarse</button>
+                        </form>
+                        <p>¿Ya tienes cuenta? <span onclick="mostrarLogin()">Inicia sesión aquí</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        function mostrarRegistro() {
+            document.getElementById('login-form').classList.remove('activo');
+            document.getElementById('registro-form').classList.add('activo');
+        }
+
+        function mostrarLogin() {
+            document.getElementById('registro-form').classList.remove('activo');
+            document.getElementById('login-form').classList.add('activo');
+        }
+    </script>
+
+</body>
+</html>
