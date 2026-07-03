@@ -6,6 +6,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Montserrat', sans-serif;
+   
 }
 
 body {
@@ -157,12 +158,19 @@ section {
     background: white;
     border-radius: 15px;
     position: relative;
+    padding: 1px;
 }
+.opiniones-container ,h4{
+  color:#1F2937;
+  padding: 20px;
+}
+
 
 .mySwiper {
     width: 100%;
     height: auto;
     padding-bottom: 50px; 
+    padding-top: 1px;
 }
 
 
@@ -259,8 +267,9 @@ section {
 }
 .textoencabezadotitulo div {
     background-color: #60A5FA;
+    padding-bottom: 0px;
 }
-.textoencabezadotitulo h2,h4,h2{
+.textoencabezadotitulo ,h5,h2,h4 {
     margin: 10px;
     align-items: center;
     justify-content: center;
