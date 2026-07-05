@@ -1,57 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Movimientos</title>
+    <meta charset="UTF-8">
+    <title>Movimientos | ADVITIUM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/movimientos.css">
 </head>
 <body>
 
     <div id="navbar-container"></div>
 
-    <h1 style="text-align: center;">Historial de movimientos</h1>
+    <main class="main-container">
+        <div class="card-panel">
+            <h1 class="titulo-pagina">Historial de movimientos</h1>
 
-    <table align="center" border="1px">
-
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Fecha</th>
-                <th>Producto</th>
-                <th>Tipo</th>
-                <th>Cantidad</th>
-                <th>Motivo</th>
-                <th>Responsable</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            <tr>
-                <td>101</td>
-                <td>2026-06-29</td>
-                <td>Laptop HP</td>
-                <td>Entrada</td>
-                <td>15</td>
-                <td>Compra a DDTech</td>
-                <td>Almacenista 1</td>
-            </tr>
-            <tr>
-                <td>102</td>
-                <td>2026-06-30</td>
-                <td>Multimetro</td>
-                <td>Salida</td>
-                <td>2</td>
-                <td>Venta a Cliente X</td>
-                <td>Almacenista 3</td>
-            </tr>
-        </tbody>
-
-    </table>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Fecha</th>
+                        <th>Producto</th>
+                        <th>Tipo</th>
+                        <th>Cantidad</th>
+                        <th>Motivo</th>
+                        <th>Responsable</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>101</td>
+                        <td>2026-06-29</td>
+                        <td>Laptop HP</td>
+                        <td><span class="badge entrada">Entrada</span></td>
+                        <td>15</td>
+                        <td>Compra a DDTech</td>
+                        <td>Almacenista 1</td>
+                    </tr>
+                    <tr>
+                        <td>102</td>
+                        <td>2026-06-30</td>
+                        <td>Multimetro</td>
+                        <td><span class="badge salida">Salida</span></td>
+                        <td>2</td>
+                        <td>Venta a Cliente X</td>
+                        <td>Almacenista 3</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
 
     <script>
         fetch('navbar.html')
         .then(response => response.text())
         .then(data => {
             document.getElementById('navbar-container').innerHTML= data;
+            const links = document.querySelectorAll('nav ul li a');
+            links.forEach(link => {
+                if(link.textContent.trim() === 'Movimientos') {
+                    link.classList.add('active-link');
+                }
+            });
         })
         .catch(error => console.error("Error al cargar el nav", error));
     </script>
