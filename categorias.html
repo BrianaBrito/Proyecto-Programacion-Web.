@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Categorias | ADVITIUM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/inventario.css">
+</head>
+<body>
+    
+    <div id="navbar-container"></div>
+
+    <main class="main-container">
+        <div class="card-panel">
+            <h1 class="titulo-pagina">Categorias</h1>
+            
+            <details class="registrar-producto-details">
+                <summary><h2>Registrar categoria</h2></summary>
+                <form action="">
+                    <div>
+                        <label for="nombre">Nombre de la categoria: </label>
+                        <input type="text" name="nombre" id="nombre">
+                    </div>
+                    <div>
+                        <label for="descripcion">Descripcion: </label>
+                        <input type="text" name="descripcion" id="descripcion">
+                    </div>
+                    <button type="submit">Guardar</button>
+                </form>
+            </details>
+
+            <h2>Lista de categorias</h2>
+
+            <div class="search-container">
+                <button type="submit" id="search-button"></button>
+                <input type="text" name="buscar" id="busqueda" placeholder="Buscar categoria...">
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Descripcion</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Electronica</td>
+                        <td>Componentes electronicos</td>
+                        <td>
+                            <button>Editar</button>
+                            <button>Eliminar</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Herramientas</td>
+                        <td>Herramientas manuales</td>
+                        <td>
+                            <button>Editar</button>
+                            <button>Eliminar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script>
+        fetch('navbar.html')
+        .then(response => response.text())
+        .then( data => {
+            document.getElementById('navbar-container').innerHTML = data;
+            const links = document.querySelectorAll('nav ul li a');
+            links.forEach(link => {
+                if(link.textContent.trim() === 'Categorias') {
+                    link.classList.add('active-link');
+                }
+            });
+        })    
+        .catch(error => console.error("Error al cargar el navbar", error))
+    </script>
+
+</body>
+</html>
