@@ -184,10 +184,6 @@ input[type="number"]::-webkit-inner-spin-button {
     margin: 0;
 }
 
-input[type="number"] {
-    -moz-appearance: textfield;
-}
-
 button {
     background-color: var(--color-principal);
     color: var(--color-superficie);
@@ -316,6 +312,7 @@ td button {
     font-size: 0.85rem;
     margin-right: 0.5rem;
     border-radius: 4px;
+    display: flex ;
 }
 
 td button:last-child {
@@ -343,8 +340,19 @@ td button:last-child:hover {
 
     .main-container{
         justify-content: center;
+        text-align: center;  
+    }
+
+    .registrar-cliente-details{
+        display: grid;
+        justify-content: center;
+        justify-items: center;
         text-align: center;
-        
+    }
+
+    .registrar-cliente-details input{
+        width: 100%;
+        max-width: 600px;
     }
 
     .tabla-clientes{
