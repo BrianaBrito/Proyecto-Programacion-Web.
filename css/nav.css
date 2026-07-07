@@ -63,4 +63,3 @@ nav ul li a:hover {
 nav ul li a:hover::after {
   transform: scaleX(1);
 }
-

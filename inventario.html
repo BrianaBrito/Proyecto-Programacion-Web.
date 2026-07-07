@@ -73,6 +73,7 @@
         <td data-label="Acciones">
             <button>Editar</button>
             <button>Eliminar</button>
+            <button>Salida</button>
         </td>
                     </tr>
                     <tr>
@@ -86,6 +87,7 @@
                         <td>
                             <button>Editar</button>
                             <button>Eliminar</button>
+                            <button>Salida</button>
                         </td>
                     </tr>
                 </tbody>
@@ -94,6 +96,7 @@
     </main>
 
     <script>
+        
         fetch('navbar.html')
         .then(response => response.text())
         .then( data => {
@@ -106,6 +109,7 @@
             });
         })    
         .catch(error => console.error("Error al cargar el navbar", error))
+
     </script>
 
 </body>
