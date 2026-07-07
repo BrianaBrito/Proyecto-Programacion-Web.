@@ -1,0 +1,336 @@
+:root {
+    --color-principal: #1E3A8A;
+    --color-secundario: #3B82F6;
+    --color-fondo: #F3F4F6;
+    --color-superficie: #FFFFFF;
+    --color-texto: #1F2937;
+    --color-hover: #EFF6FF;
+    --color-borde: #E5E7EB;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--color-fondo);
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+nav ul li a.active-link {
+    background-color: var(--color-secundario);
+    padding: 8px 16px;
+    border-radius: 8px;
+    color: var(--color-superficie);
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+nav ul li a.active-link::after {
+    display: none;
+}
+
+.main-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 60px 20px;
+}
+
+.card-reportes {
+    background-color: var(--color-superficie);
+    width: 100%;
+    max-width: 1100px;
+    border-radius: 24px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.encabezado-reportes {
+    text-align: left;
+    border-bottom: 2px solid var(--color-fondo);
+    padding-bottom: 20px;
+}
+
+.titulo-reportes {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--color-principal);
+    margin-bottom: 8px;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+}
+
+.subtitulo-reportes {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1rem;
+    color: #6B7280;
+}
+
+.reportes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+}
+
+.entidad-card {
+    background-color: var(--color-superficie);
+    border: 2px solid var(--color-borde);
+    border-radius: 16px;
+    padding: 25px 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.entidad-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--color-secundario);
+    box-shadow: 0 10px 25px rgba(59, 130, 246, 0.15);
+}
+
+.entidad-card.activa {
+    background-color: var(--color-secundario);
+    border-color: var(--color-secundario);
+    color: white;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+}
+
+.entidad-icon {
+    background-color: var(--color-fondo);
+    padding: 15px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.entidad-card:hover .entidad-icon {
+    background-color: var(--color-hover);
+}
+
+.entidad-card.activa .entidad-icon {
+    background-color: white;
+}
+
+.entidad-card svg {
+    width: 32px;
+    height: 32px;
+    color: var(--color-secundario);
+    transition: color 0.3s ease;
+}
+
+.entidad-card.activa svg {
+    color: var(--color-secundario);
+}
+
+.entidad-card h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-texto);
+    text-align: center;
+    transition: color 0.3s ease;
+}
+
+.entidad-card.activa h3 {
+    color: white;
+}
+
+.vista-previa-section {
+    background-color: var(--color-fondo);
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.vista-previa-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.titulo-seccion {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--color-principal);
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    font-size: 1rem;
+}
+
+.action-btn.primary {
+    background-color: var(--color-secundario);
+    color: white;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+}
+
+.action-btn.primary:hover:not(.disabled) {
+    background-color: #2563EB;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5);
+}
+
+.action-btn.disabled {
+    background-color: #9CA3AF;
+    box-shadow: none;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.action-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Contenido de la vista previa */
+.vista-previa-contenido {
+    background-color: white;
+    border-radius: 16px;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    border: 1px dashed #CBD5E1;
+}
+
+.placeholder-text {
+    color: #94A3B8;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.4s ease-in-out;
+    width: 100%;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.reporte-generado {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.reporte-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--color-fondo);
+    padding-bottom: 15px;
+}
+
+.reporte-info h3 {
+    color: var(--color-texto);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.3rem;
+}
+
+.reporte-fecha {
+    color: #6B7280;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    width: 100%;
+}
+
+.tabla-resumen {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabla-resumen th, .tabla-resumen td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--color-fondo);
+}
+
+.tabla-resumen th {
+    font-family: 'Montserrat', sans-serif;
+    color: #6B7280;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+.tabla-resumen td {
+    color: var(--color-texto);
+    font-size: 0.95rem;
+}
+
+.badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.badge-success {
+    background-color: #D1FAE5;
+    color: #065F46;
+}
+
+.badge-warning {
+    background-color: #FEF3C7;
+    color: #B45309;
+}
+
+@media (max-width: 768px) {
+    .card-reportes {
+        padding: 30px 20px;
+    }
+
+    .titulo-reportes {
+        font-size: 2.2rem;
+    }
+
+    .reportes-grid {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    }
+
+    .vista-previa-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
