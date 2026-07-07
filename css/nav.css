@@ -10,9 +10,10 @@ nav {
     height: 55px;
     margin: 0;
     padding: 0;
-    width: 100%;
+    width: auto;
     background-color: #1e3a8a;
 }
+
 
 nav h2 {
     padding-left: 40px;
@@ -28,6 +29,7 @@ nav ul {
     list-style-type: none;
     color: white;
     margin-left: auto;
+    cursor: pointer;
     
 }
 
@@ -64,3 +66,30 @@ nav ul li a:hover::after {
   transform: scaleX(1);
 }
 
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column;  
+        height: auto;             
+        padding: 15px 20px;     
+        gap: 12px;               
+    }
+
+    nav h2 {
+        padding-left: 0;          
+        text-align: center;     
+        width: 100%;              
+    }
+
+    nav ul {
+        margin-left: 0;          
+        justify-content: center; 
+        flex-wrap: wrap;          
+        width: 100%;             
+        padding: 0 10px;      
+    }
+
+    nav ul li {
+        padding: 8px 12px;        
+        font-size: 0.95rem;      
+    }
+}

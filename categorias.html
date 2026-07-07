@@ -19,11 +19,11 @@
                 <form action="">
                     <div>
                         <label for="nombre">Nombre de la categoria: </label>
-                        <input type="text" name="nombre" id="nombre">
+                        <input type="text" name="nombre" id="nombre" required pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{3,30}$">
                     </div>
                     <div>
                         <label for="descripcion">Descripcion: </label>
-                        <input type="text" name="descripcion" id="descripcion">
+                        <input type="text" name="descripcion" id="descripcion" required pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s.,;:()\-]{10,150}$">
                     </div>
                     <button type="submit">Guardar</button>
                 </form>

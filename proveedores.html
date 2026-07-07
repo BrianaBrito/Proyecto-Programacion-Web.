@@ -19,23 +19,23 @@
                 <form action="">
                     <div>
                         <label for="nombre">Nombre: </label>    
-                        <input type="text" name="nombre" id="nombre">
+                        <input type="text" name="nombre" id="nombre" required pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s.&-]{3,30}$">
                     </div>
                     <div>
                         <label for="contacto">Contacto: </label>
-                        <input type="text" name="contacto" id="contacto">
+                        <input type="text" name="contacto" id="contacto" required pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{3,30}$">
                     </div>
                     <div>
                         <label for="telefono">Telefono: </label>
-                        <input type="text" name="telefono" id="telefono">
+                        <input type="text" name="telefono" id="telefono" required pattern="^\d{10}$">
                     </div>
                     <div>
                         <label for="email">Email: </label>
-                        <input type="text" name="email" id="email">
+                        <input type="text" name="email" id="email" required pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$">  
                     </div>
                     <div>
                         <label for="direccion">Direccion: </label>
-                        <input type="text" name="direccion" id="direccion">
+                        <input type="text" name="direccion" id="direccion" required pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s.,#/\-]{10,120}$">
                     </div>
                     <button type="submit">Guardar</button>
                 </form>

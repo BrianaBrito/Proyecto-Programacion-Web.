@@ -18,27 +18,27 @@
                     <form action="">
                         <div>
                             <label for="nombre">Nombre</label>
-                            <input type="text" name="nombre" id="nombre">
+                            <input type="text" name="nombre" id="nombre" required pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{3,30}$">
                         </div>
                         
                         <div>
                             <label for="telefono">Teléfono</label>
-                            <input type="tel" name="telefono" id="telefono" pattern="^\d{10}$"> 
+                            <input type="tel" name="telefono" id="telefono" pattern="^\d{10}$" required > 
                         </div>
 
                         <div>
                             <label for="correo">Correo Electronico</label>
-                            <input type="email" name="correo" id="correo" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"> 
+                            <input type="email" name="correo" id="correo" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required> 
                         </div>
 
                         <div>
                             <label for="direccion">Dirección</label>
-                            <input type="text" name="direccion" id="direccion"> 
+                            <input type="text" name="direccion" id="direccion" required pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s.,#/\-]{10,120}$"> 
                         </div>
 
                         <div>
                             <label for="saldo">Saldo</label>
-                            <input type="number" name="saldo" id="saldo"> 
+                            <input type="number" name="saldo" id="saldo" required pattern="^\d+?$">  
                         </div>
                         <button type="submit">Guardar</button>
                     </form>
