@@ -1,0 +1,301 @@
+/* Paleta de colores definida */
+:root {
+    --color-principal: #1E3A8A;
+    --color-secundario: #3B82F6;
+    --color-fondo: #F3F4F6;
+    --color-superficie: #FFFFFF;
+    --color-texto: #1F2937;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--color-fondo);
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+nav ul li a.active-link {
+    background-color: var(--color-secundario);
+    padding: 8px 16px;
+    border-radius: 8px;
+    color: var(--color-superficie);
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+nav ul li a.active-link::after {
+    display: none;
+}
+
+.main-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Subimos un poco la tarjeta */
+    padding: 60px 20px;
+}
+
+.card-inicio {
+    background-color: var(--color-superficie);
+    width: 100%;
+    max-width: 1100px;
+    border-radius: 24px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.encabezado-dashboard {
+    text-align: left;
+    border-bottom: 2px solid var(--color-fondo);
+    padding-bottom: 20px;
+}
+
+.titulo-inicio {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--color-principal);
+    margin-bottom: 5px;
+    line-height: 1.1;
+    letter-spacing: -1px;
+}
+
+.subtitulo-inicio {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: #6B7280; /* Gris elegante */
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 30px;
+}
+
+/* Tarjetas individuales */
+.dash-card {
+    background-color: var(--color-fondo);
+    border-radius: 16px;
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-left: 6px solid var(--color-secundario);
+}
+
+.dash-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.08);
+}
+
+.dash-card.warning {
+    border-left-color: #EF4444; /* Rojo para alertas */
+}
+
+.dash-card.highlight {
+    border-left-color: #10B981; /* Verde */
+    align-items: flex-start;
+}
+
+.dash-icon {
+    background: white;
+    padding: 12px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dash-svg {
+    width: 40px;
+    height: 40px;
+    display: block;
+}
+
+.dash-info h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9rem;
+    color: #6B7280;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+.dash-info .dash-num {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-texto);
+    line-height: 1;
+}
+
+/* Estilos para lista de actividades sencilla */
+.actividad-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+    color: var(--color-texto);
+}
+
+.actividad-item p {
+    margin: 0;
+}
+
+.punto {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.punto.azul { background-color: var(--color-secundario); }
+.punto.rojo { background-color: #EF4444; }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .card-inicio {
+        padding: 30px 20px;
+        gap: 30px;
+    }
+
+    .titulo-inicio {
+        font-size: 2.5rem;
+    }
+    
+    .subtitulo-inicio {
+        font-size: 1.1rem;
+    }
+
+    .quick-actions {
+        flex-direction: column;
+    }
+}
+
+/* Secciones extra (Acciones y Tabla) */
+.seccion-dashboard {
+    margin-top: 20px;
+}
+
+.titulo-seccion {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--color-principal);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+/* Quick Actions */
+.quick-actions {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    padding: 15px 25px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: 1px solid #E5E7EB;
+}
+
+.action-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    background-color: white;
+}
+
+.action-btn.primary {
+    background-color: var(--color-principal);
+    color: var(--color-superficie);
+    border: none;
+}
+
+.action-btn.primary:hover {
+    background-color: var(--color-secundario);
+}
+
+.action-btn svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* Tabla Resumen */
+.table-responsive {
+    overflow-x: auto;
+}
+
+.tabla-resumen {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--color-fondo);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.tabla-resumen thead {
+    background-color: var(--color-principal);
+    color: white;
+}
+
+.tabla-resumen th, .tabla-resumen td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+.tabla-resumen th {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+}
+
+.tabla-resumen tbody tr {
+    background-color: white;
+    transition: background-color 0.2s;
+}
+
+.tabla-resumen tbody tr:hover {
+    background-color: #F8FAFC;
+}
+
+.badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.badge-entrada {
+    background-color: #D1FAE5;
+    color: #065F46;
+}
+
+.badge-salida {
+    background-color: #FEE2E2;
+    color: #991B1B;
+}
