@@ -76,7 +76,7 @@ h2 {
     margin-bottom: 1rem;
 }
 
-.registrar-producto-details {
+.registrar-cliente-details {
     background-color: var(--color-fondo);
     border-radius: 12px;
     border: 1px solid #E5E7EB;
@@ -86,7 +86,7 @@ h2 {
     transition: all 0.3s ease;
 }
 
-.registrar-producto-details summary {
+.registrar-cliente-details summary {
     padding: 1.5rem 2.5rem;
     cursor: pointer;
     list-style: none;
@@ -97,27 +97,27 @@ h2 {
     transition: background-color 0.2s ease;
 }
 
-.registrar-producto-details summary::-webkit-details-marker {
+.registrar-cliente-details summary::-webkit-details-marker {
     display: none;
 }
 
-.registrar-producto-details summary::after {
+.registrar-cliente-details summary::after {
     content: '▼';
     font-size: 1.2rem;
     color: var(--color-principal);
     transition: transform 0.3s ease;
 }
 
-.registrar-producto-details[open] summary::after {
+.registrar-cliente-details[open] summary::after {
     transform: rotate(180deg);
 }
 
-.registrar-producto-details summary h2 {
+.registrar-cliente-details summary h2 {
     margin: 0;
     font-size: 1.5rem;
 }
 
-.registrar-producto-details summary:hover {
+.registrar-cliente-details summary:hover {
     background-color: #E5E7EB;
 }
 
@@ -156,7 +156,9 @@ label {
 }
 
 input[type="text"],
-input[type="number"] {
+input[type="number"],
+input[type="tel"],
+input[type="email"] {
     padding: 0.85rem 1rem;
     border: 2px solid #E5E7EB;
     border-radius: 8px;
@@ -167,7 +169,9 @@ input[type="number"] {
 }
 
 input[type="text"]:focus,
-input[type="number"]:focus {
+input[type="number"]:focus,
+input[type="tel"]:focus,
+input[type="email"]:focus {
     outline: none;
     border-color: var(--color-secundario);
     background-color: var(--color-superficie);
@@ -180,6 +184,9 @@ input[type="number"]::-webkit-inner-spin-button {
     margin: 0;
 }
 
+input[type="number"] {
+    -moz-appearance: textfield;
+}
 
 button {
     background-color: var(--color-principal);
@@ -210,6 +217,23 @@ button:active {
     align-items: center;
     margin-bottom: 1rem;
 }
+
+.badge {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: white;
+}
+
+.badge.activo{
+    background-color: #10B981;
+}
+
+.badge.inactivo{
+    background-color: #EF4444;
+}
+
 
 #search-button {
     background-color: transparent;
@@ -304,7 +328,29 @@ td button:last-child:hover {
 
 #navbar-container {
     margin-bottom: 1rem;
-}       
+}
+
+@media (max-width: 900px){
+    nav{
+        justify-content: center;
+        text-align: center;
+    }
+
+    header{
+        justify-content: center;
+        text-align: center;
+    }
+
+    .main-container{
+        justify-content: center;
+        text-align: center;
+        
+    }
+
+    .tabla-clientes{
+        overflow-x: auto;
+    }
+}
 
 /*prueba con bri 
 @media (max-width:768px){
