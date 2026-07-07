@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>Clientes | ADVITIUM </title>
+        <link rel="stylesheet" href="css/clientes.css">
+    </head>
+
+    <body>
+        <div id="navbar-container"></div>
+        
+        <main class="main-container">
+            <div class="card-panel">
+                <h1 class="titulo-pagina"> Clientes</h1>
+
+                <details class="registrar-cliente-details">
+                    <summary><h2>Registrar clientes</h2></summary>
+                    <form action="">
+                        <div>
+                            <label for="nombre">Nombre</label>
+                            <input type="text" name="nombre" id="nombre">
+                        </div>
+                        
+                        <div>
+                            <label for="telefono">Teléfono</label>
+                            <input type="tel" name="telefono" id="telefono" pattern="^\d{10}$"> 
+                        </div>
+
+                        <div>
+                            <label for="correo">Correo Electronico</label>
+                            <input type="email" name="correo" id="correo" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"> 
+                        </div>
+
+                        <div>
+                            <label for="direccion">Dirección</label>
+                            <input type="text" name="direccion" id="direccion"> 
+                        </div>
+
+                        <div>
+                            <label for="saldo">Saldo</label>
+                            <input type="number" name="saldo" id="saldo"> 
+                        </div>
+                        <button type="submit">Guardar</button>
+                    </form>
+                </details>
+
+                <h2>Lista de clientes</h2>
+
+                <div class="search-container">
+                    <button type="submit" id="search-button"></button>
+                    <input type="text" name="buscar" id="busqueda" placeholder="Buscar producto...">
+                </div>
+
+                <div class="tabla-clientes">
+                     <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Teléfono</th>
+                            <th>Email</th>
+                            <th>Dirección</th>
+                            <th>Estado</th>
+                            <th>Saldo</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>301</td>
+                            <td>Jeronimo Salas Mesa</td>
+                            <td>7341090504 HP</td>
+                            <td>jersal12@gmail.com</td>
+                            <td>Calle Miguel Hidalgo #26, Col. El Barreal</td>
+                            <td><span class="badge activo">Activo</span></td>
+                            <td>$15,000</td>
+                        </tr>
+                        <tr>
+                            <td>302</td>
+                            <td>Rosa Esquivel Alvarez</td>
+                            <td>7341417342 HP</td>
+                            <td>rosel@gmail.com</td>
+                            <td>Calle Porfirio Díaz #3, Col. Centro</td>
+                            <td><span class="badge inactivo">Inactivo</span></td>
+                            <td>$10,050</td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>>              
+            </div>
+        </main>
+
+        <script>
+            fetch('navbar.html')
+            .then(response => response.text())
+            .then( data => {
+                document.getElementById('navbar-container').innerHTML = data;
+                const links = document.querySelectorAll('nav ul li a');
+                links.forEach(link => {
+                    if(link.textContent.trim() === 'Inventario') {
+                        link.classList.add('active-link');
+                }
+                });
+            })    
+            .catch(error => console.error("Error al cargar el navbar", error))
+        </script>
+    </body>
+</html>

@@ -128,3 +128,28 @@ tbody tr:hover {
 #navbar-container {
     margin-bottom: 1rem;
 }
+
+
+@media(max-width:900px){
+    nav{
+        justify-content: center;
+        text-align: center;
+    }
+
+    header{
+        justify-content: center;
+        text-align: center;
+    }
+
+    .main-container{
+        justify-content: center;
+        text-align: center;
+        
+    }
+
+    .tabla-movimientos{
+        overflow-x: auto;
+    }
+
+    
+}
