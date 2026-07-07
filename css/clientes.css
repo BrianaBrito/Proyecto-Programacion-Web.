@@ -184,8 +184,6 @@ input[type="number"]::-webkit-inner-spin-button {
     margin: 0;
 }
 
-
-
 button {
     background-color: var(--color-principal);
     color: var(--color-superficie);
@@ -314,6 +312,7 @@ td button {
     font-size: 0.85rem;
     margin-right: 0.5rem;
     border-radius: 4px;
+    display: flex ;
 }
 
 td button:last-child {
