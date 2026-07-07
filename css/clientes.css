@@ -184,9 +184,7 @@ input[type="number"]::-webkit-inner-spin-button {
     margin: 0;
 }
 
-input[type="number"] {
-    -moz-appearance: textfield;
-}
+
 
 button {
     background-color: var(--color-principal);
@@ -343,8 +341,19 @@ td button:last-child:hover {
 
     .main-container{
         justify-content: center;
+        text-align: center;  
+    }
+
+    .registrar-cliente-details{
+        display: grid;
+        justify-content: center;
+        justify-items: center;
         text-align: center;
-        
+    }
+
+    .registrar-cliente-details input{
+        width: 100%;
+        max-width: 600px;
     }
 
     .tabla-clientes{
