@@ -292,7 +292,6 @@ td button {
     font-size: 0.85rem;
     margin-right: 0.5rem;
     border-radius: 4px;
-    align-items: center;
 }
 
 td button:last-child {
