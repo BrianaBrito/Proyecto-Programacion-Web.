@@ -18,8 +18,8 @@
                 <summary><h2>Registrar producto</h2></summary>
                 <form action="">
                     <div>
-                        <label for="nombre">Nombre del producto: </label>
-                        <input type="text" name="nombre" id="nombre">
+                        <label for="nombre" >Nombre del producto: </label>
+                        <input type="text" name="nombre" id="nombre" >
                     </div>
                     <div>
                         <label for="categoria">Categoria: </label>
@@ -43,7 +43,7 @@
 
             <h2>Lista de productos</h2>
 
-            <div class="search-container">
+            <div class="search-container">  
                 <button type="submit" id="search-button">  </button>
                 <input type="text" name="buscar" id="busqueda" placeholder="Buscar producto...">
             </div>
@@ -63,17 +63,17 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>1</td>
-                        <td>Laptop</td>
-                        <td>Electronica</td>
-                        <td>Gamer</td>
-                        <td>DDTech</td>
-                        <td>15</td>
-                        <td>$10500</td>
-                        <td>
-                            <button>Editar</button>
-                            <button>Eliminar</button>
-                        </td>
+                       <td data-label="ID">1</td>
+        <td data-label="Nombre">Laptop</td>
+        <td data-label="Categoria">Electronica</td>
+        <td data-label="Descripcion">Gamer</td>
+        <td data-label="Proveedor">DDTech</td>
+        <td data-label="Stock">15</td>
+        <td data-label="Precio">$10500</td>
+        <td data-label="Acciones">
+            <button>Editar</button>
+            <button>Eliminar</button>
+        </td>
                     </tr>
                     <tr>
                         <td>2</td>

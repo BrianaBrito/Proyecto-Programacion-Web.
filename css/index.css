@@ -1,4 +1,4 @@
-/* CSS generales */
+
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
 
 * {
@@ -6,7 +6,6 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Montserrat', sans-serif;
-   
 }
 
 body {
@@ -14,11 +13,12 @@ body {
     padding: 20px;
 }
 
+/* Css Header */
 header {
     margin-bottom: 20px;
 }
 
-nav.navbar {
+.navbar {
     background: #1E3A8A;
     border-radius: 15px;
     padding: 20px;
@@ -28,7 +28,7 @@ nav.navbar {
     align-items: center;
 }
 
-nav.navbar h2 {
+.navbar h2 {
     color: white;
 }
 
@@ -56,24 +56,34 @@ nav.navbar h2 {
 .navbar ul li:hover {
     color: #93BBFC;
 }
-.navbar li img{
 
+.navbar li img {
     width: 30px;
-    border-radius: 100px;
+    border-radius: 250%;
 }
+
+/* CSS contenedor*/
 section {
     background: white;
     border-radius: 15px;
     padding: 20px;
 }
 
-/* CSS Contenedor principal */
 .contenedor {
     display: flex;
     gap: 2%;
     justify-content: flex-start;
     align-items: center;
     padding: 20px;
+}
+
+.contenedor .texto,
+.contenedor .texto h1,
+.contenedor .texto h2,
+.contenedor .texto br {
+    display: flex;
+    flex-wrap: wrap;
+    text-align: left;
 }
 
 .contenedor div {
@@ -93,14 +103,13 @@ section {
 
 .texto h1 {
     font-size: 2.5rem;
-    margin-right: 160px;
-    
+    margin-right: 147px;
 }
 
 .texto h2 {
     font-size: 1.8rem;
     line-height: 1.4;
-    margin-left: 0px;
+   
 }
 
 .texto h2 .resaltado {
@@ -114,10 +123,10 @@ section {
 }
 
 .logo-container {
-    background: #e0e7ff ;
+    background: #e0e7ff;
 }
 
-/* CSS Características */
+/* CSS  Caracterisiticas*/
 .caracteristicas {
     display: flex;
     gap: 2%;
@@ -149,7 +158,7 @@ section {
     margin-left: 80px;
 }
 
-/*  CSS Opiniones */
+/* CSS Opiniones */
 .opiniones-container {
     width: 100%;
     max-width: 900px;
@@ -219,7 +228,7 @@ section {
 
 .swiper-button-next,
 .swiper-button-prev {
-    color: #1E3A8A !important;
+    color: #1E3A8A ;
     background: white;
     width: 45px !important;
     height: 45px !important;
@@ -232,8 +241,8 @@ section {
 
 .swiper-button-next:hover,
 .swiper-button-prev:hover {
-    background: #1E3A8A !important;
-    color: white !important;
+    background: #1E3A8A ;
+    color: white ;
     box-shadow: 0 4px 15px rgba(30, 58, 138, 0.3);
 }
 
@@ -253,7 +262,7 @@ section {
 
 
 .swiper-pagination {
-    bottom: 10px !important;
+    bottom: 10px ;
 }
 
 .swiper-pagination-bullet {
@@ -262,8 +271,8 @@ section {
 }
 
 .swiper-pagination-bullet-active {
-    opacity: 1 !important;
-    background: #1E3A8A !important;
+    opacity: 1 ;
+    background: #1E3A8A ;
 }
 .textoencabezadotitulo div {
     background-color: #60A5FA;
@@ -277,17 +286,8 @@ section {
     
 
 }
-/* CSS Footer */
-footer {
-    background-color: #1F2937;
-    color: #F3F4F6;
-    padding: 20px;
-    border-radius: 15px;
-    text-align: center;
-}
 
-
-
+/* CSS footer */
 .footer {
     background: #1F2937;
     color: #F3F4F6;
@@ -307,6 +307,10 @@ footer {
 }
 
 
+.footer-col {
+    text-align: center;
+}
+
 .footer-col h3 {
     color: #ffffff;
     font-size: 1.5rem;
@@ -320,6 +324,7 @@ footer {
     margin-bottom: 15px;
     font-weight: 600;
     position: relative;
+    display: inline-block; 
 }
 
 .footer-col h4::after {
@@ -328,7 +333,7 @@ footer {
     width: 30px;
     height: 3px;
     background: #1E3A8A;
-    margin-top: 8px;
+    margin: 8px auto 0; 
     border-radius: 2px;
 }
 
@@ -337,8 +342,8 @@ footer {
     line-height: 1.6;
     font-size: 0.95rem;
     max-width: 300px;
+    margin: 0 auto; 
 }
-
 
 .footer-col ul {
     list-style: none;
@@ -361,10 +366,10 @@ footer {
     color: #60A5FA;
 }
 
-
 .contact-list li {
     display: flex;
     align-items: center;
+    justify-content: center; 
     gap: 10px;
     color: #9CA3AF;
     font-size: 0.95rem;
@@ -375,10 +380,10 @@ footer {
     min-width: 25px;
 }
 
-
 .social-links {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center; 
     gap: 10px;
 }
 
@@ -402,7 +407,6 @@ footer {
     box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
 }
 
-
 .footer-bottom {
     max-width: 1200px;
     margin: 0 auto;
@@ -414,14 +418,17 @@ footer {
     gap: 10px;
 }
 
+
 .footer-bottom p {
     color: #9CA3AF;
     font-size: 0.85rem;
+    margin: 0 auto; 
 }
 
 .footer-bottom-links {
     display: flex;
     gap: 20px;
+    margin: 0 auto;
 }
 
 .footer-bottom-links a {
@@ -435,10 +442,148 @@ footer {
     color: #60A5FA;
 }
 
-.mano{
-margin-right: 184px;
-color: #1E3A8A;
-
+ /*span del texto*/
+.mano {
+    color: #1E3A8A;
+    text-align: left;
+    margin-right: 178px;
 }
 
-    
+/* CSS media */
+@media screen and (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .navbar {
+        flex-direction: column;
+        padding: 15px;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .navbar ul {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .navbar li {
+        padding: 0.5rem 1rem;
+    }
+
+    .navbar li img {
+        width: 25px;
+    }
+
+    .contenedor {
+        flex-direction: column;
+        padding: 15px;
+        gap: 15px;
+    }
+
+    .contenedor div {
+        width: 100%;
+        height: auto;
+        min-height: 180px;
+    }
+
+    .texto h1 {
+        font-size: 2rem;
+        margin-right: 0;
+    }
+
+    .texto h2 {
+        font-size: 1.4rem;
+    }
+
+    .texto p {
+        margin-left: 0;
+        font-size: 0.95rem;
+    }
+
+    .logo-container {
+        min-height: 120px;
+    }
+
+    .caracteristicas {
+        flex-direction: column;
+        padding: 15px;
+        gap: 15px;
+    }
+
+    .caracteristicas div {
+        width: 100%;
+        height: auto;
+    }
+
+    .txtcaracteristicas p {
+        margin-left: 0;
+        text-align: center;
+    }
+
+    .txtcaracteristicas h2 {
+        text-align: center;
+        font-size: 1.4rem;
+    }
+
+    .img-container img {
+        width: 50%;
+    }
+
+    .opiniones-container {
+        padding: 20px 10px;
+        margin: 20px auto;
+    }
+
+    .opiniones-container h4 {
+        font-size: 1.1rem;
+        padding: 10px;
+    }
+
+    .swiper-slide p {
+        max-width: 100%;
+        font-size: 1rem;
+    }
+
+    .swiper-button-next,
+    .swiper-button-prev {
+        width: 35px;
+        height: 35px;
+    }
+
+    .swiper-button-next::after,
+    .swiper-button-prev::after {
+        font-size: 16px;
+    }
+
+   
+    .footer {
+        padding: 30px 15px 15px;
+    }
+
+    .footer-container {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        padding: 0 0 20px;
+    }
+
+    .footer-col h4::after {
+        margin: 8px auto 0;
+    }
+
+    .footer-desc {
+        max-width: 100%;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+        gap: 8px;
+    }
+
+    .footer-bottom-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+    }
+}
