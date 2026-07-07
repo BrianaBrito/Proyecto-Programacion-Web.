@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Proveedores | ADVITIUM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/inventario.css">
+</head>
+<body>
+    
+    <div id="navbar-container"></div>
+
+    <main class="main-container">
+        <div class="card-panel">
+            <h1 class="titulo-pagina">Proveedores</h1>
+            
+            <details class="registrar-producto-details">
+                <summary><h2>Registrar proveedor</h2></summary>
+                <form action="">
+                    <div>
+                        <label for="nombre">Nombre: </label>    
+                        <input type="text" name="nombre" id="nombre">
+                    </div>
+                    <div>
+                        <label for="contacto">Contacto: </label>
+                        <input type="text" name="contacto" id="contacto">
+                    </div>
+                    <div>
+                        <label for="telefono">Telefono: </label>
+                        <input type="text" name="telefono" id="telefono">
+                    </div>
+                    <div>
+                        <label for="email">Email: </label>
+                        <input type="text" name="email" id="email">
+                    </div>
+                    <div>
+                        <label for="direccion">Direccion: </label>
+                        <input type="text" name="direccion" id="direccion">
+                    </div>
+                    <button type="submit">Guardar</button>
+                </form>
+            </details>
+
+            <h2>Lista de proveedores</h2>
+
+            <div class="search-container">
+                <button type="submit" id="search-button"></button>
+                <input type="text" name="buscar" id="busqueda" placeholder="Buscar proveedor...">
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Contacto</th>
+                        <th>Telefono</th>
+                        <th>Email</th>
+                        <th>Direccion</th>
+                        <th>Saldo</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>DDTech</td>
+                        <td>Juan Perez</td>
+                        <td>3334445555</td>
+                        <td>ventas@ddtech.com</td>
+                        <td>Zapopan, Jalisco</td>
+                        <td>$0.00</td>
+                        <td>
+                            <button>Editar</button>
+                            <button>Eliminar</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Telmedia</td>
+                        <td>Maria Lopez</td>
+                        <td>5556667777</td>
+                        <td>contacto@telmedia.com</td>
+                        <td>CDMX</td>
+                        <td>$150.00</td>
+                        <td>
+                            <button>Editar</button>
+                            <button>Eliminar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script>
+        fetch('navbar.html')
+        .then(response => response.text())
+        .then( data => {
+            document.getElementById('navbar-container').innerHTML = data;
+            const links = document.querySelectorAll('nav ul li a');
+            links.forEach(link => {
+                if(link.textContent.trim() === 'Proveedores') {
+                    link.classList.add('active-link');
+                }
+            });
+        })    
+        .catch(error => console.error("Error al cargar el navbar", error))
+    </script>
+
+</body>
+</html>
