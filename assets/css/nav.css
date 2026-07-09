@@ -33,9 +33,10 @@ nav ul {
     gap: 18px;
 }
 
-/*nav ul li {
-    padding-right: 18px;
-}*/
+nav ul li {
+    display: flex;
+    align-items: center;
+}
 
 nav ul li a {
   text-decoration: none;
