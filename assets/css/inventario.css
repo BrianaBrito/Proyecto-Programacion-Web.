@@ -415,7 +415,7 @@ td button:last-child:hover {
     display: none;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1050px) {
     .card-panel {
         padding: 30px;
     }
