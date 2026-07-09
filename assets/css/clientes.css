@@ -308,6 +308,10 @@ th {
     letter-spacing: 0.05em;
 }
 
+.acciones{
+    display: flex;
+}
+
 td {
     font-size: 0.95rem;
 }

@@ -311,7 +311,7 @@ th {
 }
 
 td {
-    font-size: 0.95rem;
+    font-size: 0.95rem;;
 }
 
 tbody tr {
@@ -321,6 +321,10 @@ tbody tr {
 
 tbody tr:hover {
     background-color: #F8FAFC;
+}
+
+.acciones{
+    display: flex;
 }
 
 td button {
