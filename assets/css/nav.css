@@ -129,7 +129,7 @@ nav ul li a:hover::after {
     color: #93BBFC;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1050px) {
     nav {
         flex-direction: column;  
         height: auto;             

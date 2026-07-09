@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pantalla de Bloqueo</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+section  .pantalla-bloqueo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #1e3a80;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; 
+    color: white;
+}
+
+.login-box {
+    background: #162447;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+input {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: none;
+    width: 80%;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+section{
+
+    display: flex;
+    gap: 2%;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 20px;
+    height: auto;
+    overflow: hidden;
+}
+ section .pantalla-bloqueo, .login-box{
+
+display: flex;
+    justify-content: center;
+
+
+ }
+  section ,.texto-logo{
+  
+
+width: 300px;
+
+ }
+section ,.pantalla-bloqueo, ul, li{
+  
+text-decoration: none;
+ }
+    </style>
+</head>
+
+<body>
+
+    <div id="main-content" style="display: center;">
+        <h1>¡Bienvenido al sistema!</h1>
+        <p>Has iniciado sesión correctamente.</p>
+        <button onclick="lockScreen()">Bloquear Pantalla</button>
+    </div>
+
+
+
+
+
+     <section>
+
+        <div id="lock-screen" class="pantalla-bloqueo">
+            <div class="login-box">
+                <div class="texto-logo ">
+
+                    <p>ADVITIUM</p>
+                    <ul>
+
+                        <li>Empresa: </li>
+                    </ul>
+                </div>
+                <div>
+
+
+                
+                <h2>Sesión Bloqueada</h2>
+                <p>Introduce tu usuario</p>
+                <input type="text" id="user" placeholder="Usuario">
+                <p>Introduce tu contraseña para continuar.</p>
+                <input type="password" id="password" placeholder="Contraseña">
+                <button onclick="unlockScreen()">Desbloquear</button>
+                <p id="error-msg" style="color: red; display: none;">Contraseña incorrecta</p>
+
+                </div>
+        </div>
+    </div>
+    </section>
+
+    <script>
+
+const userCorrecta="admin";
+const passwordCorrecta = "123";
+
+function unlockScreen() {
+    const inputUser=document.getElementById("user").value;
+    const inputPassword = document.getElementById("password").value;
+    const errorMsg = document.getElementById("error-msg");
+
+    if (inputPassword === passwordCorrecta&& inputUser==userCorrecta   ) {
+        document.getElementById("lock-screen").style.display = "none";
+        document.getElementById("main-content").style.display = "block";
+        document.getElementById("password").value = "";
+        errorMsg.style.display = "none";
+    } else {
+        errorMsg.style.display = "block";
+    }
+}
+
+function lockScreen() {
+    document.getElementById("main-content").style.display = "none";
+    document.getElementById("lock-screen").style.display = "flex";
+}
+
+
+    </script>
+</body>
+</html>
