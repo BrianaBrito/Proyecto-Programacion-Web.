@@ -67,6 +67,46 @@ nav ul li a.active-link::after {
     padding-bottom: 20px;
 }
 
+.filter-container{
+
+    width: 80%;
+    display: flex;
+
+}
+
+select[name="por-fecha"]:has(option[disabled]:checked) {
+  color: #888888;
+}
+
+select[name="tipo"]:has(option[disabled]:checked) {
+  color: #888888;
+}
+
+select[name="responsable"]:has(option[disabled]:checked) {
+  color: #888888;
+}
+
+
+select { 
+    padding: 0.85rem 5rem 0.85rem 1rem;
+    border: 2px solid #E5E7EB;
+    margin: 5px;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    color: var(--color-texto);
+    background-color: var(--color-fondo);
+    transition: all 0.3s ease;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%231E3A8A' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 16px;
+    cursor: pointer;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -137,7 +177,6 @@ tbody tr:hover {
 #navbar-container {
     margin-bottom: 1rem;
 }
-
 
 @media (max-width: 768px){
     nav{

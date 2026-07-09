@@ -15,6 +15,30 @@
     <main class="main-container">
         <div class="card-panel">
             <h1 class="titulo-pagina">Historial de movimientos</h1>
+            
+            <h2>Filtrar movimientos</h2>
+
+            <div class="filter-container">
+                <select name="por-fecha">
+                    <option value="" disabled selected hidden> Por fecha </option>
+                    <option value="antique">Mas antiguos</option>
+                    <option value="recent">Mas recientes</option>
+                </select>
+
+                <select name="tipo" id="type">
+                    <option value="" disabled selected hidden> Encargado </option>
+                    <option value="entrada">Entrada</option>
+                    <option value="salida">Salida</option>
+                </select>
+
+                <select name="responsable" id="">
+                    <option value="" disabled selected hidden> Responsable </option>
+                    <option value="x">Encargado 1</option>
+                    <option value="x">Encargado 2</option>
+                </select>
+            </div>
+
+
             <div class = "tabla-movimientos">
                 <table>
                 <thead>
