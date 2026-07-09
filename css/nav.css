@@ -30,12 +30,12 @@ nav ul {
     color: white;
     margin-left: auto;
     cursor: pointer;
-    
+    gap: 18px;
 }
 
-nav ul li {
+/*nav ul li {
     padding-right: 18px;
-}
+}*/
 
 nav ul li a {
   text-decoration: none;
@@ -65,6 +65,67 @@ nav ul li a:hover {
 nav ul li a:hover::after {
   transform: scaleX(1);
 
+}
+
+.menu-item{
+    list-style: none;
+    position: relative;
+}
+
+.menu-item > a{
+    display: flex;
+    align-items: center;
+    padding-right: 10px;
+    gap: 4px; /* separar texto de la svg*/
+}
+
+.opciones-menu-config{
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 0;
+    background-color: #1e3a8a;
+    z-index: 220; /* garantiza que se vea por encima del resto*/
+    clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+    transition: clip-path 0.3s ease-in-out;
+}
+
+.menu-item:hover .opciones-menu-config{
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+.menu-inside{
+    width: 100%;
+    margin: 0; 
+}
+
+.menu-link--inside{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+    padding: 10px 16px;
+    /*white-space: nowrap;*/
+    text-align: center;
+    transition: background-color .2s ease, color .2s ease;
+}
+
+.menu-link--inside::after{
+    content: none; /* quita el subrayado del nav*/
+}
+
+.menu-link--inside:hover{
+    background-color: #2f4fae;
+    color: #93BBFC;
 }
 
 @media (max-width: 768px) {
