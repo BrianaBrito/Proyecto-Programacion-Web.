@@ -346,20 +346,24 @@ td button:last-child:hover {
 }
 
 @media (max-width: 768px){
-    .main-container{
-        justify-content: center;
-        text-align: center;  
+    .card-panel {
+        padding: 30px;
     }
 
-    .registrar-cliente-details{
-        display: grid;
-        justify-content: center;
-        justify-items: center;
-        text-align: center;
+    .titulo-pagina {
+        font-size: 2.2rem;
     }
 
-    .registrar-cliente-details input{
+    form {
+        grid-template-columns: 1fr;
+    }
+
+    .search-container {
+        flex-wrap: wrap;
+    }
+
+    #busqueda {
         width: 100%;
-        max-width: 600px;
+        max-width: 320px;
     }
 }
