@@ -75,7 +75,7 @@
         <td data-label="Acciones">
             <button>Editar</button>
             <button>Eliminar</button>
-            <button>Salida</button>
+            <button class="btn-salida">Salida</button>
         </td>
                     </tr>
                     <tr>
@@ -89,13 +89,25 @@
                         <td>
                             <button>Editar</button>
                             <button>Eliminar</button>
-                            <button>Salida</button>
+                            <button class="btn-salida">Salida</button>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </main>
+
+    <dialog id="salida-dialog" class="salida-dialog">
+        <h3>Registrar salida</h3>
+        <p>Producto: <strong id="salida-producto"></strong> (Stock actual: <span id="salida-stock-actual"></span>)</p>
+        <label for="salida-cantidad">Cantidad que sale</label>
+        <input type="number" id="salida-cantidad" min="1">
+        <p id="salida-resultado" class="salida-resultado"></p>
+        <div class="salida-dialog-actions">
+            <button type="button" id="salida-confirmar">Confirmar</button>
+            <button type="button" id="salida-cancelar">Cerrar</button>
+        </div>
+    </dialog>
 
     <script>
         
@@ -109,9 +121,56 @@
                     link.classList.add('active-link');
                 }
             });
-        })    
+        })
         .catch(error => console.error("Error al cargar el navbar", error))
 
+    </script>
+
+    <script>
+        const salidaDialog = document.getElementById('salida-dialog');
+        const salidaProducto = document.getElementById('salida-producto');
+        const salidaStockActual = document.getElementById('salida-stock-actual');
+        const salidaCantidad = document.getElementById('salida-cantidad');
+        const salidaResultado = document.getElementById('salida-resultado');
+        let filaActual = null;
+
+        document.querySelectorAll('.btn-salida').forEach(boton => {
+            boton.addEventListener('click', () => {
+                filaActual = boton.closest('tr');
+                const celdas = filaActual.querySelectorAll('td');
+                salidaProducto.textContent = celdas[1].textContent.trim();
+                salidaStockActual.textContent = celdas[5].textContent.trim();
+                salidaCantidad.value = '';
+                salidaCantidad.max = celdas[5].textContent.trim();
+                salidaResultado.textContent = '';
+                salidaResultado.classList.remove('error');
+                salidaDialog.showModal();
+            });
+        });
+
+        document.getElementById('salida-confirmar').addEventListener('click', () => {
+            const cantidad = parseInt(salidaCantidad.value, 10);
+            const stock = parseInt(salidaStockActual.textContent, 10);
+
+            if (!cantidad || cantidad <= 0) {
+                salidaResultado.textContent = 'Ingresa una cantidad válida.';
+                salidaResultado.classList.add('error');
+                return;
+            }
+
+            if (cantidad > stock) {
+                salidaResultado.textContent = `No hay suficiente stock (disponible: ${stock}).`;
+                salidaResultado.classList.add('error');
+                return;
+            }
+
+            salidaResultado.classList.remove('error');
+            salidaResultado.textContent = `Salida registrada: ${cantidad} unidad(es) de ${salidaProducto.textContent}.`;
+        });
+
+        document.getElementById('salida-cancelar').addEventListener('click', () => {
+            salidaDialog.close();
+        });
     </script>
 
 </body>

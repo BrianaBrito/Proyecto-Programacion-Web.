@@ -280,6 +280,15 @@ table {
     overflow-x: auto;
 }
 
+.tabla-clientes {
+    overflow-x: auto;
+}
+
+.tabla-clientes table {
+    width: max-content;
+    min-width: 100%;
+}
+
 thead {
     background-color: var(--color-principal);
     color: var(--color-superficie);
@@ -317,7 +326,10 @@ td button {
     font-size: 0.85rem;
     margin-right: 0.5rem;
     border-radius: 4px;
-    display: flex ;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 95px;
 }
 
 td button:last-child {
@@ -332,7 +344,7 @@ td button:last-child:hover {
     margin-bottom: 1rem;
 }
 
-@media (max-width: 900px){
+@media (max-width: 768px){
     nav{
         justify-content: center;
         text-align: center;
@@ -360,9 +372,6 @@ td button:last-child:hover {
         max-width: 600px;
     }
 
-    .tabla-clientes{
-        overflow-x: auto;
-    }
 }
 
 /*prueba con bri 
