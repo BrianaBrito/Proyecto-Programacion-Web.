@@ -77,6 +77,15 @@ table {
     border: 1px solid #E5E7EB;
 }
 
+.tabla-movimientos {
+    overflow-x: auto;
+}
+
+.tabla-movimientos table {
+    width: max-content;
+    min-width: 100%;
+}
+
 thead {
     background-color: var(--color-principal);
     color: var(--color-superficie);
@@ -130,7 +139,7 @@ tbody tr:hover {
 }
 
 
-@media(max-width:900px){
+@media (max-width: 768px){
     nav{
         justify-content: center;
         text-align: center;
@@ -147,9 +156,6 @@ tbody tr:hover {
         
     }
 
-    .tabla-movimientos{
-        overflow-x: auto;
-    }
 
-    
+
 }

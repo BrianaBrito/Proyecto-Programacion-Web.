@@ -76,7 +76,7 @@ h2 {
     margin-bottom: 1rem;
 }
 
-.registrar-cliente-details {
+.registrar-producto-details {
     background-color: var(--color-fondo);
     border-radius: 12px;
     border: 1px solid #E5E7EB;
@@ -86,7 +86,7 @@ h2 {
     transition: all 0.3s ease;
 }
 
-.registrar-cliente-details summary {
+.registrar-producto-details summary {
     padding: 1.5rem 2.5rem;
     cursor: pointer;
     list-style: none;
@@ -97,27 +97,27 @@ h2 {
     transition: background-color 0.2s ease;
 }
 
-.registrar-cliente-details summary::-webkit-details-marker {
+.registrar-producto-details summary::-webkit-details-marker {
     display: none;
 }
 
-.registrar-cliente-details summary::after {
+.registrar-producto-details summary::after {
     content: '▼';
     font-size: 1.2rem;
     color: var(--color-principal);
     transition: transform 0.3s ease;
 }
 
-.registrar-cliente-details[open] summary::after {
+.registrar-producto-details[open] summary::after {
     transform: rotate(180deg);
 }
 
-.registrar-cliente-details summary h2 {
+.registrar-producto-details summary h2 {
     margin: 0;
     font-size: 1.5rem;
 }
 
-.registrar-cliente-details summary:hover {
+.registrar-producto-details summary:hover {
     background-color: #E5E7EB;
 }
 
@@ -156,9 +156,7 @@ label {
 }
 
 input[type="text"],
-input[type="number"],
-input[type="tel"],
-input[type="email"] {
+input[type="number"] {
     padding: 0.85rem 1rem;
     border: 2px solid #E5E7EB;
     border-radius: 8px;
@@ -169,9 +167,7 @@ input[type="email"] {
 }
 
 input[type="text"]:focus,
-input[type="number"]:focus,
-input[type="tel"]:focus,
-input[type="email"]:focus {
+input[type="number"]:focus {
     outline: none;
     border-color: var(--color-secundario);
     background-color: var(--color-superficie);
@@ -182,6 +178,33 @@ input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
+}
+
+select {
+    padding: 0.85rem 2.5rem 0.85rem 1rem;
+    border: 2px solid #E5E7EB;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    color: var(--color-texto);
+    background-color: var(--color-fondo);
+    transition: all 0.3s ease;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%231E3A8A' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 14px;
+    cursor: pointer;
+    width: 100%;
+}
+
+select:focus {
+    outline: none;
+    border-color: var(--color-secundario);
+    background-color: var(--color-superficie);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
 }
 
 button {
@@ -213,26 +236,6 @@ button:active {
     align-items: center;
     margin-bottom: 1rem;
 }
-
-.badge {
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: white;
-    text-align: center;
-}
-
-.badge.activo{
-    background-color: #10B981;
-    display:grid;
-}
-
-.badge.inactivo{
-    background-color: #EF4444;
-    display: grid;
-}
-
 
 #search-button {
     background-color: transparent;
@@ -276,8 +279,9 @@ table {
     overflow: hidden;
     margin-top: 1rem;
     border: 1px solid #E5E7EB;
-    justify-content: left;
+    display: block;
     overflow-x: auto;
+    white-space: nowrap;
 }
 
 thead {
@@ -317,7 +321,6 @@ td button {
     font-size: 0.85rem;
     margin-right: 0.5rem;
     border-radius: 4px;
-    display: flex ;
 }
 
 td button:last-child {
@@ -332,40 +335,111 @@ td button:last-child:hover {
     margin-bottom: 1rem;
 }
 
-@media (max-width: 900px){
-    nav{
-        justify-content: center;
-        text-align: center;
-    }
-
-    header{
-        justify-content: center;
-        text-align: center;
-    }
-
-    .main-container{
-        justify-content: center;
-        text-align: center;  
-    }
-
-    .registrar-cliente-details{
-        display: grid;
-        justify-content: center;
-        justify-items: center;
-        text-align: center;
-    }
-
-    .registrar-cliente-details input{
-        width: 100%;
-        max-width: 600px;
-    }
-
-    .tabla-clientes{
-        overflow-x: auto;
-    }
+.salida-dialog {
+    border: none;
+    border-radius: 16px;
+    padding: 2rem;
+    width: 90%;
+    max-width: 380px;
+    margin: auto;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
 }
 
-/*prueba con bri 
+.salida-dialog::backdrop {
+    background: rgba(15, 23, 42, 0.5);
+}
+
+.salida-dialog h3 {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--color-principal);
+    margin-bottom: 1rem;
+}
+
+.salida-dialog p {
+    margin-bottom: 1rem;
+}
+
+.salida-dialog label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-texto);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: block;
+}
+
+.salida-dialog input[type="number"] {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.salida-dialog-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.salida-dialog-actions button {
+    flex: 1;
+}
+
+#salida-cancelar {
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    border: 2px solid #E5E7EB;
+}
+
+#salida-cancelar:hover {
+    background-color: #E5E7EB;
+    box-shadow: none;
+    transform: none;
+}
+
+.salida-resultado {
+    margin-top: 1rem;
+    margin-bottom: 0;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    background-color: #D1FAE5;
+    color: #065F46;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.salida-resultado.error {
+    background-color: #FEE2E2;
+    color: #991B1B;
+}
+
+.salida-resultado:empty {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .card-panel {
+        padding: 30px;
+    }
+
+    .titulo-pagina {
+        font-size: 2.2rem;
+    }
+
+    form {
+        grid-template-columns: 1fr;
+    }
+
+    .search-container {
+        flex-wrap: wrap;
+    }
+
+    #busqueda {
+        width: 100%;
+        max-width: 320px;
+    }
+
+}
+
+/*prueba con bri
 @media (max-width:768px){
 
     table{
