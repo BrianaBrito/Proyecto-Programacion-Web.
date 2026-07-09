@@ -270,7 +270,6 @@ button:active {
     border-color: var(--color-secundario);
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
 }
-
 table {
     width: 100%;
     border-collapse: collapse;
@@ -279,9 +278,17 @@ table {
     overflow: hidden;
     margin-top: 1rem;
     border: 1px solid #E5E7EB;
-    display: block;
+    justify-content: left;
     overflow-x: auto;
-    white-space: nowrap;
+}
+
+.tabla-clientes {
+    overflow-x: auto;
+}
+
+.tabla-clientes table {
+    width: max-content;
+    min-width: 100%;
 }
 
 thead {
@@ -320,7 +327,12 @@ td button {
     padding: 0.5rem 1rem;
     font-size: 0.85rem;
     margin-right: 0.5rem;
+    margin-bottom: 0.3rem;
     border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 95px;
 }
 
 td button:last-child {
