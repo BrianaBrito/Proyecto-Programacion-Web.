@@ -346,16 +346,6 @@ td button:last-child:hover {
 }
 
 @media (max-width: 768px){
-    nav{
-        justify-content: center;
-        text-align: center;
-    }
-
-    header{
-        justify-content: center;
-        text-align: center;
-    }
-
     .main-container{
         justify-content: center;
         text-align: center;  
