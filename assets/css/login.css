@@ -308,16 +308,25 @@ span:hover {
     }
 
     nav.navbar {
-        flex-direction: column;
-        text-align: center;
+flex-direction: row;      
+
+text-align: center;
         padding: 15px;
     }
 
     .navbar ul {
-        flex-direction: column;
+        flex-direction: row;
         width: 100%;
         gap: 5px;
     }
+    
+    .navbar ul {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        flex-direction: row;
+    }
+
 
     .navbar li {
         padding: .6rem;
