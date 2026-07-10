@@ -244,3 +244,142 @@ span:hover {
     text-decoration: underline;
 }
 
+/* CSS Responsive Tablet */
+@media (max-width: 768px) {
+
+    body {
+        margin: 15px;
+    }
+
+    nav.navbar {
+        padding: 15px 20px;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .navbar h2 {
+        width: 100%;
+        text-align: center;
+    }
+
+    .navbar ul {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .navbar li {
+        padding: .8rem;
+    }
+
+    .login-section {
+        flex-direction: column;
+        min-height: auto;
+    }
+
+    .imagen-container {
+        min-height: 280px;
+        padding: 30px;
+    }
+
+    .logo-placeholder h2 {
+        font-size: 2rem;
+    }
+
+    .logo-placeholder p {
+        font-size: 1rem;
+    }
+
+    .formulario-container {
+        padding: 30px 20px;
+    }
+
+    .contenedor {
+        max-width: 450px;
+    }
+
+}
+
+/* CSS Responsive Celular */
+@media (max-width: 480px) {
+
+    body {
+        margin: 10px;
+    }
+
+    nav.navbar {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px;
+    }
+
+    .navbar ul {
+        flex-direction: column;
+        width: 100%;
+        gap: 5px;
+    }
+
+    .navbar li {
+        padding: .6rem;
+    }
+
+    .navbar li img {
+        width: 28px;
+    }
+
+    .login-section {
+        border-radius: 10px;
+        margin-top: 15px;
+    }
+
+    .imagen-container {
+        min-height: 220px;
+        padding: 20px;
+    }
+
+    .imagen-container::before {
+        width: 180px;
+        height: 180px;
+        top: -70px;
+        right: -70px;
+    }
+
+    .imagen-container::after {
+        width: 120px;
+        height: 120px;
+        bottom: -40px;
+        left: -40px;
+    }
+
+    .logo-placeholder h2 {
+        font-size: 1.8rem;
+    }
+
+    .logo-placeholder p {
+        font-size: .95rem;
+    }
+
+    .formulario-container {
+        padding: 20px 15px;
+    }
+
+    .contenedor {
+        padding: 20px;
+        max-width: 100%;
+    }
+
+    input {
+        padding: 11px 14px;
+        font-size: .95rem;
+    }
+
+    button {
+        padding: 12px;
+        font-size: .95rem;
+    }
+
+    p {
+        font-size: .85rem;
+    }
+
+}
