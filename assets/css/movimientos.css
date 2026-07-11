@@ -68,10 +68,15 @@ nav ul li a.active-link::after {
 }
 
 .filter-container{
-
-    width: 80%;
+    width: 100%;
     display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
 
+.filter-container select {
+    flex: 1 1 auto;
+    min-width: 180px;
 }
 
 select[name="por-fecha"]:has(option[disabled]:checked) {
@@ -87,8 +92,8 @@ select[name="responsable"]:has(option[disabled]:checked) {
 }
 
 
-select { 
-    padding: 0.85rem 5rem 0.85rem 1rem;
+select {
+    padding: 0.85rem 2.5rem 0.85rem 1rem;
     border: 2px solid #E5E7EB;
     margin: 5px;
     border-radius: 8px;
@@ -178,6 +183,21 @@ tbody tr:hover {
     margin-bottom: 1rem;
 }
 
+@media (max-width: 1024px){
+    .card-panel {
+        padding: 30px;
+    }
+
+    .titulo-pagina {
+        font-size: 2.2rem;
+    }
+
+    .filter-container select {
+        flex: 1 1 100%;
+        min-width: 0;
+    }
+}
+
 @media (max-width: 768px){
     nav{
         justify-content: center;
@@ -191,6 +211,10 @@ tbody tr:hover {
 
     .main-container{
         justify-content: center;
-        text-align: center;        
+        text-align: center;
+    }
+
+    .card-panel {
+        padding: 20px;
     }
 }

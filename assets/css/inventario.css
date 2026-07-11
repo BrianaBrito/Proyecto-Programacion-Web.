@@ -273,7 +273,7 @@ button:active {
 
 table {
     display: inline-block;
-    max-width: auto;
+    max-width: 100%;
     overflow-x: auto;
     text-align: left;
     width: 100%;
