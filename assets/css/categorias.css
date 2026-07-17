@@ -53,6 +53,7 @@ nav ul li a.active-link::after {
     padding: 50px;
     display: flex;
     flex-direction: column;
+    overflow-x: auto;
 }
 
 .titulo-pagina {
@@ -272,7 +273,6 @@ button:active {
 }
 
 table {
-    display: inline-block;
     max-width: 100%;
     overflow-x: auto;
     text-align: left;

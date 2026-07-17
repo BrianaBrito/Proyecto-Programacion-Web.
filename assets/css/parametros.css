@@ -1,0 +1,183 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@400;500;600&display=swap');
+
+:root {
+    --color-principal: #1E3A8A;
+    --color-secundario: #3B82F6;
+    --color-fondo: #F3F4F6;
+    --color-superficie: #FFFFFF;
+    --color-texto: #1F2937;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+nav ul li a.active-link {
+    background-color: var(--color-secundario);
+    padding: 8px 16px;
+    border-radius: 8px;
+    color: var(--color-superficie);
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+nav ul li a.active-link::after {
+    display: none;
+}
+
+.main-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px 20px 60px;
+}
+
+.card-panel {
+    background-color: var(--color-principal);
+    width: 100%;
+    max-width: 1200px;
+    border-radius: 24px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    overflow-x: auto;
+}
+
+.titulo-pagina {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--color-superficie);
+    margin-bottom: 2rem;
+    line-height: 1.1;
+    letter-spacing: -1px;
+    border-bottom: 2px solid var(--color-fondo);
+    padding-bottom: 20px;
+}
+
+h2 {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--color-superficie);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+form {
+    background-color: var(--color-principal);
+    padding: 2.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    border-top: 1px solid #E5E7EB;
+    border-radius:0em;
+}
+
+form div:first-of-type {
+    grid-column: 1 / -1;
+}
+
+form div:last-of-type{
+    grid-column: 1 / -1;
+}
+
+form button {
+    grid-column: 1 / -1;
+    margin-top: 1rem;
+    padding: 1rem;
+    font-size: 1.1rem;
+}
+
+form div {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-superficie);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+input[type="text"]{
+    padding: 0.85rem 1rem;
+    border: 2px solid #E5E7EB;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    background-color: var(--color-fondo);
+    transition: all 0.3s ease;
+}
+
+input[type="text"]:focus{
+    outline: none;
+    border-color: var(--color-secundario);
+    background-color: var(--color-superficie);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+}
+
+button {
+    background-color: var(--color-superficie);
+    color: var(--color-principal);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background-color: var(--color-secundario);
+    box-shadow: 0 6px 12px rgba(59, 130, 246, 0.25);
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+}
+
+
+@media (max-width: 1050px) {
+    .card-panel {
+        padding: 30px;
+    }
+
+    .titulo-pagina {
+        font-size: 2.2rem;
+    }
+
+    form {
+        grid-template-columns: 1fr;
+    }
+
+    .search-container {
+        flex-wrap: wrap;
+    }
+
+    #busqueda {
+        width: 100%;
+        max-width: 320px;
+    }
+    
+}
