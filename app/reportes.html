@@ -84,19 +84,21 @@
         </div>
     </main>
 
+    <script src="../assets/scripts/navbar-menu.js"></script>
     <script>
         fetch('navbar.html')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('navbar-container').innerHTML = data;
-                
+
                 const links = document.querySelectorAll('nav ul li a');
                 links.forEach(link => {
                     if(link.textContent.trim() === 'Reportes') {
                         link.classList.add('active-link');
                     }
                 });
-            })    
+                inicializarMenuHamburguesa();
+            })
             .catch(error => console.error("Error al cargar el navbar:", error));
 
         // logica de selección y vista previa

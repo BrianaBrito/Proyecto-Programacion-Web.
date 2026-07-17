@@ -110,8 +110,10 @@
         </div>
     </dialog>
 
+    <script src="../assets/scripts/navbar-menu.js"></script>
+    <script src="../assets/scripts/tabla-ordenable.js"></script>
     <script>
-        
+
         fetch('navbar.html')
         .then(response => response.text())
         .then( data => {
@@ -122,6 +124,7 @@
                     link.classList.add('active-link');
                 }
             });
+            inicializarMenuHamburguesa();
         })
         .catch(error => console.error("Error al cargar el navbar", error))
 
