@@ -31,10 +31,11 @@
                     <option value="salida">Salida</option>
                 </select>
 
-                <select name="responsable" id="">
+                <select name="responsable" id="responsable">
                     <option value="" disabled selected hidden> Responsable </option>
-                    <option value="x">Encargado 1</option>
-                    <option value="x">Encargado 2</option>
+                    <option value="Almacenista 1">Almacenista 1</option>
+                    <option value="Almacenista 2">Almacenista 2</option>
+                    <option value="Almacenista 3">Almacenista 3</option>
                 </select>
             </div>
 
@@ -113,6 +114,7 @@
         </div>
     </main>
 
+    <script src="../assets/scripts/movimientos-filtros.js"></script>
     <script>
         fetch('navbar.html')
         .then(response => response.text())
