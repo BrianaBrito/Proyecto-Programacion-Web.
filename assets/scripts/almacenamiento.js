@@ -1,6 +1,3 @@
-// Capa de persistencia temporal en localStorage.
-// Base reutilizable para Inventario, Clientes, Proveedores, Categorias y Movimientos.
-
 const COLECCIONES = {
     INVENTARIO: 'inventario',
     CLIENTES: 'clientes',
