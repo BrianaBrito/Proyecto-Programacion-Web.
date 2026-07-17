@@ -15,8 +15,12 @@
             <ul>
                 <li><a href="index.html">Inicio</a></li>
                 <li><a href="sobrenosotros.html">Sobre nosotros</a> </li>
-                <li><a href="login.html"><img src="assets/img/icon-icons-removebg-preview.png" ></a></li>
-            </ul>
+    <li><a href="login.html"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="10"></circle>
+  <path d="M16 16v1a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-1"></path>
+  <circle cx="12" cy="10" r="3"></circle>
+</svg>
+</a></li>            </ul>
         </nav>
     </header>
 
@@ -36,11 +40,23 @@
                 <div class="contenedor">
                     <div class="formulario activo" id="login-form">
                         <h2>Iniciar Sesión</h2>
-                        <form action="#" method="POST">
-                            <input type="email" placeholder="Correo Electrónico" required>
-                            <input type="password" placeholder="Contraseña" required>
-                            <button type="submit">Entrar</button>
-                        </form>
+                           <form action="#" method="POST">
+        <input type="email" placeholder="Correo Electrónico" required>
+        <div class="password-wrapper">
+            <input type="password" id="loginPassword" placeholder="Contraseña" required>
+            <span class="toggle-password" id="toggleLoginPassword">
+                <svg id="eyeOpenLogin" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <svg id="eyeClosedLogin" class="hidden" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                    <line x1="1" y1="1" x2="23" y2="23"></line>
+                </svg>
+            </span>
+        </div>
+        <button type="submit">Entrar</button>
+    </form>
                         <p>¿No tienes cuenta? <span onclick="mostrarRegistro()">Regístrate aquí</span></p>
                     </div>
 
@@ -49,8 +65,35 @@
                         <form action="#" method="POST">
                             <input type="text" placeholder="Nombre Completo" required>
                             <input type="email" placeholder="Correo Electrónico" required>
-                            <input type="password" placeholder="Contraseña" required>
-                            <button type="submit">Registrarse</button>
+
+ <div class="password-wrapper">
+            <input type="password" id="registroPassword" placeholder="Contraseña" required>
+            <span class="toggle-password" id="toggleRegistroPassword">
+                <svg id="eyeOpenRegPass" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <svg id="eyeClosedRegPass" class="hidden" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                    <line x1="1" y1="1" x2="23" y2="23"></line>
+                </svg>
+            </span>
+        </div>
+
+ <div class="password-wrapper">
+            <input type="password" id="registroConfirmPassword" placeholder="Confirmar Contraseña" required>
+            <span class="toggle-password" id="toggleRegistroConfirmPassword">
+                <svg id="eyeOpenRegConfirm" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <svg id="eyeClosedRegConfirm" class="hidden" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                    <line x1="1" y1="1" x2="23" y2="23"></line>
+                </svg>
+            </span>
+        </div>
+        <button type="submit">Registrarse</button>
                         </form>
                         <p>¿Ya tienes cuenta? <span onclick="mostrarLogin()">Inicia sesión aquí</span></p>
                     </div>
@@ -60,6 +103,7 @@
     </main>
 
     <script>
+        //script para cambiar entre login y registro
         function mostrarRegistro() {
             document.getElementById('login-form').classList.remove('activo');
             document.getElementById('registro-form').classList.add('activo');
@@ -69,6 +113,91 @@
             document.getElementById('registro-form').classList.remove('activo');
             document.getElementById('login-form').classList.add('activo');
         }
+
+// script para toggle de contraseña en login
+function togglePassword() {
+    const input = document.getElementById('loginPassword');
+    const eyeOpen = document.getElementById('eyeOpenLogin');
+    const eyeClosed = document.getElementById('eyeClosedLogin');
+    if (input.type === 'password') {
+        input.type = 'text';
+        eyeOpen.classList.add('hidden');
+        eyeClosed.classList.remove('hidden');
+    } else {
+        input.type = 'password';
+        eyeOpen.classList.remove('hidden');
+        eyeClosed.classList.add('hidden');
+    }
+}
+
+document.getElementById('toggleLoginPassword').addEventListener('click', togglePassword);
+
+function mostrarRegistro() {
+    document.getElementById('login-form').classList.remove('activo');
+    document.getElementById('registro-form').classList.add('activo');
+}
+
+function mostrarLogin() {
+    document.getElementById('registro-form').classList.remove('activo');
+    document.getElementById('login-form').classList.add('activo');
+}
+
+// script para crear, validar contraseña
+function toggleRegistroPassword() {
+    const input = document.getElementById('registroPassword');
+    const eyeOpen = document.getElementById('eyeOpenRegPass');
+    const eyeClosed = document.getElementById('eyeClosedRegPass');
+    if (input.type === 'password') {
+        input.type = 'text';
+        eyeOpen.classList.add('hidden');
+        eyeClosed.classList.remove('hidden');
+    } else {
+        input.type = 'password';
+        eyeOpen.classList.remove('hidden');
+        eyeClosed.classList.add('hidden');
+    }
+}
+
+function toggleRegistroConfirmPassword() {
+    const input = document.getElementById('registroConfirmPassword');
+    const eyeOpen = document.getElementById('eyeOpenRegConfirm');
+    const eyeClosed = document.getElementById('eyeClosedRegConfirm');
+    if (input.type === 'password') {
+        input.type = 'text';
+        eyeOpen.classList.add('hidden');
+        eyeClosed.classList.remove('hidden');
+    } else {
+        input.type = 'password';
+        eyeOpen.classList.remove('hidden');
+        eyeClosed.classList.add('hidden');
+    }
+}
+
+document.getElementById('toggleRegistroPassword').addEventListener('click', toggleRegistroPassword);
+document.getElementById('toggleRegistroConfirmPassword').addEventListener('click', toggleRegistroConfirmPassword);
+
+const registroForm = document.getElementById('registroForm');
+const password = document.getElementById('registroPassword');
+const confirmPassword = document.getElementById('registroConfirmPassword');
+
+function validarContrasenas() {
+    if (password.value !== confirmPassword.value) {
+        confirmPassword.setCustomValidity('Las contraseñas no coinciden');
+    } else {
+        confirmPassword.setCustomValidity('');
+    }
+}
+
+password.addEventListener('input', validarContrasenas);
+confirmPassword.addEventListener('input', validarContrasenas);
+
+registroForm.addEventListener('submit', function(event) {
+    validarContrasenas();
+    if (!this.checkValidity()) {
+        event.preventDefault();
+        confirmPassword.reportValidity();
+    }
+});
     </script>
 
 </body>

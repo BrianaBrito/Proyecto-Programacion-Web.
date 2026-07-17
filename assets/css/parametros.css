@@ -132,7 +132,39 @@ input[type="text"]:focus{
     background-color: var(--color-superficie);
     box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
 }
+input[type="file"] {
+    background-color: var(--color-fondo);
+    border: 2px solid #E5E7EB;
+    border-radius: 8px;
+    padding: 0.5rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    color: var(--color-texto);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    max-width: 500px; 
+}
 
+input[type="file"]::file-selector-button {
+    background-color: var(--color-superficie);
+    color: var(--color-principal);
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-right: 1rem;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background-color: var(--color-secundario);
+    color: var(--color-superficie);
+    box-shadow: 0 4px 8px rgba(59, 130, 246, 0.25);
+}
 button {
     background-color: var(--color-superficie);
     color: var(--color-principal);
