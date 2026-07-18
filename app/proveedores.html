@@ -70,6 +70,8 @@
         </div>
     </main>
 
+    <script src="../assets/scripts/navbar-menu.js"></script>
+    <script src="../assets/scripts/tabla-ordenable.js"></script>
     <script src="../assets/scripts/busqueda.js"></script>
     <script src="../assets/scripts/almacenamiento.js"></script>
     <script src="../assets/scripts/actualizacion-tablas.js"></script>
@@ -118,7 +120,8 @@
                     link.classList.add('active-link');
                 }
             });
-        })    
+            inicializarMenuHamburguesa();
+        })
         .catch(error => console.error("Error al cargar el navbar", error))
     </script>
 

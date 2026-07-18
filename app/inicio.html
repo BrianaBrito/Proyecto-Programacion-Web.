@@ -138,20 +138,22 @@
         </div>
     </main>
 
+    <script src="../assets/scripts/navbar-menu.js"></script>
     <script>
         fetch('navbar.html')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('navbar-container').innerHTML = data;
-                
+
                 const links = document.querySelectorAll('nav ul li a');
                 links.forEach(link => {
                     if(link.textContent.trim() === 'Inicio') {
                         link.classList.add('active-link');
                     }
                 });
-            })    
-            .catch(error => console.error("Error al cargar el navbar:", error));          
+                inicializarMenuHamburguesa();
+            })
+            .catch(error => console.error("Error al cargar el navbar:", error));
     </script>
        <script src="../assets/scripts/almacenamiento.js"></script>
     <script src="../assets/scripts/dashboard.js"></script>
