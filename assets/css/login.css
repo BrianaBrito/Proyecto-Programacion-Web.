@@ -392,3 +392,39 @@ text-align: center;
     }
 
 }
+.password-wrapper {
+    position: relative;
+    width: 100%;
+    margin: 10px 0;
+}
+
+.password-wrapper input {
+    margin: 0;
+    padding-right: 45px; 
+}
+
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #9CA3AF;
+    transition: color 0.3s ease;
+}
+
+.toggle-password:hover {
+    color: #1E3A8A;
+}
+
+.toggle-password svg {
+    display: block;
+    stroke: currentColor;
+}
+
+.hidden {
+    display: none !important;
+}

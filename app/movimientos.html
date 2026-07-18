@@ -26,15 +26,16 @@
                 </select>
 
                 <select name="tipo" id="type">
-                    <option value="" disabled selected hidden> Encargado </option>
+                    <option value="" disabled selected hidden> Tipo </option>
                     <option value="entrada">Entrada</option>
                     <option value="salida">Salida</option>
                 </select>
 
-                <select name="responsable" id="">
+                <select name="responsable" id="responsable">
                     <option value="" disabled selected hidden> Responsable </option>
-                    <option value="x">Encargado 1</option>
-                    <option value="x">Encargado 2</option>
+                    <option value="Almacenista 1">Almacenista 1</option>
+                    <option value="Almacenista 2">Almacenista 2</option>
+                    <option value="Almacenista 3">Almacenista 3</option>
                 </select>
             </div>
 
@@ -71,6 +72,42 @@
                         <td>Venta a Cliente X</td>
                         <td>Almacenista 3</td>
                     </tr>
+                    <tr>
+                        <td>103</td>
+                        <td>2026-07-01</td>
+                        <td>Playera Basica</td>
+                        <td><span class="badge entrada">Entrada</span></td>
+                        <td>80</td>
+                        <td>Compra a Textiles Monarca</td>
+                        <td>Almacenista 2</td>
+                    </tr>
+                    <tr>
+                        <td>104</td>
+                        <td>2026-07-02</td>
+                        <td>Arroz 1kg</td>
+                        <td><span class="badge salida">Salida</span></td>
+                        <td>30</td>
+                        <td>Venta a Cliente Y</td>
+                        <td>Almacenista 1</td>
+                    </tr>
+                    <tr>
+                        <td>105</td>
+                        <td>2026-07-03</td>
+                        <td>Cuaderno Profesional</td>
+                        <td><span class="badge entrada">Entrada</span></td>
+                        <td>200</td>
+                        <td>Compra a Papelera del Centro</td>
+                        <td>Almacenista 3</td>
+                    </tr>
+                    <tr>
+                        <td>106</td>
+                        <td>2026-07-04</td>
+                        <td>Muñeca Articulada</td>
+                        <td><span class="badge salida">Salida</span></td>
+                        <td>5</td>
+                        <td>Venta a Cliente Z</td>
+                        <td>Almacenista 2</td>
+                    </tr>
                 </tbody>
             </table>
             </div>
@@ -79,6 +116,7 @@
 
     <script src="../assets/scripts/navbar-menu.js"></script>
     <script src="../assets/scripts/tabla-ordenable.js"></script>
+    <script src="../assets/scripts/movimientos-filtros.js"></script>
     <script>
         fetch('navbar.html')
         .then(response => response.text())

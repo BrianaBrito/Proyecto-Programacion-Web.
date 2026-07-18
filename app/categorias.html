@@ -48,24 +48,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Electronica</td>
-                        <td>Componentes electronicos</td>
-                        <td class="acciones">
-                            <button>Editar</button>
-                            <button>Eliminar</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Herramientas</td>
-                        <td>Herramientas manuales</td>
-                        <td class="acciones">
-                            <button >Editar</button>
-                            <button>Eliminar</button>
-                        </td>
-                    </tr>
+
                 </tbody>
             </table>
         </div>
@@ -73,6 +56,42 @@
 
     <script src="../assets/scripts/navbar-menu.js"></script>
     <script src="../assets/scripts/tabla-ordenable.js"></script>
+    <script src="../assets/scripts/busqueda.js"></script>
+    <script src="../assets/scripts/almacenamiento.js"></script>
+    <script src="../assets/scripts/actualizacion-tablas.js"></script>
+
+    <script>
+        const CATEGORIAS_INICIALES = [
+            { id: 1, nombre: 'Electronica', descripcion: 'Componentes electronicos' },
+            { id: 2, nombre: 'Herramientas', descripcion: 'Herramientas manuales' },
+            { id: 3, nombre: 'Ropa', descripcion: 'Prendas de vestir' },
+            { id: 4, nombre: 'Alimentos', descripcion: 'Productos no perecederos' },
+            { id: 5, nombre: 'Papeleria', descripcion: 'Articulos de oficina y escolares' },
+            { id: 6, nombre: 'Juguetes', descripcion: 'Juguetes y articulos infantiles' }
+        ];
+
+        function renderFilaCategoria(registro){
+            return `
+                <tr data-id="${registro.id}">
+                    <td>${registro.id}</td>
+                    <td>${textoSeguro(registro.nombre)}</td>
+                    <td>${textoSeguro(registro.descripcion)}</td>
+                    <td class="acciones">
+                        <button>Editar</button>
+                        <button>Eliminar</button>
+                    </td>
+                </tr>`;
+        }
+
+        inicializarRegistroTabla({
+            coleccion: COLECCIONES.CATEGORIAS,
+            formSelector: '.registrar-producto-details form',
+            tablaSelector: 'main table',
+            datosDefecto: CATEGORIAS_INICIALES,
+            renderFila: renderFilaCategoria
+        });
+    </script>
+
     <script>
         fetch('navbar.html')
         .then(response => response.text())

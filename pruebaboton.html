@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Botón con Animación</title>
+    <link rel="stylesheet" href="styles.css">  
+
+</head>
+<style>
+.submit-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #4f46e5;
+  color: #ffffff;
+  border: none;
+  border-radius: 30px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.3s ease, width 0.3s ease;
+  overflow: hidden;
+}
+
+.submit-btn:hover {
+  background-color: #4338ca;
+}
+
+.btn-text {
+  margin-right: 8px;
+  transition: opacity 0.2s ease;
+}
+
+.icon-svg {
+  transition: transform 0.3s ease;
+}
+
+/* Estado de Carga (Activado por JS) */
+.submit-btn.loading {
+  pointer-events: none;
+  background-color: #6366f1;
+}
+
+.submit-btn.loading .plane {
+  animation: flyAway 0.6s ease-in-out forwards;
+}
+
+/* Estado de Éxito */
+.submit-btn.success {
+  background-color: #10b981;
+}
+
+@keyframes flyAway {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-15px) scale(0.8);
+    opacity: 0;
+  }
+  51% {
+    transform: translateY(15px) scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+</style>
+<body>
+<button id="submitBtn" class="submit-btn">
+  <span class="btn-text">Subir archivos</span>
+  <svg class="icon-svg" viewBox="0 0 24 24" width="24" height="24">
+    <!-- Icono de Avión de Papel (Estado Normal) -->
+    <path class="plane" d="M2 21l21-9L2 3v7l15 2-15 2v7z" fill="currentColor"/>
+    <!-- Icono de Check / Éxito (Oculto inicialmente) -->
+    <path class="check" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" fill="currentColor" style="display: none;"/>
+  </svg>
+</button>
+<script>
+const submitBtn = document.getElementById('submitBtn');
+const btnText = submitBtn.querySelector('.btn-text');
+const planeIcon = submitBtn.querySelector('.plane');
+const checkIcon = submitBtn.querySelector('.check');
+
+submitBtn.addEventListener('click', () => {
+  submitBtn.classList.add('loading');
+  btnText.textContent = 'Subiendo...';
+
+  setTimeout(() => {
+    submitBtn.classList.remove('loading');
+    submitBtn.classList.add('success');
+    
+    btnText.textContent = '¡Archivos subidos!';
+    planeIcon.style.display = 'none';
+    checkIcon.style.display = 'block';
+
+    setTimeout(() => {
+      submitBtn.classList.remove('success');
+      btnText.textContent = 'Subir archivos';
+      planeIcon.style.display = 'block';
+      checkIcon.style.display = 'none';
+    }, 3000);
+
+  }, 2000);
+});
+
+</script>
+</body>
+</html>
