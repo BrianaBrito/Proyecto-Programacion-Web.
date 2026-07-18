@@ -69,84 +69,7 @@
                     </thead>
 
                     <tbody>
-                        <tr>
-                            <td>301</td>
-                            <td>Jeronimo Salas Mesa</td>
-                            <td>7341090504 HP</td>
-                            <td>jersal12@gmail.com</td>
-                            <td>Calle Miguel Hidalgo #26, Col. El Barreal</td>
-                            <td><span class="badge activo">Activo</span></td>
-                            <td>$15,000</td>
-                            <td class="acciones">
-                                <button>Editar</button>
-                                <button>Eliminar</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>302</td>
-                            <td>Rosa Esquivel Alvarez</td>
-                            <td>7341417342 HP</td>
-                            <td>rosel@gmail.com</td>
-                            <td>Calle Porfirio Díaz #3, Col. Centro</td>
-                            <td><span class="badge inactivo">Inactivo</span></td>
-                            <td>$10,050</td>
-                            <td class="acciones">
-                                <button>Editar</button>
-                                <button>Eliminar</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>303</td>
-                            <td>Carlos Mendoza Ruiz</td>
-                            <td>7331122334</td>
-                            <td>carlos.mendoza@gmail.com</td>
-                            <td>Av. Revolución #145, Col. Obrera</td>
-                            <td><span class="badge activo">Activo</span></td>
-                            <td>$8,200</td>
-                            <td class="acciones">
-                                <button>Editar</button>
-                                <button>Eliminar</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>304</td>
-                            <td>Fernanda Castillo Ortiz</td>
-                            <td>7339988776</td>
-                            <td>fer.castillo@hotmail.com</td>
-                            <td>Calle 5 de Mayo #78, Col. Centro</td>
-                            <td><span class="badge activo">Activo</span></td>
-                            <td>$22,300</td>
-                            <td class="acciones">
-                                <button>Editar</button>
-                                <button>Eliminar</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>305</td>
-                            <td>Luis Ángel Torres</td>
-                            <td>7345566778</td>
-                            <td>luis.torres@yahoo.com</td>
-                            <td>Blvd. Independencia #200, Col. Reforma</td>
-                            <td><span class="badge inactivo">Inactivo</span></td>
-                            <td>$0.00</td>
-                            <td class="acciones">
-                                <button>Editar</button>
-                                <button>Eliminar</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>306</td>
-                            <td>Paola Guzman Reyes</td>
-                            <td>7347788990</td>
-                            <td>paola.guzman@gmail.com</td>
-                            <td>Calle Morelos #33, Col. San Isidro</td>
-                            <td><span class="badge activo">Activo</span></td>
-                            <td>$5,750</td>
-                            <td class="acciones">
-                                <button>Editar</button>
-                                <button>Eliminar</button>
-                            </td>
-                        </tr>
+                        
                     </tbody>
                 </table>
                 </div>
@@ -154,6 +77,47 @@
         </main>
 
         <script src="../assets/scripts/busqueda.js"></script>
+        <script src="../assets/scripts/almacenamiento.js"></script>
+        <script src="../assets/scripts/actualizacion-tablas.js"></script>
+
+        <script>
+            const CLIENTES_INICIALES = [
+                { id: 301, nombre: 'Jeronimo Salas Mesa', telefono: '7341090504 HP', correo: 'jersal12@gmail.com', direccion: 'Calle Miguel Hidalgo #26, Col. El Barreal', estado: 'Activo', saldo: 15000 },
+                { id: 302, nombre: 'Rosa Esquivel Alvarez', telefono: '7341417342 HP', correo: 'rosel@gmail.com', direccion: 'Calle Porfirio Díaz #3, Col. Centro', estado: 'Inactivo', saldo: 10050 },
+                { id: 303, nombre: 'Carlos Mendoza Ruiz', telefono: '7331122334', correo: 'carlos.mendoza@gmail.com', direccion: 'Av. Revolución #145, Col. Obrera', estado: 'Activo', saldo: 8200 },
+                { id: 304, nombre: 'Fernanda Castillo Ortiz', telefono: '7339988776', correo: 'fer.castillo@hotmail.com', direccion: 'Calle 5 de Mayo #78, Col. Centro', estado: 'Activo', saldo: 22300 },
+                { id: 305, nombre: 'Luis Ángel Torres', telefono: '7345566778', correo: 'luis.torres@yahoo.com', direccion: 'Blvd. Independencia #200, Col. Reforma', estado: 'Inactivo', saldo: 0 },
+                { id: 306, nombre: 'Paola Guzman Reyes', telefono: '7347788990', correo: 'paola.guzman@gmail.com', direccion: 'Calle Morelos #33, Col. San Isidro', estado: 'Activo', saldo: 5750 }
+            ];
+
+            function renderFilaCliente(registro){
+                const claseBadge = registro.estado === 'Activo' ? 'activo' : 'inactivo';
+                return `
+                    <tr data-id="${registro.id}">
+                        <td>${registro.id}</td>
+                        <td>${textoSeguro(registro.nombre)}</td>
+                        <td>${textoSeguro(registro.telefono)}</td>
+                        <td>${textoSeguro(registro.correo)}</td>
+                        <td>${textoSeguro(registro.direccion)}</td>
+                        <td><span class="badge ${claseBadge}">${registro.estado}</span></td>
+                        <td>${formatoDinero(registro.saldo)}</td>
+                        <td class="acciones">
+                            <button>Editar</button>
+                            <button>Eliminar</button>
+                        </td>
+                    </tr>`;
+            }
+
+            inicializarRegistroTabla({
+                coleccion: COLECCIONES.CLIENTES,
+                formSelector: '.registrar-cliente-details form',
+                tablaSelector: '.tabla-clientes table',
+                datosDefecto: CLIENTES_INICIALES,
+                valoresNuevos: { estado: 'Activo' },
+                renderFila: renderFilaCliente
+            });
+        </script>
+
         <script>
             fetch('navbar.html')
             .then(response => response.text())

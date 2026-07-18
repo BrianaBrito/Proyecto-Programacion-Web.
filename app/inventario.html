@@ -27,6 +27,10 @@
                         <input type="text" name="categoria" id="categoria" required pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{3,30}$">
                     </div>
                     <div>
+                        <label for="descripcion">Descripcion: </label>
+                        <input type="text" name="descripcion" id="descripcion" required pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s.,;:()+\-]{3,60}$">
+                    </div>
+                    <div>
                         <label for="proveedor">Proveedor: </label>
                         <select name="proovedores" id="">
                             <option value="Prueba 1"> Coca cola </option>
@@ -65,90 +69,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                       <td data-label="ID">1</td>
-        <td data-label="Nombre">Laptop</td>
-        <td data-label="Categoria">Electronica</td>
-        <td data-label="Descripcion">Gamer</td>
-        <td data-label="Proveedor">DDTech</td>
-        <td data-label="Stock">15</td>
-        <td data-label="Precio">$10500</td>
-        <td data-label="Acciones" class="acciones">
-            <button>Editar</button>
-            <button>Eliminar</button>
-            <button class="btn-salida">Salida</button>
-        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Multimetro</td>
-                        <td>Electronica</td>
-                        <td>Escolar</td>
-                        <td>Telmedia</td>
-                        <td>23</td>
-                        <td>$299</td>
-                        <td class="acciones">
-                            <button>Editar</button>
-                            <button class="btn-eliminar">Eliminar</button>
-                            <button class="btn-salida">Salida</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Playera Basica</td>
-                        <td>Ropa</td>
-                        <td>Algodon talla M</td>
-                        <td>Textiles Monarca</td>
-                        <td>80</td>
-                        <td>$120</td>
-                        <td class="acciones">
-                            <button>Editar</button>
-                            <button>Eliminar</button>
-                            <button class="btn-salida">Salida</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>Arroz 1kg</td>
-                        <td>Alimentos</td>
-                        <td>No perecedero</td>
-                        <td>Distribuidora Alimenticia del Norte</td>
-                        <td>150</td>
-                        <td>$28</td>
-                        <td class="acciones">
-                            <button>Editar</button>
-                            <button>Eliminar</button>
-                            <button class="btn-salida">Salida</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>Cuaderno Profesional</td>
-                        <td>Papeleria</td>
-                        <td>100 hojas, cuadricula</td>
-                        <td>Papelera del Centro</td>
-                        <td>200</td>
-                        <td>$35</td>
-                        <td class="acciones">
-                            <button>Editar</button>
-                            <button>Eliminar</button>
-                            <button class="btn-salida">Salida</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>6</td>
-                        <td>Muñeca Articulada</td>
-                        <td>Juguetes</td>
-                        <td>Edad recomendada 5+</td>
-                        <td>Juguetera Estrella</td>
-                        <td>40</td>
-                        <td>$199</td>
-                        <td class="acciones">
-                            <button>Editar</button>
-                            <button>Eliminar</button>
-                            <button class="btn-salida">Salida</button>
-                        </td>
-                    </tr>
+
                 </tbody>
             </table>
         </div>
@@ -167,8 +88,70 @@
     </dialog>
 
     <script src="../assets/scripts/busqueda.js"></script>
-    <script>
+    <script src="../assets/scripts/almacenamiento.js"></script>
+    <script src="../assets/scripts/actualizacion-tablas.js"></script>
 
+    <script>
+        // datos de ejemplo
+        const INVENTARIO_INICIAL = [
+            { id: 1, nombre: 'Laptop', categoria: 'Electronica', descripcion: 'Gamer', proveedor: 'DDTech', stock: 15, precio: 10500 },
+            { id: 2, nombre: 'Multimetro', categoria: 'Electronica', descripcion: 'Escolar', proveedor: 'Telmedia', stock: 23, precio: 299 },
+            { id: 3, nombre: 'Playera Basica', categoria: 'Ropa', descripcion: 'Algodon talla M', proveedor: 'Textiles Monarca', stock: 80, precio: 120 },
+            { id: 4, nombre: 'Arroz 1kg', categoria: 'Alimentos', descripcion: 'No perecedero', proveedor: 'Distribuidora Alimenticia del Norte', stock: 150, precio: 28 },
+            { id: 5, nombre: 'Cuaderno Profesional', categoria: 'Papeleria', descripcion: '100 hojas, cuadricula', proveedor: 'Papelera del Centro', stock: 200, precio: 35 },
+            { id: 6, nombre: 'Muñeca Articulada', categoria: 'Juguetes', descripcion: 'Edad recomendada 5+', proveedor: 'Juguetera Estrella', stock: 40, precio: 199 }
+        ];
+
+        const PROVEEDORES_INICIALES = [
+            { id: 1, nombre: 'DDTech', contacto: 'Juan Perez', telefono: '3334445555', email: 'ventas@ddtech.com', direccion: 'Zapopan, Jalisco', saldo: 0 },
+            { id: 2, nombre: 'Telmedia', contacto: 'Maria Lopez', telefono: '5556667777', email: 'contacto@telmedia.com', direccion: 'CDMX', saldo: 150 }
+        ];
+
+        function renderFilaInventario(registro) {
+            return `
+                <tr data-id="${registro.id}">
+                    <td data-label="ID">${registro.id}</td>
+                    <td data-label="Nombre">${textoSeguro(registro.nombre)}</td>
+                    <td data-label="Categoria">${textoSeguro(registro.categoria)}</td>
+                    <td data-label="Descripcion">${textoSeguro(registro.descripcion)}</td>
+                    <td data-label="Proveedor">${textoSeguro(registro.proveedor)}</td>
+                    <td data-label="Stock">${registro.stock}</td>
+                    <td data-label="Precio">${formatoDinero(registro.precio)}</td>
+                    <td data-label="Acciones" class="acciones">
+                        <button>Editar</button>
+                        <button>Eliminar</button>
+                        <button class="btn-salida">Salida</button>
+                    </td>
+                </tr>`;
+        }
+
+        // llena el select de proveedores desde la coleccion
+        function poblarSelectProveedores() {
+            if (obtenerColeccion(COLECCIONES.PROVEEDORES).length === 0) {
+                guardarColeccion(COLECCIONES.PROVEEDORES, PROVEEDORES_INICIALES);
+            }
+
+            const select = document.getElementById('proveedor');
+            const proveedores = obtenerColeccion(COLECCIONES.PROVEEDORES);
+            const opcionesProveedores = proveedores
+                .map(proveedor => `<option value="${textoSeguro(proveedor.nombre)}">${textoSeguro(proveedor.nombre)}</option>`)
+                .join('');
+
+            select.innerHTML = `<option value="" disabled selected hidden>Selecciona un proveedor</option>${opcionesProveedores}`;
+        }
+
+        poblarSelectProveedores();
+
+        inicializarRegistroTabla({
+            coleccion: COLECCIONES.INVENTARIO,
+            formSelector: '.registrar-producto-details form',
+            tablaSelector: 'main table',
+            datosDefecto: INVENTARIO_INICIAL,
+            renderFila: renderFilaInventario
+        });
+    </script>
+  
+    <script>
         fetch('navbar.html')
         .then(response => response.text())
         .then( data => {
@@ -192,31 +175,33 @@
         const salidaResultado = document.getElementById('salida-resultado');
         let filaActual = null;
 
-        document.querySelectorAll('.btn-salida').forEach(boton => {
-            boton.addEventListener('click', () => {
-                filaActual = boton.closest('tr');
-                const celdas = filaActual.querySelectorAll('td');
-                salidaProducto.textContent = celdas[1].textContent.trim();
-                salidaStockActual.textContent = celdas[5].textContent.trim();
-                salidaCantidad.value = '';
-                salidaCantidad.max = celdas[5].textContent.trim();
-                salidaResultado.textContent = '';
-                salidaResultado.classList.remove('error');
-                salidaDialog.showModal();
-            });
+        //eventos segun la tabla
+        document.querySelector('main table').addEventListener('click', evento => {
+            const boton = evento.target.closest('.btn-salida');
+            if (!boton) return;
+
+            filaActual = boton.closest('tr');
+            const celdas = filaActual.querySelectorAll('td');
+            salidaProducto.textContent = celdas[1].textContent.trim();
+            salidaStockActual.textContent = celdas[5].textContent.trim();
+            salidaCantidad.value = '';
+            salidaCantidad.max = celdas[5].textContent.trim();
+            salidaResultado.textContent = '';
+            salidaResultado.classList.remove('error');
+            salidaDialog.showModal();
         });
 
         document.getElementById('salida-confirmar').addEventListener('click', () => {
             const cantidad = parseInt(salidaCantidad.value, 10);
             const stock = parseInt(salidaStockActual.textContent, 10);
 
-            if (!cantidad || cantidad <= 0) {
+            if (!cantidad || cantidad <= 0){
                 salidaResultado.textContent = 'Ingresa una cantidad válida.';
                 salidaResultado.classList.add('error');
                 return;
             }
 
-            if (cantidad > stock) {
+            if (cantidad > stock){
                 salidaResultado.textContent = `No hay suficiente stock (disponible: ${stock}).`;
                 salidaResultado.classList.add('error');
                 return;
