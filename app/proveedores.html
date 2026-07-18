@@ -21,23 +21,23 @@
                 <form action="">
                     <div>
                         <label for="nombre">Nombre: </label>    
-                        <input type="text" name="nombre" id="nombre" required pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s.&-]{3,30}$">
+                        <input type="text" name="nombre" id="nombre" required pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s.\&\-]{3,30}$" data-mensaje-error="Debe tener entre 3 y 30 caracteres.">
                     </div>
                     <div>
                         <label for="contacto">Contacto: </label>
-                        <input type="text" name="contacto" id="contacto" required pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{3,30}$">
+                        <input type="text" name="contacto" id="contacto" required pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{3,30}$" data-mensaje-error="Debe tener entre 3 y 30 caracteres, solo letras y espacios.">
                     </div>
                     <div>
                         <label for="telefono">Telefono: </label>
-                        <input type="text" name="telefono" id="telefono" required pattern="^\d{10}$">
+                        <input type="text" name="telefono" id="telefono" required pattern="^\d{10}$" data-mensaje-error="Debe contener exactamente 10 dígitos numéricos.">
                     </div>
                     <div>
                         <label for="email">Email: </label>
-                        <input type="text" name="email" id="email" required pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$">  
+                        <input type="text" name="email" id="email" required pattern="^[A-Za-z0-9._%\+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}$" data-mensaje-error="Ingresa un correo electrónico válido (ejemplo@dominio.com).">
                     </div>
                     <div>
                         <label for="direccion">Direccion: </label>
-                        <input type="text" name="direccion" id="direccion" required pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s.,#/\-]{10,120}$">
+                        <input type="text" name="direccion" id="direccion" required pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s.,#\/\-]{10,120}$" data-mensaje-error="Debe tener entre 10 y 120 caracteres.">
                     </div>
                     <button type="submit">Guardar</button>
                 </form>
@@ -74,6 +74,7 @@
     <script src="../assets/scripts/tabla-ordenable.js"></script>
     <script src="../assets/scripts/busqueda.js"></script>
     <script src="../assets/scripts/almacenamiento.js"></script>
+    <script src="../assets/scripts/validacion.js"></script>
     <script src="../assets/scripts/actualizacion-tablas.js"></script>
 
         <script>
