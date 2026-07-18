@@ -7,7 +7,7 @@ function textoSeguro(valor) {
 
 //para que el dinero se vea con formato
 function formatoDinero(valor){
-    const numDinero = Numer(valor); //guarda el valor del dinero en una de tipo numero
+    const numDinero = Number(valor); //guarda el valor del dinero en una de tipo numero
     //retorna el simbolo de pesos, hace pequeña verificacion de si es un numero y si lo es pone la cantidad en el formato mx con dos digitos minimos y max de (centavos)
     return '$' + (isNaN(numDinero) ? '0.00' : numDinero.toLocaleString('es-MX', {
         minimumFractionDigits: 2, maximumFractionDigits : 2
@@ -29,7 +29,7 @@ function inicializarRegistroTabla(opciones){
     //obtenemos los datos de la tabla
     const tabla = document.querySelector(tablaSelector);
     //validamos que no esté vacía
-    if(!tabla || tabla.tBodies[0]) return;
+    if(!tabla || !tabla.tBodies[0]) return;
     //guardamos el cuerpo de la tabla
     const tbody = tabla.tBodies[0];
     //buscamos el form por su selector, si esta vacio no guarda nada. misma logica para el resto de opciones del details
@@ -50,7 +50,7 @@ function inicializarRegistroTabla(opciones){
         /*obtiene los atributos de cada registro, por cada uno de ellos busca dentro del form un elemento que coincida con el "campo" o "atributo".
         si existe se pasan los que estaban guardados*/
         Object.keys(registro).forEach(campo => {
-            const input = form.elements.nameItem(campo);
+            const input = form.elements.namedItem(campo);
             if(input) input.value = registro[campo];
         })
     }
@@ -65,7 +65,7 @@ function inicializarRegistroTabla(opciones){
 
         //si existe form busca el details mas cercano, sino no se ejecuta y se le pone valor nulo
         const details = form ? form.closest('details') : null;
-        if(detail){
+        if(details){
             //decimos que está abierto
             details.open = true;
             //desplaza la pantalla "suavemente" hasta que quede guardado
@@ -90,10 +90,11 @@ function inicializarRegistroTabla(opciones){
             }else{
                 agregarRegistro(coleccion, {...datosNuevos, ...datosFormulario}); //y si no agregamos el nuevo registro
             }
+            //salimos y volvemos a act. datos en pantalla
+            salirEdicion();
+            pintarTabla();
         });
-        //salimos y volvemos a act. datos en pantalla
-        salirEdicion();
-        pintarTabla();
+        
     }
 
     //listener para que editar y eliminar esten habilitadas en todo momento
@@ -103,7 +104,7 @@ function inicializarRegistroTabla(opciones){
         if(!boton) return;
 
         //buscamos la fila cercana y su id
-        const fila = boton.closet('tr');
+        const fila = boton.closest('tr');
         const id = fila ? fila.dataset.id : null;
 
         if(id === null || id === undefined) return;
@@ -114,7 +115,7 @@ function inicializarRegistroTabla(opciones){
         if(accion === 'editar'){
             //obtenemos la coleccion y buscamos el id del registro
             const registro = obtenerColeccion(coleccion).find(r => String(r.id) === String(id));
-            if (registro) entrarModoEdicion(registro);
+            if (registro) entrarEdicion(registro);
             return;
         }
 
