@@ -104,15 +104,15 @@
 
     <script>
         //script para cambiar entre login y registro
-        function mostrarRegistro() {
-            document.getElementById('login-form').classList.remove('activo');
-            document.getElementById('registro-form').classList.add('activo');
-        }
+            function mostrarRegistro() {
+                document.getElementById('login-form').classList.remove('activo');
+                document.getElementById('registro-form').classList.add('activo');
+            }
 
-        function mostrarLogin() {
-            document.getElementById('registro-form').classList.remove('activo');
-            document.getElementById('login-form').classList.add('activo');
-        }
+            function mostrarLogin() {
+                document.getElementById('registro-form').classList.remove('activo');
+                document.getElementById('login-form').classList.add('activo');
+            }
 
 // script para toggle de contraseña en login
 function togglePassword() {
@@ -142,7 +142,6 @@ function mostrarLogin() {
     document.getElementById('login-form').classList.add('activo');
 }
 
-// script para crear, validar contraseña
 function toggleRegistroPassword() {
     const input = document.getElementById('registroPassword');
     const eyeOpen = document.getElementById('eyeOpenRegPass');
