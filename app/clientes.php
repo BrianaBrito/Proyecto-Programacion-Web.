@@ -38,10 +38,6 @@
                             <input type="text" name="direccion" id="direccion" required pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s.,#\/\-]{10,120}$" data-mensaje-error="Debe tener entre 10 y 120 caracteres.">
                         </div>
 
-                        <div>
-                            <label for="saldo">Saldo</label>
-                            <input type="number" name="saldo" id="saldo" required pattern="^\d+?$" data-mensaje-error="Ingresa un saldo válido.">
-                        </div>
                         <button type="submit">Guardar</button>
                     </form>
                 </details>

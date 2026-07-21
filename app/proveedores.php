@@ -60,6 +60,7 @@
                         <th>Email</th>
                         <th>Direccion</th>
                         <th>Saldo</th>
+                        <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -79,11 +80,12 @@
 
         <script>
         const PROVEEDORES_INICIALES = [
-            { id: 1, nombre: 'DDTech', contacto: 'Juan Perez', telefono: '3334445555', email: 'ventas@ddtech.com', direccion: 'Zapopan, Jalisco', saldo: 0 },
-            { id: 2, nombre: 'Telmedia', contacto: 'Maria Lopez', telefono: '5556667777', email: 'contacto@telmedia.com', direccion: 'CDMX', saldo: 150 }
+            { id: 1, nombre: 'DDTech', contacto: 'Juan Perez', telefono: '3334445555', email: 'ventas@ddtech.com', direccion: 'Zapopan, Jalisco', saldo: 0, estado: 'Inactivo' },
+            { id: 2, nombre: 'Telmedia', contacto: 'Maria Lopez', telefono: '5556667777', email: 'contacto@telmedia.com', direccion: 'CDMX', saldo: 150, estado: 'Activo' }
         ];
 
         function renderFilaProveedor(registro) {
+            const claseBadge = registro.estado === 'Activo' ? 'activo' : 'inactivo';
             return `
                 <tr data-id="${registro.id}">
                     <td>${registro.id}</td>
@@ -93,6 +95,7 @@
                     <td>${textoSeguro(registro.email)}</td>
                     <td>${textoSeguro(registro.direccion)}</td>
                     <td>${formatoDinero(registro.saldo)}</td>
+                    <td><span class="badge ${claseBadge}">${registro.estado}</span></td>
                     <td class="acciones">
                         <button>Editar</button>
                         <button>Eliminar</button>
@@ -105,7 +108,7 @@
             formSelector: '.registrar-producto-details form',
             tablaSelector: 'main table',
             datosDefecto: PROVEEDORES_INICIALES,
-            datosNuevos: { saldo: 0 },
+            datosNuevos: { saldo: 0, estado: 'Activo' },
             renderFila: renderFilaProveedor
         });
     </script>

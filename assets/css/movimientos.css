@@ -122,6 +122,10 @@ table {
     border: 1px solid #E5E7EB;
 }
 
+.oculto{
+    display: none;
+}
+
 .tabla-movimientos {
     overflow-x: auto;
 }
@@ -177,6 +181,14 @@ tbody tr:hover {
 
 .badge.salida {
     background-color: #EF4444;
+}
+
+.badge.cargo{
+    background-color: #EF4444;
+}
+
+.badge.pago{
+    background-color: #10B981;
 }
 
 #navbar-container {

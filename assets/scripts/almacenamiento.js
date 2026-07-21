@@ -3,7 +3,9 @@ const COLECCIONES = {
     CLIENTES: 'clientes',
     PROVEEDORES: 'proveedores',
     CATEGORIAS: 'categorias',
-    MOVIMIENTOS: 'movimientos'
+    MOVIMIENTOS: 'movimientos',
+    MOVIMIENTOS_CLIENTE: 'movimientos_cuenta_cliente',
+    MOVIMIENTOS_PROVEEDOR: 'movimientos_cuenta_proveedor'
 };
 
 const ALMACENAMIENTO_PREFIJO = 'advitium_';

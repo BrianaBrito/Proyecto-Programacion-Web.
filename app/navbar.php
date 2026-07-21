@@ -10,6 +10,7 @@
         <li><a href="categorias.php">Categorias</a></li>
         <li><a href="proveedores.php">Proveedores</a></li>
         <li><a href="clientes.php">Clientes</a></li>
+        <li><a href="cuentas.php">Movimientos financieros</a><li>
         <li><a href="movimientos.php">Movimientos</a></li>
         <li><a href="reportes.php">Reportes</a></li>
 
