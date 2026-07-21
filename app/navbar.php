@@ -6,6 +6,7 @@
     <h2>ADVITIUM</h2>
     <ul>
         <li><a href="inicio.php">Inicio</a></li>
+        <li><a href="pruebabloqueo.php">Prueba</a></li><!-- ESTE ES SOLO PARA PRUEBAS,  BORRAR -->
         <li><a href="inventario.php">Inventario</a></li>
         <li><a href="categorias.php">Categorias</a></li>
         <li><a href="proveedores.php">Proveedores</a></li>

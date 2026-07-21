@@ -1,10 +1,18 @@
+<?php
+require_once '../assets/php/roles.php';
+verificarAutenticacion();
+verificarAcceso(basename(__FILE__));
+$puedeEscribir = usuarioPuedeEscribir();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventario | ADVITIUM</title>
-    <link rel="shortcut icon" href="../assets/img/icons/inventarioicono.png" type="image/x-icon">    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="../assets/img/icons/inventarioicono.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/inventario.css">
 </head>
 <body>
@@ -15,6 +23,16 @@
         <div class="card-panel">
             <h1 class="titulo-pagina">Inventario</h1>
             
+            <?php if (!$puedeEscribir): ?>
+                <div style="background: #fef9c3; padding: 8px 16px; border-radius: 6px; margin-bottom: 15px; color: #854d0e;">
+                   <svg xmlns="http://w3.org" viewBox="0 0 24 24" width="16" height="16" style="margin-right: 8px; vertical-align: middle;">
+  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" fill="#E65100"/>
+</svg>
+  Modo auditor. No puedes agregar, editar o eliminar productos.
+                </div>
+            <?php endif; ?>
+
+            <?php if ($puedeEscribir): ?>
             <details class="registrar-producto-details">
                 <summary><h2>Registrar producto</h2></summary>
                 <form action="">
@@ -47,6 +65,7 @@
                     <button type="submit">Guardar</button>
                 </form>
             </details>
+            <?php endif; ?>
 
             <h2>Lista de productos</h2>
 
@@ -95,7 +114,8 @@
     <script src="../assets/scripts/actualizacion-tablas.js"></script>
 
     <script>
-        // datos de ejemplo
+        const puedeEscribir = <?= json_encode($puedeEscribir) ?>;
+
         const INVENTARIO_INICIAL = [
             { id: 1, nombre: 'Laptop', categoria: 'Electronica', descripcion: 'Gamer', proveedor: 'DDTech', stock: 15, precio: 10500 },
             { id: 2, nombre: 'Multimetro', categoria: 'Electronica', descripcion: 'Escolar', proveedor: 'Telmedia', stock: 23, precio: 299 },
@@ -111,6 +131,16 @@
         ];
 
         function renderFilaInventario(registro) {
+            let acciones = '';
+            if (puedeEscribir) {
+                acciones = `
+                    <button>Editar</button>
+                    <button>Eliminar</button>
+                    <button class="btn-salida">Salida</button>
+                `;
+            } else {
+                acciones = `<span style="color:#999; font-size:0.9rem;">—</span>`;
+            }
             return `
                 <tr data-id="${registro.id}">
                     <td data-label="ID">${registro.id}</td>
@@ -120,15 +150,10 @@
                     <td data-label="Proveedor">${textoSeguro(registro.proveedor)}</td>
                     <td data-label="Stock">${registro.stock}</td>
                     <td data-label="Precio">${formatoDinero(registro.precio)}</td>
-                    <td data-label="Acciones" class="acciones">
-                        <button>Editar</button>
-                        <button>Eliminar</button>
-                        <button class="btn-salida">Salida</button>
-                    </td>
+                    <td data-label="Acciones" class="acciones">${acciones}</td>
                 </tr>`;
         }
 
-        // llena el select de proveedores desde la coleccion
         function poblarSelectProveedores() {
             if (obtenerColeccion(COLECCIONES.PROVEEDORES).length === 0) {
                 guardarColeccion(COLECCIONES.PROVEEDORES, PROVEEDORES_INICIALES);
@@ -155,7 +180,7 @@
     </script>
   
     <script>
-        fetch('navbar.php')
+        fetch('../app/navbar.php')
         .then(response => response.text())
         .then( data => {
             document.getElementById('navbar-container').innerHTML = data;
@@ -172,52 +197,53 @@
     </script>
 
     <script>
-        const salidaDialog = document.getElementById('salida-dialog');
-        const salidaProducto = document.getElementById('salida-producto');
-        const salidaStockActual = document.getElementById('salida-stock-actual');
-        const salidaCantidad = document.getElementById('salida-cantidad');
-        const salidaResultado = document.getElementById('salida-resultado');
-        let filaActual = null;
+        if (puedeEscribir) {
+            const salidaDialog = document.getElementById('salida-dialog');
+            const salidaProducto = document.getElementById('salida-producto');
+            const salidaStockActual = document.getElementById('salida-stock-actual');
+            const salidaCantidad = document.getElementById('salida-cantidad');
+            const salidaResultado = document.getElementById('salida-resultado');
+            let filaActual = null;
 
-        //eventos segun la tabla
-        document.querySelector('main table').addEventListener('click', evento => {
-            const boton = evento.target.closest('.btn-salida');
-            if (!boton) return;
+            document.querySelector('main table').addEventListener('click', evento => {
+                const boton = evento.target.closest('.btn-salida');
+                if (!boton) return;
 
-            filaActual = boton.closest('tr');
-            const celdas = filaActual.querySelectorAll('td');
-            salidaProducto.textContent = celdas[1].textContent.trim();
-            salidaStockActual.textContent = celdas[5].textContent.trim();
-            salidaCantidad.value = '';
-            salidaCantidad.max = celdas[5].textContent.trim();
-            salidaResultado.textContent = '';
-            salidaResultado.classList.remove('error');
-            salidaDialog.showModal();
-        });
+                filaActual = boton.closest('tr');
+                const celdas = filaActual.querySelectorAll('td');
+                salidaProducto.textContent = celdas[1].textContent.trim();
+                salidaStockActual.textContent = celdas[5].textContent.trim();
+                salidaCantidad.value = '';
+                salidaCantidad.max = celdas[5].textContent.trim();
+                salidaResultado.textContent = '';
+                salidaResultado.classList.remove('error');
+                salidaDialog.showModal();
+            });
 
-        document.getElementById('salida-confirmar').addEventListener('click', () => {
-            const cantidad = parseInt(salidaCantidad.value, 10);
-            const stock = parseInt(salidaStockActual.textContent, 10);
+            document.getElementById('salida-confirmar').addEventListener('click', () => {
+                const cantidad = parseInt(salidaCantidad.value, 10);
+                const stock = parseInt(salidaStockActual.textContent, 10);
 
-            if (!cantidad || cantidad <= 0){
-                salidaResultado.textContent = 'Ingresa una cantidad válida.';
-                salidaResultado.classList.add('error');
-                return;
-            }
+                if (!cantidad || cantidad <= 0){
+                    salidaResultado.textContent = 'Ingresa una cantidad válida.';
+                    salidaResultado.classList.add('error');
+                    return;
+                }
 
-            if (cantidad > stock){
-                salidaResultado.textContent = `No hay suficiente stock (disponible: ${stock}).`;
-                salidaResultado.classList.add('error');
-                return;
-            }
+                if (cantidad > stock){
+                    salidaResultado.textContent = `No hay suficiente stock (disponible: ${stock}).`;
+                    salidaResultado.classList.add('error');
+                    return;
+                }
 
-            salidaResultado.classList.remove('error');
-            salidaResultado.textContent = `Salida registrada: ${cantidad} unidad(es) de ${salidaProducto.textContent}.`;
-        });
+                salidaResultado.classList.remove('error');
+                salidaResultado.textContent = `Salida registrada: ${cantidad} unidad(es) de ${salidaProducto.textContent}.`;
+            });
 
-        document.getElementById('salida-cancelar').addEventListener('click', () => {
-            salidaDialog.close();
-        });
+            document.getElementById('salida-cancelar').addEventListener('click', () => {
+                salidaDialog.close();
+            });
+        }
     </script>
 
 </body>

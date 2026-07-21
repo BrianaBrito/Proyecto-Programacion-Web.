@@ -1,0 +1,171 @@
+ .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .card-inicio {
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .encabezado-dashboard {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .encabezado-dashboard .titulo-inicio {
+            font-size: 1.8rem;
+            margin: 0;
+            color: #1e3a8a;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 0.95rem;
+            color: #334155;
+        }
+        .user-info .user-role {
+            background: #e2e8f0;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 0.8rem;
+        }
+        .btn-logout {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: 1px solid #fecaca;
+        }
+        .btn-logout:hover {
+            background: #fecaca;
+            transform: scale(1.02);
+            box-shadow: 0 2px 8px rgba(153, 27, 27, 0.15);
+        }
+        .btn-logout svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .admin-panel {
+            margin-top: 30px;
+            border-top: 2px solid #e9edf4;
+            padding-top: 20px;
+        }
+        .admin-panel summary {
+            cursor: pointer;
+            font-weight: 600;
+            color: #1e3a8a;
+            padding: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1rem;
+            outline: none;
+        }
+        .admin-panel summary:hover {
+            color: #1e40af;
+        }
+        .admin-panel summary::-webkit-details-marker {
+            color: #1e3a8a;
+        }
+        .admin-panel .panel-content {
+            background: #f8faff;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #e9edf4;
+            margin-top: 10px;
+        }
+        .admin-panel .form-inline {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .admin-panel .form-inline input,
+        .admin-panel .form-inline select {
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            flex: 1 0 150px;
+        }
+        .admin-panel .form-inline button {
+            background: #1e3a8a;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 20px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        .admin-panel .form-inline button:hover {
+            background: #1e40af;
+        }
+        .admin-panel .mensaje {
+            background: #dbeafe;
+            padding: 10px 16px;
+            border-radius: 8px;
+            margin: 10px 0;
+            color: #1e3a8a;
+        }
+        .admin-panel table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        .admin-panel th, .admin-panel td {
+            padding: 8px 10px;
+            border-bottom: 1px solid #e2e8f0;
+            text-align: left;
+        }
+        .admin-panel th {
+            background: #f1f5f9;
+            font-weight: 600;
+        }
+        .badge {
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .badge-activo { background: #dcfce7; color: #166534; }
+        .badge-bloqueado { background: #fee2e2; color: #991b1b; }
+        .admin-panel .btn-estado {
+            background: none;
+            border: none;
+            color: #1e3a8a;
+            cursor: pointer;
+            text-decoration: underline;
+            font-size: 0.8rem;
+        }
+        .admin-panel .btn-estado:hover {
+            color: #1e40af;
+        }
+
+        @media (max-width: 600px) {
+            .encabezado-dashboard {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+            .user-info {
+                flex-wrap: wrap;
+                justify-content: flex-start;
+            }
+        }
