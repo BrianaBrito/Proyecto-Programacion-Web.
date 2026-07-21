@@ -47,13 +47,13 @@
     </main>
 
     <script>
-        fetch('navbar.html')
+        fetch('navbar.php')
         .then(response => response.text())
         .then( data => {
             document.getElementById('navbar-container').innerHTML = data;
             const links = document.querySelectorAll('nav ul li a');
             links.forEach(link => {
-                if(link.textContent.trim() === 'parametros.html') {
+                if(link.textContent.trim() === 'parametros.php') {
                     link.classList.add('active-link');
                 }
             });

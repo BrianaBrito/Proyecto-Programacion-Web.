@@ -155,7 +155,7 @@
     </script>
   
     <script>
-        fetch('navbar.html')
+        fetch('navbar.php')
         .then(response => response.text())
         .then( data => {
             document.getElementById('navbar-container').innerHTML = data;

@@ -5,13 +5,13 @@
 <nav>
     <h2>ADVITIUM</h2>
     <ul>
-        <li><a href="inicio.html">Inicio</a></li>
-        <li><a href="inventario.html">Inventario</a></li>
-        <li><a href="categorias.html">Categorias</a></li>
-        <li><a href="proveedores.html">Proveedores</a></li>
-        <li><a href="clientes.html">Clientes</a></li>
-        <li><a href="movimientos.html">Movimientos</a></li>
-        <li><a href="reportes.html">Reportes</a></li>
+        <li><a href="inicio.php">Inicio</a></li>
+        <li><a href="inventario.php">Inventario</a></li>
+        <li><a href="categorias.php">Categorias</a></li>
+        <li><a href="proveedores.php">Proveedores</a></li>
+        <li><a href="clientes.php">Clientes</a></li>
+        <li><a href="movimientos.php">Movimientos</a></li>
+        <li><a href="reportes.php">Reportes</a></li>
 
         <li class="menu-item">
             <a href="#">Configuración
@@ -23,7 +23,7 @@
             </a>        
             <ul class="opciones-menu-config">
                 <li class="menu-inside">
-                    <a href="parametros.html" class="menu-link menu-link--inside">Parámetros de la Empresa</a>
+                    <a href="parametros.php" class="menu-link menu-link--inside">Parámetros de la Empresa</a>
                 </li>
                 <li class="menu-inside">
                     <a href="#" class="menu-link menu-link--inside">Perfiles de usuario</a>
