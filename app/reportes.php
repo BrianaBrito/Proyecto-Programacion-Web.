@@ -1,3 +1,8 @@
+<?php
+require_once __DIR__ . '/../assets/php/roles.php';
+verificarAutenticacion();
+verificarAcceso('reportes.php');
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,6 +11,8 @@
     <link rel="shortcut icon" href="../assets/img/icons/reportesicono.png" type="image/x-icon">
     <title>Reportes | Panel de PyMEs</title>
         <link rel="stylesheet" href="../assets/css/reportes.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.4/jspdf.plugin.autotable.min.js"></script>
 </head>
 <body>
     
@@ -55,7 +62,7 @@
                     <h3>Clientes</h3>
                 </div>
 
-                <div class="entidad-card" onclick="seleccionarEntidad('Órdenes', this)">
+                <div class="entidad-card" onclick="seleccionarEntidad('Movimientos', this)">
                     <div class="entidad-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
@@ -101,9 +108,21 @@
             })
             .catch(error => console.error("Error al cargar el navbar:", error));
 
-        // logica de selección y vista previa
-        function seleccionarEntidad(nombreEntidad, elemento) {
-            
+        // Claves usadas por el endpoint del servidor (assets/php/reportes_datos.php)
+        const ENTIDADES = {
+            'Productos': 'productos',
+            'Categorías': 'categorias',
+            'Proveedores': 'proveedores',
+            'Clientes': 'clientes',
+            'Movimientos': 'movimientos',
+        };
+
+        // Reporte consultado más recientemente, usado por exportarPDF()
+        let reporteActual = null;
+
+        // logica de selección y vista previa: los datos se piden al servidor, que consulta la DB real
+        async function seleccionarEntidad(nombreEntidad, elemento) {
+
             // quitamos la clase activa de todas las tarjetas
             const tarjetas = document.querySelectorAll('.entidad-card');
             tarjetas.forEach(t => t.classList.remove('activa'));
@@ -111,17 +130,43 @@
             // agregamos clase activa a la seleccionada
             elemento.classList.add('activa');
 
-            // activamos el botón de exportar
             const btnExportar = document.getElementById('btnExportar');
-            btnExportar.disabled = false;
-            btnExportar.classList.remove('disabled');
+            btnExportar.disabled = true;
+            btnExportar.classList.add('disabled');
 
-            // mostramos contenido de vista previa simulado
             const contenedorVista = document.getElementById('vistaPreviaContenido');
-            
-            // generamos la tabla dependiendo de la entidad
+            contenedorVista.innerHTML = '<p class="placeholder-text">Cargando datos...</p>';
+
+            const clave = ENTIDADES[nombreEntidad];
+            try {
+                const respuesta = await fetch(`../assets/php/reportes_datos.php?entidad=${clave}`);
+                const datos = await respuesta.json();
+
+                if (!respuesta.ok) {
+                    contenedorVista.innerHTML = `<p class="placeholder-text">${datos.error || 'No se pudo cargar el reporte.'}</p>`;
+                    return;
+                }
+
+                reporteActual = { entidad: nombreEntidad, columnas: datos.columnas, filas: datos.filas };
+                renderizarVistaPrevia(nombreEntidad, datos.columnas, datos.filas);
+
+                btnExportar.disabled = false;
+                btnExportar.classList.remove('disabled');
+            } catch (error) {
+                console.error('Error al obtener el reporte:', error);
+                contenedorVista.innerHTML = '<p class="placeholder-text">Error de conexión al generar el reporte.</p>';
+            }
+        }
+
+        function renderizarVistaPrevia(nombreEntidad, columnas, filas) {
+            const contenedorVista = document.getElementById('vistaPreviaContenido');
             const fechaHoy = new Date().toLocaleDateString('es-ES');
-            
+
+            const encabezados = columnas.map(columna => `<th>${columna}</th>`).join('');
+            const cuerpo = filas.length
+                ? filas.map(fila => `<tr>${Object.values(fila).map(valor => `<td>${valor ?? ''}</td>`).join('')}</tr>`).join('')
+                : `<tr><td colspan="${columnas.length}">No hay registros para mostrar.</td></tr>`;
+
             contenedorVista.innerHTML = `
                 <div class="reporte-generado animate-fade-in">
                     <div class="reporte-info">
@@ -130,39 +175,37 @@
                     </div>
                     <div class="table-responsive">
                         <table class="tabla-resumen">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Descripción / Nombre</th>
-                                    <th>Estado</th>
-                                    <th>Detalles</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>#1001</td>
-                                    <td>Ejemplo de ${nombreEntidad.toLowerCase()} 1</td>
-                                    <td><span class="badge badge-success">Activo</span></td>
-                                    <td>Visualizar detalle</td>
-                                </tr>
-                                <tr>
-                                    <td>#1002</td>
-                                    <td>Ejemplo de ${nombreEntidad.toLowerCase()} 2</td>
-                                    <td><span class="badge badge-warning">Pendiente</span></td>
-                                    <td>Visualizar detalle</td>
-                                </tr>
-                                <tr>
-                                    <td>#1003</td>
-                                    <td>Ejemplo de ${nombreEntidad.toLowerCase()} 3</td>
-                                    <td><span class="badge badge-success">Activo</span></td>
-                                    <td>Visualizar detalle</td>
-                                </tr>
-                            </tbody>
+                            <thead><tr>${encabezados}</tr></thead>
+                            <tbody>${cuerpo}</tbody>
                         </table>
                     </div>
                 </div>
             `;
         }
+
+        // Exportación en el cliente con jsPDF: usa los mismos datos ya traidos del servidor
+        function exportarPDF() {
+            if (!reporteActual || !reporteActual.filas.length) return;
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const fechaHoy = new Date().toLocaleDateString('es-ES');
+
+            doc.setFontSize(14);
+            doc.text(`Reporte de ${reporteActual.entidad}`, 14, 15);
+            doc.setFontSize(10);
+            doc.text(`Generado el: ${fechaHoy}`, 14, 21);
+
+            doc.autoTable({
+                startY: 26,
+                head: [reporteActual.columnas],
+                body: reporteActual.filas.map(fila => Object.values(fila).map(valor => valor ?? '')),
+            });
+
+            doc.save(`reporte-${reporteActual.entidad.toLowerCase()}-${Date.now()}.pdf`);
+        }
+
+        document.getElementById('btnExportar').addEventListener('click', exportarPDF);
     </script>
 </body>
 </html>
