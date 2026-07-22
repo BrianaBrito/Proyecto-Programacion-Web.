@@ -2,7 +2,7 @@
 session_start();
 
 define('DB_HOST', 'localhost');
-define('DB_NAME', 'advitium_database');//se va a cambira pq es la base de datos de prueba, la final es advitium_database
+define('DB_NAME', 'advitium_db'); // coincide con database/advitium_db.sql
 define('DB_USER', 'root');
 define('DB_PASS', 'root');
 
@@ -29,7 +29,10 @@ try {
 //consulta de usuario por correo electrónico
 //para evitar inyecciones SQL, se utiliza una consulta preparada
 function obtenerUsuarioPorEmail($pdo, $email) {
-    $stmt = $pdo->prepare('SELECT id, nombre, contrasena_hash, rol, activo FROM usuarios WHERE email = ?');
+    $stmt = $pdo->prepare(
+        'SELECT id_u AS id, nombre_u AS nombre, contrasena_hash, rol_u AS rol, estado_u AS activo
+         FROM usuarios WHERE email_u = ?'
+    );
     $stmt->execute([$email]);
     return $stmt->fetch();
 }
@@ -49,24 +52,26 @@ function registrarUsuario($pdo, $nombre, $apellido, $email, $password, $rol) {
     if (!in_array($rol, ROLES_VALIDOS, true)) $errores[] = 'Rol inválido.';
     
     if (empty($errores)) {
-        $stmt = $pdo->prepare('SELECT id FROM usuarios WHERE email = ?');
+        $stmt = $pdo->prepare('SELECT id_u FROM usuarios WHERE email_u = ?');
         $stmt->execute([$email]);
         if ($stmt->fetch()) $errores[] = 'Ese correo ya está registrado.';
     }
-    
+
     if (!empty($errores)) return ['error' => implode(' ', $errores)];
-    
+
     $hash = password_hash($password, PASSWORD_DEFAULT);
+    // la tabla usuarios no tiene columna "apellido" propia, se guarda como nombre completo
+    $nombreCompleto = trim($nombre . ' ' . $apellido);
     $stmt = $pdo->prepare(
-        'INSERT INTO usuarios (nombre, apellido, email, contrasena_hash, rol, activo)
+        'INSERT INTO usuarios (nombre_u, contacto_u, email_u, contrasena_hash, rol_u, estado_u)
          VALUES (?, ?, ?, ?, ?, 1)'
     );
-    $stmt->execute([$nombre, $apellido, $email, $hash, $rol]);
+    $stmt->execute([$nombreCompleto, '', $email, $hash, $rol]);
     return ['success' => 'Usuario registrado correctamente.'];
 }
 
 function cambiarEstadoUsuario($pdo, $id, $activo) {
-    $stmt = $pdo->prepare('UPDATE usuarios SET activo = ? WHERE id = ?');
+    $stmt = $pdo->prepare('UPDATE usuarios SET estado_u = ? WHERE id_u = ?');
     $stmt->execute([$activo ? 1 : 0, $id]);
     return $activo ? 'Usuario desbloqueado.' : 'Usuario bloqueado.';
 }
@@ -128,7 +133,10 @@ if ($esAdmin && $_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $listaUsuarios = [];
 if ($esAdmin) {
-    $listaUsuarios = $pdo->query('SELECT id, nombre, apellido, email, rol, activo FROM usuarios ORDER BY id')->fetchAll();
+    $listaUsuarios = $pdo->query(
+        'SELECT id_u AS id, nombre_u AS nombre, email_u AS email, rol_u AS rol, estado_u AS activo
+         FROM usuarios ORDER BY id_u'
+    )->fetchAll();
 }
 ?>
 <?php
@@ -453,7 +461,7 @@ if ($esAdmin) {
                                 <tbody>
                                 <?php foreach ($listaUsuarios as $u): ?>
                                     <tr>
-                                        <td><?= htmlspecialchars($u['nombre'] . ' ' . $u['apellido']) ?></td>
+                                        <td><?= htmlspecialchars($u['nombre']) ?></td>
                                         <td><?= htmlspecialchars($u['email']) ?></td>
                                         <td><?= htmlspecialchars($u['rol']) ?></td>
                                         <td><span class="badge <?= $u['activo'] ? 'badge-activo' : 'badge-bloqueado' ?>"><?= $u['activo'] ? 'Activo' : 'Bloqueado' ?></span></td>
