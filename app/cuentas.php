@@ -1,3 +1,8 @@
+<?php
+require_once '../assets/php/roles.php';
+verificarAutenticacion();
+verificarAcceso(basename(__FILE__));
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -68,9 +73,8 @@
     <script src="../assets/scripts/navbar-menu.js"></script>
     <script src="../assets/scripts/tabla-ordenable.js"></script>
     <script src="../assets/scripts/busqueda.js"></script>
-    <script src="../assets/scripts/almacenamiento.js"></script>
+    <script src="../assets/scripts/api-crud.js"></script>
     <script src="../assets/scripts/validacion.js"></script>
-    <script src="../assets/scripts/actualizacion-tablas.js"></script>
 
     <script>
         document.getElementById('Por-cuenta').addEventListener('change', evento => {
@@ -79,19 +83,8 @@
             document.getElementById('tabla-clientes').classList.toggle('oculto', esProveedor);
         });
     </script>
-    
+
     <script>
-        const CUENTAS_PROVEEDORES_INICIALES = [
-            { id: 1, id_proveedor: 1, tipo: 'Cargo', monto: 1300, fecha: '2026-07-20', motivo: 'Compra de 100 utiles' },
-            { id: 2, id_proveedor: 2, tipo: 'Pago', monto: 1500, fecha: '2026-07-21', motivo: 'Pago de mercancia' }
-        ];
-
-        const CUENTAS_CLIENTES_INICIALES = [
-            { id: 1, id_cliente: 301, tipo: 'Cargo', monto: 1300, fecha: '2026-07-20', motivo: 'Compra de 100 utiles' },
-            { id: 2, id_cliente: 302, tipo: 'Pago', monto: 1500, fecha: '2026-07-21', motivo: 'Pago de mercancia' },
-            { id: 3, id_cliente: 303, tipo: 'Cargo', monto: 1700, fecha: '2026-07-22', motivo: 'Compra de 120 utiles' }
-        ];
-
         function renderFilaProveedor(registro) {
             const claseBadge = registro.tipo === 'Cargo' ? 'cargo' : 'pago';
             return `
@@ -118,19 +111,20 @@
                 </tr>`;
         }
 
-        inicializarRegistroTabla({
-            coleccion: COLECCIONES.MOVIMIENTOS_PROVEEDOR,
-            tablaSelector: '#tabla-proveedores table',
-            datosDefecto: CUENTAS_PROVEEDORES_INICIALES,
-            renderFila: renderFilaProveedor
-        });
+        async function cargarCuentas(tipo, tablaSelector, renderFila) {
+            const tbody = document.querySelector(`${tablaSelector} tbody`);
+            try {
+                const datos = await apiFetchJson(`../assets/php/cuentas_api.php?tipo=${tipo}`);
+                tbody.innerHTML = datos.length
+                    ? datos.map(renderFila).join('')
+                    : '<tr><td colspan="6">No hay movimientos registrados.</td></tr>';
+            } catch (error) {
+                tbody.innerHTML = `<tr><td colspan="6">Error al cargar datos: ${error.message}</td></tr>`;
+            }
+        }
 
-        inicializarRegistroTabla({
-            coleccion: COLECCIONES.MOVIMIENTOS_CLIENTE,
-            tablaSelector: '#tabla-clientes table',
-            datosDefecto: CUENTAS_CLIENTES_INICIALES,
-            renderFila: renderFilaCliente
-        });
+        cargarCuentas('proveedor', '#tabla-proveedores table', renderFilaProveedor);
+        cargarCuentas('cliente', '#tabla-clientes table', renderFilaCliente);
     </script>
 
     <script>

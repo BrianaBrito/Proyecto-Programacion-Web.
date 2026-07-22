@@ -1,3 +1,9 @@
+<?php
+require_once '../assets/php/roles.php';
+verificarAutenticacion();
+verificarAcceso(basename(__FILE__));
+$puedeEscribir = usuarioPuedeEscribir();
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -15,7 +21,14 @@
     <main class="main-container">
         <div class="card-panel">
             <h1 class="titulo-pagina">Categorias</h1>
-            
+
+            <?php if (!$puedeEscribir): ?>
+                <div style="background: #fef9c3; padding: 8px 16px; border-radius: 6px; margin-bottom: 15px; color: #854d0e;">
+                    Modo auditor. No puedes agregar, editar o eliminar categorías.
+                </div>
+            <?php endif; ?>
+
+            <?php if ($puedeEscribir): ?>
             <details class="registrar-producto-details">
                 <summary><h2>Registrar categoria</h2></summary>
                 <form action="">
@@ -30,6 +43,7 @@
                     <button type="submit">Guardar</button>
                 </form>
             </details>
+            <?php endif; ?>
 
             <h2>Lista de categorias</h2>
 
@@ -57,38 +71,29 @@
     <script src="../assets/scripts/navbar-menu.js"></script>
     <script src="../assets/scripts/tabla-ordenable.js"></script>
     <script src="../assets/scripts/busqueda.js"></script>
-    <script src="../assets/scripts/almacenamiento.js"></script>
+    <script src="../assets/scripts/api-crud.js"></script>
     <script src="../assets/scripts/validacion.js"></script>
-    <script src="../assets/scripts/actualizacion-tablas.js"></script>
 
     <script>
-        const CATEGORIAS_INICIALES = [
-            { id: 1, nombre: 'Electronica', descripcion: 'Componentes electronicos' },
-            { id: 2, nombre: 'Herramientas', descripcion: 'Herramientas manuales' },
-            { id: 3, nombre: 'Ropa', descripcion: 'Prendas de vestir' },
-            { id: 4, nombre: 'Alimentos', descripcion: 'Productos no perecederos' },
-            { id: 5, nombre: 'Papeleria', descripcion: 'Articulos de oficina y escolares' },
-            { id: 6, nombre: 'Juguetes', descripcion: 'Juguetes y articulos infantiles' }
-        ];
+        const puedeEscribir = <?= json_encode($puedeEscribir) ?>;
 
         function renderFilaCategoria(registro){
+            const acciones = puedeEscribir
+                ? `<button>Editar</button><button>Eliminar</button>`
+                : `<span style="color:#999; font-size:0.9rem;">—</span>`;
             return `
                 <tr data-id="${registro.id}">
                     <td>${registro.id}</td>
                     <td>${textoSeguro(registro.nombre)}</td>
                     <td>${textoSeguro(registro.descripcion)}</td>
-                    <td class="acciones">
-                        <button>Editar</button>
-                        <button>Eliminar</button>
-                    </td>
+                    <td class="acciones">${acciones}</td>
                 </tr>`;
         }
 
-        inicializarRegistroTabla({
-            coleccion: COLECCIONES.CATEGORIAS,
+        inicializarRegistroTablaApi({
+            endpoint: '../assets/php/categorias_api.php',
             formSelector: '.registrar-producto-details form',
             tablaSelector: 'main table',
-            datosDefecto: CATEGORIAS_INICIALES,
             renderFila: renderFilaCategoria
         });
     </script>

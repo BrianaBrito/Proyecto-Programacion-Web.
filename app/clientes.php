@@ -1,3 +1,9 @@
+<?php
+require_once '../assets/php/roles.php';
+verificarAutenticacion();
+verificarAcceso(basename(__FILE__));
+$puedeEscribir = usuarioPuedeGestionarFinanzas();
+?>
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -15,12 +21,24 @@
             <div class="card-panel">
                 <h1 class="titulo-pagina"> Clientes</h1>
 
+                <?php if (!$puedeEscribir): ?>
+                    <div style="background: #fef9c3; padding: 8px 16px; border-radius: 6px; margin-bottom: 15px; color: #854d0e;">
+                        Modo auditor. No puedes agregar, editar o eliminar clientes.
+                    </div>
+                <?php endif; ?>
+
+                <?php if ($puedeEscribir): ?>
                 <details class="registrar-cliente-details">
                     <summary><h2>Registrar clientes</h2></summary>
                     <form action="">
                         <div>
                             <label for="nombre">Nombre</label>
                             <input type="text" name="nombre" id="nombre" required pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{3,30}$" data-mensaje-error="Debe tener entre 3 y 30 caracteres, solo letras y espacios.">
+                        </div>
+
+                        <div>
+                            <label for="contacto">Contacto</label>
+                            <input type="text" name="contacto" id="contacto" required pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{3,30}$" data-mensaje-error="Debe tener entre 3 y 30 caracteres, solo letras y espacios.">
                         </div>
 
                         <div>
@@ -41,6 +59,7 @@
                         <button type="submit">Guardar</button>
                     </form>
                 </details>
+                <?php endif; ?>
 
                 <h2>Lista de clientes</h2>
 
@@ -55,6 +74,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Nombre</th>
+                            <th>Contacto</th>
                             <th>Teléfono</th>
                             <th>Email</th>
                             <th>Dirección</th>
@@ -75,44 +95,35 @@
         <script src="../assets/scripts/navbar-menu.js"></script>
         <script src="../assets/scripts/tabla-ordenable.js"></script>
         <script src="../assets/scripts/busqueda.js"></script>
-        <script src="../assets/scripts/almacenamiento.js"></script>
+        <script src="../assets/scripts/api-crud.js"></script>
         <script src="../assets/scripts/validacion.js"></script>
-        <script src="../assets/scripts/actualizacion-tablas.js"></script>
 
         <script>
-            const CLIENTES_INICIALES = [
-                { id: 301, nombre: 'Jeronimo Salas Mesa', telefono: '7341090504 HP', correo: 'jersal12@gmail.com', direccion: 'Calle Miguel Hidalgo #26, Col. El Barreal', estado: 'Activo', saldo: 15000 },
-                { id: 302, nombre: 'Rosa Esquivel Alvarez', telefono: '7341417342 HP', correo: 'rosel@gmail.com', direccion: 'Calle Porfirio Díaz #3, Col. Centro', estado: 'Inactivo', saldo: 10050 },
-                { id: 303, nombre: 'Carlos Mendoza Ruiz', telefono: '7331122334', correo: 'carlos.mendoza@gmail.com', direccion: 'Av. Revolución #145, Col. Obrera', estado: 'Activo', saldo: 8200 },
-                { id: 304, nombre: 'Fernanda Castillo Ortiz', telefono: '7339988776', correo: 'fer.castillo@hotmail.com', direccion: 'Calle 5 de Mayo #78, Col. Centro', estado: 'Activo', saldo: 22300 },
-                { id: 305, nombre: 'Luis Ángel Torres', telefono: '7345566778', correo: 'luis.torres@yahoo.com', direccion: 'Blvd. Independencia #200, Col. Reforma', estado: 'Inactivo', saldo: 0 },
-                { id: 306, nombre: 'Paola Guzman Reyes', telefono: '7347788990', correo: 'paola.guzman@gmail.com', direccion: 'Calle Morelos #33, Col. San Isidro', estado: 'Activo', saldo: 5750 }
-            ];
+            const puedeEscribir = <?= json_encode($puedeEscribir) ?>;
 
             function renderFilaCliente(registro){
                 const claseBadge = registro.estado === 'Activo' ? 'activo' : 'inactivo';
+                const acciones = puedeEscribir
+                    ? `<button>Editar</button><button>Eliminar</button>`
+                    : `<span style="color:#999; font-size:0.9rem;">—</span>`;
                 return `
                     <tr data-id="${registro.id}">
                         <td>${registro.id}</td>
                         <td>${textoSeguro(registro.nombre)}</td>
+                        <td>${textoSeguro(registro.contacto)}</td>
                         <td>${textoSeguro(registro.telefono)}</td>
                         <td>${textoSeguro(registro.correo)}</td>
                         <td>${textoSeguro(registro.direccion)}</td>
                         <td><span class="badge ${claseBadge}">${registro.estado}</span></td>
                         <td>${formatoDinero(registro.saldo)}</td>
-                        <td class="acciones">
-                            <button>Editar</button>
-                            <button>Eliminar</button>
-                        </td>
+                        <td class="acciones">${acciones}</td>
                     </tr>`;
             }
 
-            inicializarRegistroTabla({
-                coleccion: COLECCIONES.CLIENTES,
+            inicializarRegistroTablaApi({
+                endpoint: '../assets/php/clientes_api.php',
                 formSelector: '.registrar-cliente-details form',
                 tablaSelector: '.tabla-clientes table',
-                datosDefecto: CLIENTES_INICIALES,
-                valoresNuevos: { estado: 'Activo' },
                 renderFila: renderFilaCliente
             });
         </script>

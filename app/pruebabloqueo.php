@@ -1,27 +1,13 @@
 <?php
 session_start();
 
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'advitium_db'); // coincide con database/advitium_db.sql
-define('DB_USER', 'root');
-define('DB_PASS', 'root');
+require_once __DIR__ . '/../assets/php/db.php';
 
 const ROLES_VALIDOS = ['Administrador', 'Almacenista', 'Auditor'];
 
-
 // Conexión a la base de datos y manejo de errores
 try {
-    $pdo = new PDO(
-        "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4",
-        DB_USER,
-        DB_PASS,
-        [
-            // configuración de PDO para errores 
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            PDO::ATTR_EMULATE_PREPARES => false,
-        ]
-    );
+    $pdo = obtenerConexionBD();
 } catch (PDOException $e) {
     die('Error de conexión a la base de datos.');
 }

@@ -1,3 +1,8 @@
+<?php
+require_once __DIR__ . '/../assets/php/roles.php';
+verificarAutenticacion();
+verificarAcceso(basename(__FILE__));
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
