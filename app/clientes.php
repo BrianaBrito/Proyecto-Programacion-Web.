@@ -55,6 +55,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Nombre</th>
+                            <th>Contacto</th>
                             <th>Teléfono</th>
                             <th>Email</th>
                             <th>Dirección</th>
@@ -81,12 +82,12 @@
 
         <script>
             const CLIENTES_INICIALES = [
-                { id: 301, nombre: 'Jeronimo Salas Mesa', telefono: '7341090504 HP', correo: 'jersal12@gmail.com', direccion: 'Calle Miguel Hidalgo #26, Col. El Barreal', estado: 'Activo', saldo: 15000 },
-                { id: 302, nombre: 'Rosa Esquivel Alvarez', telefono: '7341417342 HP', correo: 'rosel@gmail.com', direccion: 'Calle Porfirio Díaz #3, Col. Centro', estado: 'Inactivo', saldo: 10050 },
-                { id: 303, nombre: 'Carlos Mendoza Ruiz', telefono: '7331122334', correo: 'carlos.mendoza@gmail.com', direccion: 'Av. Revolución #145, Col. Obrera', estado: 'Activo', saldo: 8200 },
-                { id: 304, nombre: 'Fernanda Castillo Ortiz', telefono: '7339988776', correo: 'fer.castillo@hotmail.com', direccion: 'Calle 5 de Mayo #78, Col. Centro', estado: 'Activo', saldo: 22300 },
-                { id: 305, nombre: 'Luis Ángel Torres', telefono: '7345566778', correo: 'luis.torres@yahoo.com', direccion: 'Blvd. Independencia #200, Col. Reforma', estado: 'Inactivo', saldo: 0 },
-                { id: 306, nombre: 'Paola Guzman Reyes', telefono: '7347788990', correo: 'paola.guzman@gmail.com', direccion: 'Calle Morelos #33, Col. San Isidro', estado: 'Activo', saldo: 5750 }
+                { id: 301, nombre: 'Jeronimo Salas Mesa', contacto: 'Jeronimo Centro', telefono: '7341090504 HP', correo: 'jersal12@gmail.com', direccion: 'Calle Miguel Hidalgo #26, Col. El Barreal', estado: 'Activo', saldo: 15000 },
+                { id: 302, nombre: 'Rosa Esquivel Alvarez', contacto: 'Rosa Alv' ,telefono: '7341417342 HP', correo: 'rosel@gmail.com', direccion: 'Calle Porfirio Díaz #3, Col. Centro', estado: 'Inactivo', saldo: 10050 },
+                { id: 303, nombre: 'Carlos Mendoza Ruiz', contacto: 'Carlos Ruiz',telefono: '7331122334', correo: 'carlos.mendoza@gmail.com', direccion: 'Av. Revolución #145, Col. Obrera', estado: 'Activo', saldo: 8200 },
+                { id: 304, nombre: 'Fernanda Castillo Ortiz', contacto: 'Fernanda Cast',telefono: '7339988776', correo: 'fer.castillo@hotmail.com', direccion: 'Calle 5 de Mayo #78, Col. Centro', estado: 'Activo', saldo: 22300 },
+                { id: 305, nombre: 'Luis Ángel Torres', contacto: 'Ángel T.',telefono: '7345566778', correo: 'luis.torres@yahoo.com', direccion: 'Blvd. Independencia #200, Col. Reforma', estado: 'Inactivo', saldo: 0 },
+                { id: 306, nombre: 'Paola Guzman Reyes', contacto: 'Paolita Reyes',telefono: '7347788990', correo: 'paola.guzman@gmail.com', direccion: 'Calle Morelos #33, Col. San Isidro', estado: 'Activo', saldo: 5750 }
             ];
 
             function renderFilaCliente(registro){
@@ -95,6 +96,7 @@
                     <tr data-id="${registro.id}">
                         <td>${registro.id}</td>
                         <td>${textoSeguro(registro.nombre)}</td>
+                        <td>${textoSeguro(registro.contacto)}</td>
                         <td>${textoSeguro(registro.telefono)}</td>
                         <td>${textoSeguro(registro.correo)}</td>
                         <td>${textoSeguro(registro.direccion)}</td>
