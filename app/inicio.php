@@ -79,19 +79,19 @@
             <div class="seccion-dashboard">
                 <h2 class="titulo-seccion">Acciones Rápidas</h2>
                 <div class="quick-actions">
-                    <a href="inventario.html" class="action-btn primary">
+                    <a href="inventario.php" class="action-btn primary">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                         </svg>
                         Nuevo Producto
                     </a>
-                    <a href="proveedores.html" class="action-btn">
+                    <a href="proveedores.php" class="action-btn">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.66-1.332c-.1.034-.201.066-.303.096A24.067 24.067 0 014 19.235z" />
                         </svg>
                         Añadir Proveedor
                     </a>
-                    <a href="movimientos.html" class="action-btn">
+                    <a href="movimientos.php" class="action-btn">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
                         </svg>
