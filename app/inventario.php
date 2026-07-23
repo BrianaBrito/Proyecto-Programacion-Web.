@@ -42,7 +42,9 @@ $puedeEscribir = usuarioPuedeEscribir();
                     </div>
                     <div>
                         <label for="categoria">Categoria: </label>
-                        <input type="text" name="categoria" id="categoria" required pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{3,30}$" data-mensaje-error="Debe tener entre 3 y 30 caracteres, solo letras y espacios.">
+                        <select name="categoria" id="categoria" required>
+
+                        </select>
                     </div>
                     <div>
                         <label for="descripcion">Descripcion: </label>
@@ -109,26 +111,11 @@ $puedeEscribir = usuarioPuedeEscribir();
     <script src="../assets/scripts/navbar-menu.js"></script>
     <script src="../assets/scripts/tabla-ordenable.js"></script>
     <script src="../assets/scripts/busqueda.js"></script>
-    <script src="../assets/scripts/almacenamiento.js"></script>
+    <script src="../assets/scripts/api-crud.js"></script>
     <script src="../assets/scripts/validacion.js"></script>
-    <script src="../assets/scripts/actualizacion-tablas.js"></script>
 
     <script>
         const puedeEscribir = <?= json_encode($puedeEscribir) ?>;
-
-        const INVENTARIO_INICIAL = [
-            { id: 1, nombre: 'Laptop', categoria: 'Electronica', descripcion: 'Gamer', proveedor: 'DDTech', stock: 15, precio: 10500 },
-            { id: 2, nombre: 'Multimetro', categoria: 'Electronica', descripcion: 'Escolar', proveedor: 'Telmedia', stock: 23, precio: 299 },
-            { id: 3, nombre: 'Playera Basica', categoria: 'Ropa', descripcion: 'Algodon talla M', proveedor: 'Textiles Monarca', stock: 80, precio: 120 },
-            { id: 4, nombre: 'Arroz 1kg', categoria: 'Alimentos', descripcion: 'No perecedero', proveedor: 'Distribuidora Alimenticia del Norte', stock: 150, precio: 28 },
-            { id: 5, nombre: 'Cuaderno Profesional', categoria: 'Papeleria', descripcion: '100 hojas, cuadricula', proveedor: 'Papelera del Centro', stock: 200, precio: 35 },
-            { id: 6, nombre: 'Muñeca Articulada', categoria: 'Juguetes', descripcion: 'Edad recomendada 5+', proveedor: 'Juguetera Estrella', stock: 40, precio: 199 }
-        ];
-
-        const PROVEEDORES_INICIALES = [
-            { id: 1, nombre: 'DDTech', contacto: 'Juan Perez', telefono: '3334445555', email: 'ventas@ddtech.com', direccion: 'Zapopan, Jalisco', saldo: 0 },
-            { id: 2, nombre: 'Telmedia', contacto: 'Maria Lopez', telefono: '5556667777', email: 'contacto@telmedia.com', direccion: 'CDMX', saldo: 150 }
-        ];
 
         function renderFilaInventario(registro) {
             let acciones = '';
@@ -154,27 +141,26 @@ $puedeEscribir = usuarioPuedeEscribir();
                 </tr>`;
         }
 
-        function poblarSelectProveedores() {
-            if (obtenerColeccion(COLECCIONES.PROVEEDORES).length === 0) {
-                guardarColeccion(COLECCIONES.PROVEEDORES, PROVEEDORES_INICIALES);
+        async function poblarSelect(id, endpoint, campoNombre, textoVacio) {
+            const select = document.getElementById(id);
+            try {
+                const datos = await apiFetchJson(endpoint);
+                const opciones = datos
+                    .map(item => `<option value="${textoSeguro(item[campoNombre])}">${textoSeguro(item[campoNombre])}</option>`)
+                    .join('');
+                select.innerHTML = `<option value="" disabled selected hidden>${textoVacio}</option>${opciones}`;
+            } catch (error) {
+                console.error(`Error al cargar ${id}:`, error);
             }
-
-            const select = document.getElementById('proveedor');
-            const proveedores = obtenerColeccion(COLECCIONES.PROVEEDORES);
-            const opcionesProveedores = proveedores
-                .map(proveedor => `<option value="${textoSeguro(proveedor.nombre)}">${textoSeguro(proveedor.nombre)}</option>`)
-                .join('');
-
-            select.innerHTML = `<option value="" disabled selected hidden>Selecciona un proveedor</option>${opcionesProveedores}`;
         }
 
-        poblarSelectProveedores();
+        poblarSelect('categoria', '../assets/php/categorias_api.php', 'nombre', 'Selecciona una categoría');
+        poblarSelect('proveedor', '../assets/php/proveedores_api.php', 'nombre', 'Selecciona un proveedor');
 
-        inicializarRegistroTabla({
-            coleccion: COLECCIONES.INVENTARIO,
+        const tablaInventario = inicializarRegistroTablaApi({
+            endpoint: '../assets/php/productos_api.php',
             formSelector: '.registrar-producto-details form',
             tablaSelector: 'main table',
-            datosDefecto: INVENTARIO_INICIAL,
             renderFila: renderFilaInventario
         });
     </script>
@@ -220,7 +206,7 @@ $puedeEscribir = usuarioPuedeEscribir();
                 salidaDialog.showModal();
             });
 
-            document.getElementById('salida-confirmar').addEventListener('click', () => {
+            document.getElementById('salida-confirmar').addEventListener('click', async () => {
                 const cantidad = parseInt(salidaCantidad.value, 10);
                 const stock = parseInt(salidaStockActual.textContent, 10);
 
@@ -236,8 +222,18 @@ $puedeEscribir = usuarioPuedeEscribir();
                     return;
                 }
 
-                salidaResultado.classList.remove('error');
-                salidaResultado.textContent = `Salida registrada: ${cantidad} unidad(es) de ${salidaProducto.textContent}.`;
+                try {
+                    await apiFetchJson('../assets/php/productos_api.php', {
+                        method: 'POST',
+                        body: new URLSearchParams({ accion: 'salida', id: filaActual.dataset.id, cantidad })
+                    });
+                    salidaResultado.classList.remove('error');
+                    salidaResultado.textContent = `Salida registrada: ${cantidad} unidad(es) de ${salidaProducto.textContent}.`;
+                    await tablaInventario.cargarDatos();
+                } catch (error) {
+                    salidaResultado.textContent = error.message;
+                    salidaResultado.classList.add('error');
+                }
             });
 
             document.getElementById('salida-cancelar').addEventListener('click', () => {

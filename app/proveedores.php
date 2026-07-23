@@ -1,3 +1,9 @@
+<?php
+require_once '../assets/php/roles.php';
+verificarAutenticacion();
+verificarAcceso(basename(__FILE__));
+$puedeEscribir = usuarioPuedeEscribir();
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -15,12 +21,19 @@
     <main class="main-container">
         <div class="card-panel">
             <h1 class="titulo-pagina">Proveedores</h1>
-            
+
+            <?php if (!$puedeEscribir): ?>
+                <div style="background: #fef9c3; padding: 8px 16px; border-radius: 6px; margin-bottom: 15px; color: #854d0e;">
+                    Modo auditor. No puedes agregar, editar o eliminar proveedores.
+                </div>
+            <?php endif; ?>
+
+            <?php if ($puedeEscribir): ?>
             <details class="registrar-producto-details">
                 <summary><h2>Registrar proveedor</h2></summary>
                 <form action="">
                     <div>
-                        <label for="nombre">Nombre: </label>    
+                        <label for="nombre">Nombre: </label>
                         <input type="text" name="nombre" id="nombre" required pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s.\&\-]{3,30}$" data-mensaje-error="Debe tener entre 3 y 30 caracteres.">
                     </div>
                     <div>
@@ -42,6 +55,7 @@
                     <button type="submit">Guardar</button>
                 </form>
             </details>
+            <?php endif; ?>
 
             <h2>Lista de proveedores</h2>
 
@@ -74,18 +88,17 @@
     <script src="../assets/scripts/navbar-menu.js"></script>
     <script src="../assets/scripts/tabla-ordenable.js"></script>
     <script src="../assets/scripts/busqueda.js"></script>
-    <script src="../assets/scripts/almacenamiento.js"></script>
+    <script src="../assets/scripts/api-crud.js"></script>
     <script src="../assets/scripts/validacion.js"></script>
-    <script src="../assets/scripts/actualizacion-tablas.js"></script>
 
         <script>
-        const PROVEEDORES_INICIALES = [
-            { id: 1, nombre: 'DDTech', contacto: 'Juan Perez', telefono: '3334445555', email: 'ventas@ddtech.com', direccion: 'Zapopan, Jalisco', saldo: 0, estado: 'Inactivo' },
-            { id: 2, nombre: 'Telmedia', contacto: 'Maria Lopez', telefono: '5556667777', email: 'contacto@telmedia.com', direccion: 'CDMX', saldo: 150, estado: 'Activo' }
-        ];
+        const puedeEscribir = <?= json_encode($puedeEscribir) ?>;
 
         function renderFilaProveedor(registro) {
             const claseBadge = registro.estado === 'Activo' ? 'activo' : 'inactivo';
+            const acciones = puedeEscribir
+                ? `<button>Editar</button><button>Eliminar</button>`
+                : `<span style="color:#999; font-size:0.9rem;">—</span>`;
             return `
                 <tr data-id="${registro.id}">
                     <td>${registro.id}</td>
@@ -96,19 +109,14 @@
                     <td>${textoSeguro(registro.direccion)}</td>
                     <td>${formatoDinero(registro.saldo)}</td>
                     <td><span class="badge ${claseBadge}">${registro.estado}</span></td>
-                    <td class="acciones">
-                        <button>Editar</button>
-                        <button>Eliminar</button>
-                    </td>
+                    <td class="acciones">${acciones}</td>
                 </tr>`;
         }
 
-        inicializarRegistroTabla({
-            coleccion: COLECCIONES.PROVEEDORES,
+        inicializarRegistroTablaApi({
+            endpoint: '../assets/php/proveedores_api.php',
             formSelector: '.registrar-producto-details form',
             tablaSelector: 'main table',
-            datosDefecto: PROVEEDORES_INICIALES,
-            datosNuevos: { saldo: 0, estado: 'Activo' },
             renderFila: renderFilaProveedor
         });
     </script>
