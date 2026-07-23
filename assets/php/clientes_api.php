@@ -17,8 +17,8 @@ if (!in_array(obtenerRolUsuario(), ['Administrador', 'Auditor'], true)) {
 }
 
 try {
-    $pdo = obtenerConexionBD();
-} catch (PDOException $e) {
+    $conexion = obtenerConexionBD();
+} catch (\mysqli_sql_exception $e) {
     http_response_code(500);
     echo json_encode(['error' => 'Error de conexión a la base de datos.']);
     exit;
@@ -49,12 +49,12 @@ $puedeEscribir = usuarioPuedeGestionarFinanzas();
 $metodo = $_SERVER['REQUEST_METHOD'];
 
 if ($metodo === 'GET') {
-    $filas = $pdo->query(
+    $filas = $conexion->query(
         "SELECT id_c AS id, nombre_c AS nombre, contacto_c AS contacto, telefono_c AS telefono,
                 email_c AS correo, direccion_c AS direccion, saldo_c AS saldo,
                 IF(estado_c = 1, 'Activo', 'Inactivo') AS estado
          FROM clientes ORDER BY id_c"
-    )->fetchAll();
+    )->fetch_all(MYSQLI_ASSOC);
     echo json_encode($filas);
     exit;
 }
@@ -93,23 +93,27 @@ if ($accion === 'crear' || $accion === 'actualizar') {
     }
 
     if ($accion === 'crear') {
-        $stmt = $pdo->prepare(
+        ejecutarConsulta(
+            $conexion,
             'INSERT INTO clientes (nombre_c, contacto_c, telefono_c, email_c, direccion_c, estado_c, saldo_c)
-             VALUES (?, ?, ?, ?, ?, 1, 0)'
+             VALUES (?, ?, ?, ?, ?, 1, 0)',
+            [$nombre, $contacto, $telefono, $correo, $direccion]
         );
-        $stmt->execute([$nombre, $contacto, $telefono, $correo, $direccion]);
-        $id = (int) $pdo->lastInsertId();
+        $id = (int) $conexion->insert_id;
         $estado = 'Activo';
         $saldo = 0;
     } else {
-        $stmt = $pdo->prepare(
+        ejecutarConsulta(
+            $conexion,
             'UPDATE clientes SET nombre_c = ?, contacto_c = ?, telefono_c = ?, email_c = ?, direccion_c = ?
-             WHERE id_c = ?'
+             WHERE id_c = ?',
+            [$nombre, $contacto, $telefono, $correo, $direccion, $id]
         );
-        $stmt->execute([$nombre, $contacto, $telefono, $correo, $direccion, $id]);
-        $fila = $pdo->prepare("SELECT saldo_c AS saldo, IF(estado_c = 1, 'Activo', 'Inactivo') AS estado FROM clientes WHERE id_c = ?");
-        $fila->execute([$id]);
-        $actual = $fila->fetch();
+        $actual = filaDe(ejecutarConsulta(
+            $conexion,
+            "SELECT saldo_c AS saldo, IF(estado_c = 1, 'Activo', 'Inactivo') AS estado FROM clientes WHERE id_c = ?",
+            [$id]
+        ));
         $saldo = $actual['saldo'] ?? 0;
         $estado = $actual['estado'] ?? 'Activo';
     }
@@ -130,10 +134,9 @@ if ($accion === 'eliminar') {
     }
 
     try {
-        $stmt = $pdo->prepare('DELETE FROM clientes WHERE id_c = ?');
-        $stmt->execute([$id]);
+        ejecutarConsulta($conexion, 'DELETE FROM clientes WHERE id_c = ?', [$id]);
         echo json_encode(['success' => true]);
-    } catch (PDOException $e) {
+    } catch (\mysqli_sql_exception $e) {
         http_response_code(409);
         echo json_encode(['error' => 'No se puede eliminar: hay movimientos asociados a este cliente.']);
     }

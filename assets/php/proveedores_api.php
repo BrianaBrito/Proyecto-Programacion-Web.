@@ -17,8 +17,8 @@ if (!in_array(obtenerRolUsuario(), ['Administrador', 'Almacenista', 'Auditor'], 
 }
 
 try {
-    $pdo = obtenerConexionBD();
-} catch (PDOException $e) {
+    $conexion = obtenerConexionBD();
+} catch (\mysqli_sql_exception $e) {
     http_response_code(500);
     echo json_encode(['error' => 'Error de conexión a la base de datos.']);
     exit;
@@ -49,12 +49,12 @@ function validarProveedor($nombre, $contacto, $telefono, $email, $direccion) {
 $metodo = $_SERVER['REQUEST_METHOD'];
 
 if ($metodo === 'GET') {
-    $filas = $pdo->query(
+    $filas = $conexion->query(
         "SELECT id_p AS id, nombre_p AS nombre, contacto_p AS contacto, telefono_p AS telefono,
                 email_p AS email, direccion_p AS direccion, saldo_p AS saldo,
                 IF(estado_p = 1, 'Activo', 'Inactivo') AS estado
          FROM proveedores ORDER BY id_p"
-    )->fetchAll();
+    )->fetch_all(MYSQLI_ASSOC);
     echo json_encode($filas);
     exit;
 }
@@ -96,23 +96,27 @@ if ($accion === 'crear' || $accion === 'actualizar') {
     if ($accion === 'crear') {
         // Un proveedor nuevo siempre entra Activo y con saldo en cero; el saldo se
         // gestiona aparte desde Movimientos financieros, no desde este formulario.
-        $stmt = $pdo->prepare(
+        ejecutarConsulta(
+            $conexion,
             'INSERT INTO proveedores (nombre_p, contacto_p, telefono_p, email_p, direccion_p, estado_p, saldo_p)
-             VALUES (?, ?, ?, ?, ?, 1, 0)'
+             VALUES (?, ?, ?, ?, ?, 1, 0)',
+            [$nombre, $contacto, $telefono, $email, $direccion]
         );
-        $stmt->execute([$nombre, $contacto, $telefono, $email, $direccion]);
-        $id = (int) $pdo->lastInsertId();
+        $id = (int) $conexion->insert_id;
         $estado = 'Activo';
         $saldo = 0;
     } else {
-        $stmt = $pdo->prepare(
+        ejecutarConsulta(
+            $conexion,
             'UPDATE proveedores SET nombre_p = ?, contacto_p = ?, telefono_p = ?, email_p = ?, direccion_p = ?
-             WHERE id_p = ?'
+             WHERE id_p = ?',
+            [$nombre, $contacto, $telefono, $email, $direccion, $id]
         );
-        $stmt->execute([$nombre, $contacto, $telefono, $email, $direccion, $id]);
-        $fila = $pdo->prepare("SELECT saldo_p AS saldo, IF(estado_p = 1, 'Activo', 'Inactivo') AS estado FROM proveedores WHERE id_p = ?");
-        $fila->execute([$id]);
-        $actual = $fila->fetch();
+        $actual = filaDe(ejecutarConsulta(
+            $conexion,
+            "SELECT saldo_p AS saldo, IF(estado_p = 1, 'Activo', 'Inactivo') AS estado FROM proveedores WHERE id_p = ?",
+            [$id]
+        ));
         $saldo = $actual['saldo'] ?? 0;
         $estado = $actual['estado'] ?? 'Activo';
     }
@@ -133,10 +137,9 @@ if ($accion === 'eliminar') {
     }
 
     try {
-        $stmt = $pdo->prepare('DELETE FROM proveedores WHERE id_p = ?');
-        $stmt->execute([$id]);
+        ejecutarConsulta($conexion, 'DELETE FROM proveedores WHERE id_p = ?', [$id]);
         echo json_encode(['success' => true]);
-    } catch (PDOException $e) {
+    } catch (\mysqli_sql_exception $e) {
         http_response_code(409);
         echo json_encode(['error' => 'No se puede eliminar: hay productos o movimientos asociados a este proveedor.']);
     }

@@ -64,13 +64,13 @@ if (!isset($consultas[$entidad])) {
 }
 
 try {
-    $pdo = obtenerConexionBD();
-    $filas = $pdo->query($consultas[$entidad]['sql'])->fetchAll();
+    $conexion = obtenerConexionBD();
+    $filas = $conexion->query($consultas[$entidad]['sql'])->fetch_all(MYSQLI_ASSOC);
     echo json_encode([
         'columnas' => $consultas[$entidad]['columnas'],
         'filas' => $filas,
     ]);
-} catch (PDOException $e) {
+} catch (\mysqli_sql_exception $e) {
     http_response_code(500);
     echo json_encode(['error' => 'Error al consultar la base de datos.']);
 }

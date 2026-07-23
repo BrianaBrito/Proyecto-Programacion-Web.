@@ -17,8 +17,8 @@ if (!in_array(obtenerRolUsuario(), ['Administrador', 'Almacenista', 'Auditor'], 
 }
 
 try {
-    $pdo = obtenerConexionBD();
-} catch (PDOException $e) {
+    $conexion = obtenerConexionBD();
+} catch (\mysqli_sql_exception $e) {
     http_response_code(500);
     echo json_encode(['error' => 'Error de conexión a la base de datos.']);
     exit;
@@ -40,7 +40,7 @@ function validarCategoria($nombre, $descripcion) {
 $metodo = $_SERVER['REQUEST_METHOD'];
 
 if ($metodo === 'GET') {
-    $filas = $pdo->query('SELECT id, nombre, descripcion FROM categorias ORDER BY id')->fetchAll();
+    $filas = $conexion->query('SELECT id, nombre, descripcion FROM categorias ORDER BY id')->fetch_all(MYSQLI_ASSOC);
     echo json_encode($filas);
     exit;
 }
@@ -77,12 +77,10 @@ if ($accion === 'crear' || $accion === 'actualizar') {
     }
 
     if ($accion === 'crear') {
-        $stmt = $pdo->prepare('INSERT INTO categorias (nombre, descripcion) VALUES (?, ?)');
-        $stmt->execute([$nombre, $descripcion]);
-        $id = (int) $pdo->lastInsertId();
+        ejecutarConsulta($conexion, 'INSERT INTO categorias (nombre, descripcion) VALUES (?, ?)', [$nombre, $descripcion]);
+        $id = (int) $conexion->insert_id;
     } else {
-        $stmt = $pdo->prepare('UPDATE categorias SET nombre = ?, descripcion = ? WHERE id = ?');
-        $stmt->execute([$nombre, $descripcion, $id]);
+        ejecutarConsulta($conexion, 'UPDATE categorias SET nombre = ?, descripcion = ? WHERE id = ?', [$nombre, $descripcion, $id]);
     }
 
     echo json_encode(['id' => $id, 'nombre' => $nombre, 'descripcion' => $descripcion]);
@@ -98,10 +96,9 @@ if ($accion === 'eliminar') {
     }
 
     try {
-        $stmt = $pdo->prepare('DELETE FROM categorias WHERE id = ?');
-        $stmt->execute([$id]);
+        ejecutarConsulta($conexion, 'DELETE FROM categorias WHERE id = ?', [$id]);
         echo json_encode(['success' => true]);
-    } catch (PDOException $e) {
+    } catch (\mysqli_sql_exception $e) {
         http_response_code(409);
         echo json_encode(['error' => 'No se puede eliminar: hay productos que usan esta categoría.']);
     }

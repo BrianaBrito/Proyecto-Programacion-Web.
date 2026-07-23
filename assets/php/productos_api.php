@@ -17,8 +17,8 @@ if (!in_array(obtenerRolUsuario(), ['Administrador', 'Almacenista', 'Auditor'], 
 }
 
 try {
-    $pdo = obtenerConexionBD();
-} catch (PDOException $e) {
+    $conexion = obtenerConexionBD();
+} catch (\mysqli_sql_exception $e) {
     http_response_code(500);
     echo json_encode(['error' => 'Error de conexión a la base de datos.']);
     exit;
@@ -43,24 +43,20 @@ function validarProducto($nombre, $descripcion, $stock, $precio) {
     return $errores;
 }
 
-function resolverCategoria($pdo, $nombreCategoria) {
-    $stmt = $pdo->prepare('SELECT id FROM categorias WHERE nombre = ?');
-    $stmt->execute([$nombreCategoria]);
-    $fila = $stmt->fetch();
+function resolverCategoria($conexion, $nombreCategoria) {
+    $fila = filaDe(ejecutarConsulta($conexion, 'SELECT id FROM categorias WHERE nombre = ?', [$nombreCategoria]));
     return $fila ? (int) $fila['id'] : null;
 }
 
-function resolverProveedor($pdo, $nombreProveedor) {
-    $stmt = $pdo->prepare('SELECT id_p FROM proveedores WHERE nombre_p = ?');
-    $stmt->execute([$nombreProveedor]);
-    $fila = $stmt->fetch();
+function resolverProveedor($conexion, $nombreProveedor) {
+    $fila = filaDe(ejecutarConsulta($conexion, 'SELECT id_p FROM proveedores WHERE nombre_p = ?', [$nombreProveedor]));
     return $fila ? (int) $fila['id_p'] : null;
 }
 
 $metodo = $_SERVER['REQUEST_METHOD'];
 
 if ($metodo === 'GET') {
-    $filas = $pdo->query(
+    $filas = $conexion->query(
         'SELECT p.id_pr AS id, p.nombre_pr AS nombre, p.descripcion_pr AS descripcion,
                 c.nombre AS categoria, pr.nombre_p AS proveedor,
                 p.stock_actual AS stock, p.precio_unitario_pr AS precio
@@ -68,7 +64,7 @@ if ($metodo === 'GET') {
          LEFT JOIN categorias c ON c.id = p.id_categoria
          LEFT JOIN proveedores pr ON pr.id_p = p.id_proveedor
          ORDER BY p.id_pr'
-    )->fetchAll();
+    )->fetch_all(MYSQLI_ASSOC);
     echo json_encode($filas);
     exit;
 }
@@ -98,10 +94,10 @@ if ($accion === 'crear' || $accion === 'actualizar') {
 
     $errores = validarProducto($nombre, $descripcion, $stock, $precio);
 
-    $idCategoria = resolverCategoria($pdo, $nombreCategoria);
+    $idCategoria = resolverCategoria($conexion, $nombreCategoria);
     if ($idCategoria === null) $errores[] = 'Selecciona una categoría válida.';
 
-    $idProveedor = resolverProveedor($pdo, $nombreProveedor);
+    $idProveedor = resolverProveedor($conexion, $nombreProveedor);
     if ($idProveedor === null) $errores[] = 'Selecciona un proveedor válido.';
 
     if ($accion === 'actualizar') {
@@ -116,19 +112,21 @@ if ($accion === 'crear' || $accion === 'actualizar') {
     }
 
     if ($accion === 'crear') {
-        $stmt = $pdo->prepare(
+        ejecutarConsulta(
+            $conexion,
             'INSERT INTO productos (nombre_pr, descripcion_pr, precio_unitario_pr, stock_actual, id_categoria, id_proveedor)
-             VALUES (?, ?, ?, ?, ?, ?)'
+             VALUES (?, ?, ?, ?, ?, ?)',
+            [$nombre, $descripcion, $precio, (int) $stock, $idCategoria, $idProveedor]
         );
-        $stmt->execute([$nombre, $descripcion, $precio, (int) $stock, $idCategoria, $idProveedor]);
-        $id = (int) $pdo->lastInsertId();
+        $id = (int) $conexion->insert_id;
     } else {
-        $stmt = $pdo->prepare(
+        ejecutarConsulta(
+            $conexion,
             'UPDATE productos SET nombre_pr = ?, descripcion_pr = ?, precio_unitario_pr = ?, stock_actual = ?,
                     id_categoria = ?, id_proveedor = ?
-             WHERE id_pr = ?'
+             WHERE id_pr = ?',
+            [$nombre, $descripcion, $precio, (int) $stock, $idCategoria, $idProveedor, $id]
         );
-        $stmt->execute([$nombre, $descripcion, $precio, (int) $stock, $idCategoria, $idProveedor, $id]);
     }
 
     echo json_encode([
@@ -148,10 +146,9 @@ if ($accion === 'eliminar') {
     }
 
     try {
-        $stmt = $pdo->prepare('DELETE FROM productos WHERE id_pr = ?');
-        $stmt->execute([$id]);
+        ejecutarConsulta($conexion, 'DELETE FROM productos WHERE id_pr = ?', [$id]);
         echo json_encode(['success' => true]);
-    } catch (PDOException $e) {
+    } catch (\mysqli_sql_exception $e) {
         http_response_code(409);
         echo json_encode(['error' => 'No se puede eliminar: hay movimientos asociados a este producto.']);
     }
@@ -169,39 +166,38 @@ if ($accion === 'salida') {
     }
 
     try {
-        $pdo->beginTransaction();
+        $conexion->begin_transaction();
 
-        $stmt = $pdo->prepare('SELECT stock_actual FROM productos WHERE id_pr = ? FOR UPDATE');
-        $stmt->execute([$id]);
-        $producto = $stmt->fetch();
+        $producto = filaDe(ejecutarConsulta($conexion, 'SELECT stock_actual FROM productos WHERE id_pr = ? FOR UPDATE', [$id]));
 
         if (!$producto) {
-            $pdo->rollBack();
+            $conexion->rollback();
             http_response_code(404);
             echo json_encode(['error' => 'Producto no encontrado.']);
             exit;
         }
 
         if ($cantidad > (int) $producto['stock_actual']) {
-            $pdo->rollBack();
+            $conexion->rollback();
             http_response_code(422);
             echo json_encode(['error' => "No hay suficiente stock (disponible: {$producto['stock_actual']})."]);
             exit;
         }
 
-        $pdo->prepare('UPDATE productos SET stock_actual = stock_actual - ? WHERE id_pr = ?')
-            ->execute([$cantidad, $id]);
+        ejecutarConsulta($conexion, 'UPDATE productos SET stock_actual = stock_actual - ? WHERE id_pr = ?', [$cantidad, $id]);
 
-        $pdo->prepare(
-            'INSERT INTO movimientos (id_producto, tipo_m, cantidad_m, motivo_m, id_user) VALUES (?, 0, ?, ?, ?)'
-        )->execute([$id, $cantidad, 'Salida registrada desde Inventario', $_SESSION['usuario_id']]);
+        ejecutarConsulta(
+            $conexion,
+            'INSERT INTO movimientos (id_producto, tipo_m, cantidad_m, motivo_m, id_user) VALUES (?, 0, ?, ?, ?)',
+            [$id, $cantidad, 'Salida registrada desde Inventario', $_SESSION['usuario_id']]
+        );
 
-        $pdo->commit();
+        $conexion->commit();
 
         $stockRestante = (int) $producto['stock_actual'] - $cantidad;
         echo json_encode(['success' => true, 'stock' => $stockRestante]);
-    } catch (PDOException $e) {
-        $pdo->rollBack();
+    } catch (\mysqli_sql_exception $e) {
+        $conexion->rollback();
         http_response_code(500);
         echo json_encode(['error' => 'Error al registrar la salida.']);
     }

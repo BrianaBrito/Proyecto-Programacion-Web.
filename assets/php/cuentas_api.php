@@ -32,24 +32,24 @@ if (!in_array($tipo, ['proveedor', 'cliente'], true)) {
 }
 
 try {
-    $pdo = obtenerConexionBD();
+    $conexion = obtenerConexionBD();
 
     if ($tipo === 'proveedor') {
-        $filas = $pdo->query(
+        $filas = $conexion->query(
             "SELECT id_cp AS id, id_proveedor, IF(tipo = 1, 'Cargo', 'Pago') AS tipo,
                     monto, fecha, motivo
              FROM movimientos_cuenta_proveedores ORDER BY fecha DESC"
-        )->fetchAll();
+        )->fetch_all(MYSQLI_ASSOC);
     } else {
-        $filas = $pdo->query(
+        $filas = $conexion->query(
             "SELECT id_cc AS id, id_cliente, IF(tipo = 1, 'Cargo', 'Pago') AS tipo,
                     monto, fecha, motivo
              FROM movimientos_cuenta_clientes ORDER BY fecha DESC"
-        )->fetchAll();
+        )->fetch_all(MYSQLI_ASSOC);
     }
 
     echo json_encode($filas);
-} catch (PDOException $e) {
+} catch (\mysqli_sql_exception $e) {
     http_response_code(500);
     echo json_encode(['error' => 'Error al consultar la base de datos.']);
 }

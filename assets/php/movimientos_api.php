@@ -25,8 +25,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
 }
 
 try {
-    $pdo = obtenerConexionBD();
-    $filas = $pdo->query(
+    $conexion = obtenerConexionBD();
+    $filas = $conexion->query(
         "SELECT m.id_m AS id, m.fecha_m AS fecha, p.nombre_pr AS producto,
                 IF(m.tipo_m = 1, 'Entrada', 'Salida') AS tipo, m.cantidad_m AS cantidad,
                 m.motivo_m AS motivo, u.nombre_u AS responsable
@@ -34,9 +34,9 @@ try {
          LEFT JOIN productos p ON p.id_pr = m.id_producto
          LEFT JOIN usuarios u ON u.id_u = m.id_user
          ORDER BY m.fecha_m DESC"
-    )->fetchAll();
+    )->fetch_all(MYSQLI_ASSOC);
     echo json_encode($filas);
-} catch (PDOException $e) {
+} catch (\mysqli_sql_exception $e) {
     http_response_code(500);
     echo json_encode(['error' => 'Error al consultar la base de datos.']);
 }
