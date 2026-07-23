@@ -1,3 +1,16 @@
+function textoSeguro(valor) {
+    const contenedor = document.createElement('div');
+    contenedor.textContent = valor === undefined || valor === null ? '' : String(valor);
+    return contenedor.innerHTML;
+}
+ 
+function formatoDinero(valor) {
+    const numDinero = Number(valor);
+    return '$' + (isNaN(numDinero) ? '0.00' : numDinero.toLocaleString('es-MX', {
+        minimumFractionDigits: 2, maximumFractionDigits: 2
+    }));
+}
+
 // Igual que inicializarRegistroTabla (almacenamiento.js) pero contra un endpoint PHP
 // real en vez de localStorage. Se usa en las páginas ya migradas a backend.
 async function apiFetchJson(url, opciones) {
