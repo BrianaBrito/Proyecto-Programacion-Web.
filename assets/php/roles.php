@@ -18,12 +18,6 @@ function usuarioPuedeEscribir() {
     return in_array($rol, ['Administrador', 'Almacenista']);
 }
 
-// Módulos financieros (clientes, cuentas por cobrar/pagar): el Almacenista no tiene acceso,
-// el Auditor solo puede consultar.
-function usuarioPuedeGestionarFinanzas() {
-    return usuarioTieneRol('Administrador');
-}
-
 function usuarioPuedeGestionarUsuarios() {
     return usuarioTieneRol('Administrador');
 }
@@ -41,20 +35,14 @@ function verificarAutenticacion() {
 
 function verificarAcceso($pagina) {
     $permisos = [
-        'inicio.php' => ['Administrador', 'Almacenista', 'Auditor'],
         'inventario.php' => ['Administrador', 'Almacenista', 'Auditor'],
-        'categorias.php' => ['Administrador', 'Almacenista', 'Auditor'],
         'proveedores.php' => ['Administrador', 'Almacenista', 'Auditor'],
         'movimientos.php' => ['Administrador', 'Almacenista', 'Auditor'],
-        'clientes.php' => ['Administrador', 'Auditor'],
-        'cuentas.php' => ['Administrador', 'Auditor'],
+        'usuarios.php' => ['Administrador'], 
         'reportes.php' => ['Administrador', 'Auditor'],
-        'parametros.php' => ['Administrador'],
-        'usuarios.php' => ['Administrador'],
     ];
 
-    // Por defecto, si una página nueva no está listada, se niega el acceso salvo al Administrador.
-    $rolesPermitidos = $permisos[$pagina] ?? ['Administrador'];
+    $rolesPermitidos = $permisos[$pagina] ?? ['Administrador', 'Almacenista'];
 
     $rol = obtenerRolUsuario();
     if (!in_array($rol, $rolesPermitidos)) {

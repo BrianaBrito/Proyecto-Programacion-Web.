@@ -1,8 +1,3 @@
-<?php
-require_once '../assets/php/roles.php';
-verificarAutenticacion();
-verificarAcceso(basename(__FILE__));
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,6 +33,9 @@ verificarAcceso(basename(__FILE__));
 
                 <select name="responsable" id="responsable">
                     <option value="" disabled selected hidden> Responsable </option>
+                    <option value="Almacenista 1">Almacenista 1</option>
+                    <option value="Almacenista 2">Almacenista 2</option>
+                    <option value="Almacenista 3">Almacenista 3</option>
                 </select>
             </div>
 
@@ -56,6 +54,60 @@ verificarAcceso(basename(__FILE__));
                     </tr>
                 </thead>
                 <tbody>
+                    <tr>
+                        <td>101</td>
+                        <td>2026-06-29</td>
+                        <td>Laptop HP</td>
+                        <td><span class="badge entrada">Entrada</span></td>
+                        <td>15</td>
+                        <td>Compra a DDTech</td>
+                        <td>Almacenista 1</td>
+                    </tr>
+                    <tr>
+                        <td>102</td>
+                        <td>2026-06-30</td>
+                        <td>Multimetro</td>
+                        <td><span class="badge salida">Salida</span></td>
+                        <td>2</td>
+                        <td>Venta a Cliente X</td>
+                        <td>Almacenista 3</td>
+                    </tr>
+                    <tr>
+                        <td>103</td>
+                        <td>2026-07-01</td>
+                        <td>Playera Basica</td>
+                        <td><span class="badge entrada">Entrada</span></td>
+                        <td>80</td>
+                        <td>Compra a Textiles Monarca</td>
+                        <td>Almacenista 2</td>
+                    </tr>
+                    <tr>
+                        <td>104</td>
+                        <td>2026-07-02</td>
+                        <td>Arroz 1kg</td>
+                        <td><span class="badge salida">Salida</span></td>
+                        <td>30</td>
+                        <td>Venta a Cliente Y</td>
+                        <td>Almacenista 1</td>
+                    </tr>
+                    <tr>
+                        <td>105</td>
+                        <td>2026-07-03</td>
+                        <td>Cuaderno Profesional</td>
+                        <td><span class="badge entrada">Entrada</span></td>
+                        <td>200</td>
+                        <td>Compra a Papelera del Centro</td>
+                        <td>Almacenista 3</td>
+                    </tr>
+                    <tr>
+                        <td>106</td>
+                        <td>2026-07-04</td>
+                        <td>Muñeca Articulada</td>
+                        <td><span class="badge salida">Salida</span></td>
+                        <td>5</td>
+                        <td>Venta a Cliente Z</td>
+                        <td>Almacenista 2</td>
+                    </tr>
                 </tbody>
             </table>
             </div>
@@ -64,47 +116,7 @@ verificarAcceso(basename(__FILE__));
 
     <script src="../assets/scripts/navbar-menu.js"></script>
     <script src="../assets/scripts/tabla-ordenable.js"></script>
-    <script src="../assets/scripts/validacion.js"></script>
-    <script src="../assets/scripts/api-crud.js"></script>
     <script src="../assets/scripts/movimientos-filtros.js"></script>
-
-    <script>
-        function renderFilaMovimiento(registro) {
-            const claseBadge = registro.tipo === 'Entrada' ? 'entrada' : 'salida';
-            return `
-                <tr>
-                    <td>${registro.id}</td>
-                    <td>${textoSeguro(registro.fecha)}</td>
-                    <td>${textoSeguro(registro.producto)}</td>
-                    <td><span class="badge ${claseBadge}">${textoSeguro(registro.tipo)}</span></td>
-                    <td>${registro.cantidad}</td>
-                    <td>${textoSeguro(registro.motivo)}</td>
-                    <td>${textoSeguro(registro.responsable)}</td>
-                </tr>`;
-        }
-
-        async function cargarMovimientos() {
-            const tbody = document.querySelector('.tabla-movimientos table tbody');
-            try {
-                const datos = await apiFetchJson('../assets/php/movimientos_api.php');
-                tbody.innerHTML = datos.length
-                    ? datos.map(renderFilaMovimiento).join('')
-                    : '<tr><td colspan="7">No hay movimientos registrados.</td></tr>';
-
-                const selectResponsable = document.getElementById('responsable');
-                const responsables = [...new Set(datos.map(d => d.responsable).filter(Boolean))];
-                const opciones = responsables
-                    .map(r => `<option value="${textoSeguro(r)}">${textoSeguro(r)}</option>`)
-                    .join('');
-                selectResponsable.innerHTML = `<option value="" disabled selected hidden>Responsable</option>${opciones}`;
-            } catch (error) {
-                tbody.innerHTML = `<tr><td colspan="7">Error al cargar movimientos: ${error.message}</td></tr>`;
-            }
-        }
-
-        cargarMovimientos();
-    </script>
-
     <script>
         fetch('navbar.php')
         .then(response => response.text())

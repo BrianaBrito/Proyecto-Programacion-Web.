@@ -1,8 +1,3 @@
-<?php
-require_once '../assets/php/roles.php';
-verificarAutenticacion();
-verificarAcceso(basename(__FILE__));
-?>
 <!DOCTYPE html>
 <html lang="es">
 <head>

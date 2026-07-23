@@ -16,7 +16,7 @@ if (!in_array(obtenerRolUsuario(), ['Administrador', 'Auditor'], true)) {
     exit;
 }
 
-
+// tipo_m / estado_* siguen la convencion 1 = Entrada/Activo, 0 = Salida/Inactivo usada en advitium_db.sql
 $consultas = [
     'productos' => [
         'columnas' => ['ID', 'Nombre', 'Categoría', 'Proveedor', 'Precio unitario', 'Stock'],

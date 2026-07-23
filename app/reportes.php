@@ -11,7 +11,7 @@ verificarAcceso('reportes.php');
     <link rel="shortcut icon" href="../assets/img/icons/reportesicono.png" type="image/x-icon">
     <title>Reportes | Panel de PyMEs</title>
         <link rel="stylesheet" href="../assets/css/reportes.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.4/jspdf.plugin.autotable.min.js"></script>
 </head>
 <body>
@@ -147,7 +147,7 @@ verificarAcceso('reportes.php');
                     return;
                 }
 
-                reporteActual = { entidad: nombreEntidad, clave, columnas: datos.columnas, filas: datos.filas };
+                reporteActual = { entidad: nombreEntidad, columnas: datos.columnas, filas: datos.filas };
                 renderizarVistaPrevia(nombreEntidad, datos.columnas, datos.filas);
 
                 btnExportar.disabled = false;
@@ -183,60 +183,6 @@ verificarAcceso('reportes.php');
             `;
         }
 
-        function formatDinero(valor) {
-            const numero = Number(valor);
-            return '$' + (isNaN(numero) ? '0.00' : numero.toLocaleString('es-MX', {
-                minimumFractionDigits: 2, maximumFractionDigits: 2
-            }));
-        }
-
-        // Indicadores calculados en el cliente a partir de los mismos datos ya traídos del servidor
-        function calcularResumen(clave, filas) {
-            switch (clave) {
-                case 'productos': {
-                    const unidadesTotales = filas.reduce((acc, f) => acc + Number(f.stock || 0), 0);
-                    const valorInventario = filas.reduce((acc, f) => acc + Number(f.stock || 0) * Number(f.precio_unitario || 0), 0);
-                    const stockBajo = filas.filter(f => Number(f.stock || 0) < 10).length;
-                    return [
-                        ['Total de productos', filas.length],
-                        ['Unidades en stock', unidadesTotales],
-                        ['Valor total del inventario', formatDinero(valorInventario)],
-                        ['Productos con stock bajo (< 10)', stockBajo],
-                    ];
-                }
-                case 'categorias':
-                    return [['Total de categorías', filas.length]];
-                case 'proveedores':
-                case 'clientes': {
-                    const activos = filas.filter(f => f.estado === 'Activo').length;
-                    const saldoTotal = filas.reduce((acc, f) => acc + Number(f.saldo || 0), 0);
-                    const etiqueta = clave === 'proveedores' ? 'proveedores' : 'clientes';
-                    return [
-                        [`Total de ${etiqueta}`, filas.length],
-                        ['Activos', activos],
-                        ['Inactivos', filas.length - activos],
-                        ['Saldo total', formatDinero(saldoTotal)],
-                    ];
-                }
-                case 'movimientos': {
-                    const entradas = filas.filter(f => f.tipo === 'Entrada');
-                    const salidas = filas.filter(f => f.tipo === 'Salida');
-                    const unidadesEntrada = entradas.reduce((acc, f) => acc + Number(f.cantidad || 0), 0);
-                    const unidadesSalida = salidas.reduce((acc, f) => acc + Number(f.cantidad || 0), 0);
-                    return [
-                        ['Total de movimientos', filas.length],
-                        ['Entradas', entradas.length],
-                        ['Salidas', salidas.length],
-                        ['Unidades totales de entrada', unidadesEntrada],
-                        ['Unidades totales de salida', unidadesSalida],
-                        ['Balance neto de unidades', unidadesEntrada - unidadesSalida],
-                    ];
-                }
-                default:
-                    return [];
-            }
-        }
-
         // Exportación en el cliente con jsPDF: usa los mismos datos ya traidos del servidor
         function exportarPDF() {
             if (!reporteActual || !reporteActual.filas.length) return;
@@ -250,47 +196,11 @@ verificarAcceso('reportes.php');
             doc.setFontSize(10);
             doc.text(`Generado el: ${fechaHoy}`, 14, 21);
 
-            let siguienteY = 26;
-            const resumen = calcularResumen(reporteActual.clave, reporteActual.filas);
-
-            if (resumen.length) {
-                doc.setFontSize(11);
-                doc.text('Resumen', 14, siguienteY);
-                doc.autoTable({
-                    startY: siguienteY + 4,
-                    head: [['Indicador', 'Valor']],
-                    body: resumen,
-                    theme: 'grid',
-                    styles: { fontSize: 9 },
-                    headStyles: { fillColor: [30, 58, 138] },
-                    columnStyles: { 0: { cellWidth: 100 } },
-                });
-                siguienteY = doc.lastAutoTable.finalY + 10;
-            }
-
-            doc.setFontSize(11);
-            doc.text('Detalle', 14, siguienteY);
-
             doc.autoTable({
-                startY: siguienteY + 4,
+                startY: 26,
                 head: [reporteActual.columnas],
                 body: reporteActual.filas.map(fila => Object.values(fila).map(valor => valor ?? '')),
-                theme: 'striped',
-                styles: { fontSize: 8 },
-                headStyles: { fillColor: [59, 130, 246] },
             });
-
-            const totalPaginas = doc.internal.getNumberOfPages();
-            for (let i = 1; i <= totalPaginas; i++) {
-                doc.setPage(i);
-                doc.setFontSize(8);
-                doc.setTextColor(150);
-                doc.text(
-                    `Página ${i} de ${totalPaginas}`,
-                    doc.internal.pageSize.getWidth() - 30,
-                    doc.internal.pageSize.getHeight() - 10
-                );
-            }
 
             doc.save(`reporte-${reporteActual.entidad.toLowerCase()}-${Date.now()}.pdf`);
         }
