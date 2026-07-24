@@ -18,10 +18,15 @@ function usuarioPuedeEscribir() {
     return in_array($rol, ['Administrador', 'Almacenista']);
 }
 
-// Módulos financieros (clientes, cuentas por cobrar/pagar): el Almacenista no tiene acceso,
-// el Auditor solo puede consultar.
+// Módulos financieros (edición completa de clientes, altas/bajas): solo Administrador.
 function usuarioPuedeGestionarFinanzas() {
     return usuarioTieneRol('Administrador');
+}
+
+//El administrador y almacenista si pueden registrar movimientos financieros
+function usuarioPuedeRegistrarMovimientos() {
+    $rol = obtenerRolUsuario();
+    return in_array($rol, ['Administrador', 'Almacenista'], true);
 }
 
 function usuarioPuedeGestionarUsuarios() {
@@ -47,7 +52,7 @@ function verificarAcceso($pagina) {
         'proveedores.php' => ['Administrador', 'Almacenista', 'Auditor'],
         'movimientos.php' => ['Administrador', 'Almacenista', 'Auditor'],
         'clientes.php' => ['Administrador', 'Auditor'],
-        'cuentas.php' => ['Administrador', 'Auditor'],
+        'cuentas.php' => ['Administrador', 'Almacenista', 'Auditor'],
         'reportes.php' => ['Administrador', 'Auditor'],
         'parametros.php' => ['Administrador'],
         'usuarios.php' => ['Administrador'],

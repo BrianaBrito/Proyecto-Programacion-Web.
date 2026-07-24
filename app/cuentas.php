@@ -2,6 +2,7 @@
 require_once '../assets/php/roles.php';
 verificarAutenticacion();
 verificarAcceso(basename(__FILE__));
+$puedeRegistrarMovimiento = usuarioPuedeRegistrarMovimientos();; //gestionamos permisos
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,8 +32,43 @@ verificarAcceso(basename(__FILE__));
                 </select>
             </div>
 
+            <?php if (!$puedeRegistrarMovimiento): ?>
+                <div>
+                    <h2>Modo auditor. No puedes registrar movimientos financieros, solo consultarlos. <h2>
+                </div>
+            <?php endif; ?>
 
             <div id = "tabla-proveedores" class = "tabla-movimientos-cuenta">
+                <?php if ($puedeRegistrarMovimiento): ?>
+                <details class="registrar-producto-details">
+                    <summary><h2>Registrar movimiento</h2></summary>
+                    <form id="form-movimiento-proveedor" action="">
+                        <div>
+                            <label for="id-proveedor-movimiento">Proveedor: </label>
+                            <select name="id_entidad" id="id-proveedor-movimiento" required>
+                                <option value="" disabled selected hidden>Elige un proveedor</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="tipo-movimiento-proveedor">Tipo: </label>
+                            <select name="tipo_movimiento" id="tipo-movimiento-proveedor" required>
+                                <option value="" disabled selected hidden>Elige el tipo</option>
+                                <option value="Cargo">Cargo</option>
+                                <option value="Pago">Pago</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="monto-proveedor">Monto: </label>
+                            <input type="number" name="monto" id="monto-proveedor" required min="0.01" max="99999999.99" step="0.01">
+                        </div>
+                        <div>
+                            <label for="motivo-proveedor">Motivo: </label>
+                            <input type="text" name="motivo" id="motivo-proveedor" required minlength="3" maxlength="200">
+                        </div>
+                        <button type="submit">Guardar</button>
+                    </form>
+                </details>
+                <?php endif; ?>
                 <table>
                     <thead>
                         <tr>
@@ -51,6 +87,36 @@ verificarAcceso(basename(__FILE__));
             </div>
 
             <div id = "tabla-clientes" class="tabla-movimientos-cuenta oculto">
+                <?php if ($puedeRegistrarMovimiento): ?>
+                <details class="registrar-producto-details">
+                    <summary><h2>Registrar movimiento</h2></summary>
+                    <form id="form-movimiento-cliente" action="">
+                        <div>
+                            <label for="id-cliente-movimiento">Cliente: </label>
+                            <select name="id_entidad" id="id-cliente-movimiento" required>
+                                <option value="" disabled selected hidden>Elige un cliente</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="tipo-movimiento-cliente">Tipo: </label>
+                            <select name="tipo_movimiento" id="tipo-movimiento-cliente" required>
+                                <option value="" disabled selected hidden>Elige el tipo</option>
+                                <option value="Cargo">Cargo</option>
+                                <option value="Pago">Pago</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="monto-cliente">Monto: </label>
+                            <input type="number" name="monto" id="monto-cliente" required min="0.01" max="99999999.99" step="0.01">
+                        </div>
+                        <div>
+                            <label for="motivo-cliente">Motivo: </label>
+                            <input type="text" name="motivo" id="motivo-cliente" required minlength="3" maxlength="200">
+                        </div>
+                        <button type="submit">Guardar</button>
+                    </form>
+                </details>
+                <?php endif; ?>
                 <table>
                     <thead>
                         <tr>
@@ -125,6 +191,46 @@ verificarAcceso(basename(__FILE__));
 
         cargarCuentas('proveedor', '#tabla-proveedores table', renderFilaProveedor);
         cargarCuentas('cliente', '#tabla-clientes table', renderFilaCliente);
+
+        poblarSelectEntidades(document.getElementById('id-proveedor-movimiento'), '../assets/php/proveedores_api.php', r => r.estado === 'Activo');
+        poblarSelectEntidades(document.getElementById('id-cliente-movimiento'), '../assets/php/clientes_api.php', r => r.estado === 'Activo');
+
+        function inicializarRegistroMovimiento({ tipo, formSelector, onGuardado }) {
+            const form = document.querySelector(formSelector);
+            if (!form) return;
+            const botonGuardar = form.querySelector('button[type="submit"]');
+            const textoBotonOriginal = botonGuardar ? botonGuardar.textContent : '';
+
+            form.addEventListener('submit', async evento => {
+                evento.preventDefault();
+
+                const datosFormulario = new FormData(form);
+                datosFormulario.append('accion', 'crear');
+                datosFormulario.append('tipo', tipo);
+
+                if (botonGuardar) { botonGuardar.disabled = true; botonGuardar.textContent = 'Guardando...'; }
+                try {
+                    await apiFetchJson('../assets/php/cuentas_api.php', { method: 'POST', body: datosFormulario });
+                    form.reset();
+                    if (onGuardado) await onGuardado();
+                } catch (error) {
+                    alert(error.message);
+                } finally {
+                    if (botonGuardar) { botonGuardar.disabled = false; botonGuardar.textContent = textoBotonOriginal; }
+                }
+            });
+        }
+
+        inicializarRegistroMovimiento({
+            tipo: 'proveedor',
+            formSelector: '#form-movimiento-proveedor',
+            onGuardado: () => cargarCuentas('proveedor', '#tabla-proveedores table', renderFilaProveedor)
+        });
+        inicializarRegistroMovimiento({
+            tipo: 'cliente',
+            formSelector: '#form-movimiento-cliente',
+            onGuardado: () => cargarCuentas('cliente', '#tabla-clientes table', renderFilaCliente)
+        });
     </script>
 
     <script>

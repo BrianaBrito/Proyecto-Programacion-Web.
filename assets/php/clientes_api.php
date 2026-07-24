@@ -10,7 +10,7 @@ if (!usuarioAutenticado()) {
     exit;
 }
 
-if (!in_array(obtenerRolUsuario(), ['Administrador', 'Auditor'], true)) {
+if (!in_array(obtenerRolUsuario(), ['Administrador', 'Almacenista', 'Auditor'], true)) {
     http_response_code(403);
     echo json_encode(['error' => 'No tienes permisos para ver clientes.']);
     exit;
