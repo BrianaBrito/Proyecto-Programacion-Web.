@@ -33,8 +33,8 @@ $puedeRegistrarMovimiento = usuarioPuedeRegistrarMovimientos();; //gestionamos p
             </div>
 
             <?php if (!$puedeRegistrarMovimiento): ?>
-                <div>
-                    <h2>Modo auditor. No puedes registrar movimientos financieros, solo consultarlos. <h2>
+                <div style="background: #fef9c3; padding: 8px 16px; border-radius: 6px; margin-bottom: 15px; color: #854d0e;">
+                    Modo auditor. No puedes registrar movimientos financieros, solo consultarlos.
                 </div>
             <?php endif; ?>
 

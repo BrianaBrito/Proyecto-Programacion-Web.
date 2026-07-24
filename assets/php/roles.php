@@ -20,7 +20,7 @@ function usuarioPuedeEscribir() {
 
 // Módulos financieros (edición completa de clientes, altas/bajas): solo Administrador.
 function usuarioPuedeGestionarFinanzas() {
-    return usuarioTieneRol('Administrador');
+    return usuarioTieneRol('Administrador','Almacenista');
 }
 
 //El administrador y almacenista si pueden registrar movimientos financieros
@@ -51,9 +51,9 @@ function verificarAcceso($pagina) {
         'categorias.php' => ['Administrador', 'Almacenista', 'Auditor'],
         'proveedores.php' => ['Administrador', 'Almacenista', 'Auditor'],
         'movimientos.php' => ['Administrador', 'Almacenista', 'Auditor'],
-        'clientes.php' => ['Administrador', 'Auditor'],
+        'clientes.php' => ['Administrador', "Almacenista",'Auditor'],
         'cuentas.php' => ['Administrador', 'Almacenista', 'Auditor'],
-        'reportes.php' => ['Administrador', 'Auditor'],
+        'reportes.php' => ['Administrador', 'Almacenista', 'Auditor'],
         'parametros.php' => ['Administrador'],
         'usuarios.php' => ['Administrador'],
     ];

@@ -2,7 +2,7 @@
 require_once '../assets/php/roles.php';
 verificarAutenticacion();
 verificarAcceso(basename(__FILE__));
-$puedeEscribir = usuarioPuedeGestionarFinanzas();
+$puedeEscribir = usuarioPuedeEscribir();
 ?>
 <!DOCTYPE html>
 <html lang="es">

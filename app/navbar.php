@@ -22,7 +22,7 @@ $rolActual = obtenerRolUsuario();
         <li><a href="cuentas.php">Movimientos financieros</a></li>
         <?php endif; ?>
 
-        <?php if (in_array($rolActual, ['Administrador', 'Auditor'], true)): ?>
+        <?php if (in_array($rolActual, ['Administrador', 'Almacenista', 'Auditor'], true)): ?>
         <li><a href="clientes.php">Clientes</a></li>
         <li><a href="reportes.php">Reportes</a></li>
         <?php endif; ?>
