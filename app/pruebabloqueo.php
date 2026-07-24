@@ -6,21 +6,22 @@ require_once __DIR__ . '/../assets/php/db.php';
 const ROLES_VALIDOS = ['Administrador', 'Almacenista', 'Auditor'];
 
 // Conexión a la base de datos y manejo de errores
+//fix errores cambiamos $pdo por $conexion
 try {
-    $pdo = obtenerConexionBD();
-} catch (PDOException $e) {
+    $conexion = obtenerConexionBD();
+} catch (\mysqli_sql_exception $e) {
     die('Error de conexión a la base de datos.');
 }
 
 //consulta de usuario por correo electrónico
 //para evitar inyecciones SQL, se utiliza una consulta preparada
-function obtenerUsuarioPorEmail($pdo, $email) {
-    $stmt = $pdo->prepare(
+function obtenerUsuarioPorEmail($conexion, $email) {
+    return filaDe(ejecutarConsulta(
+        $conexion,
         'SELECT id_u AS id, nombre_u AS nombre, contrasena_hash, rol_u AS rol, estado_u AS activo
-         FROM usuarios WHERE email_u = ?'
-    );
-    $stmt->execute([$email]);
-    return $stmt->fetch();
+         FROM usuarios WHERE email_u = ?',
+        [$email]
+    ));
 }
 
 function validarCredenciales($email, $password, $usuario) {
@@ -30,7 +31,7 @@ function validarCredenciales($email, $password, $usuario) {
     return null;
 }
 
-function registrarUsuario($pdo, $nombre, $apellido, $email, $password, $rol) {
+function registrarUsuario($conexion, $nombre, $apellido, $email, $password, $rol) {
     $errores = [];
     if (empty($nombre) || empty($apellido)) $errores[] = 'Nombre y apellido son obligatorios.';
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errores[] = 'Correo inválido.';
@@ -38,9 +39,9 @@ function registrarUsuario($pdo, $nombre, $apellido, $email, $password, $rol) {
     if (!in_array($rol, ROLES_VALIDOS, true)) $errores[] = 'Rol inválido.';
     
     if (empty($errores)) {
-        $stmt = $pdo->prepare('SELECT id_u FROM usuarios WHERE email_u = ?');
-        $stmt->execute([$email]);
-        if ($stmt->fetch()) $errores[] = 'Ese correo ya está registrado.';
+        $existente = filaDe(ejecutarConsulta($conexion, 'SELECT id_u FROM usuarios WHERE email_u = ?', [$email]));
+        if ($existente) $errores[] = 'Ese correo ya está registrado.';
+
     }
 
     if (!empty($errores)) return ['error' => implode(' ', $errores)];
@@ -48,17 +49,17 @@ function registrarUsuario($pdo, $nombre, $apellido, $email, $password, $rol) {
     $hash = password_hash($password, PASSWORD_DEFAULT);
     // la tabla usuarios no tiene columna "apellido" propia, se guarda como nombre completo
     $nombreCompleto = trim($nombre . ' ' . $apellido);
-    $stmt = $pdo->prepare(
+    ejecutarConsulta(
+        $conexion,
         'INSERT INTO usuarios (nombre_u, contacto_u, email_u, contrasena_hash, rol_u, estado_u)
-         VALUES (?, ?, ?, ?, ?, 1)'
-    );
-    $stmt->execute([$nombreCompleto, '', $email, $hash, $rol]);
+         VALUES (?, ?, ?, ?, ?, 1)',
+        [$nombreCompleto, '', $email, $hash, $rol]
+    );    
     return ['success' => 'Usuario registrado correctamente.'];
 }
 
-function cambiarEstadoUsuario($pdo, $id, $activo) {
-    $stmt = $pdo->prepare('UPDATE usuarios SET estado_u = ? WHERE id_u = ?');
-    $stmt->execute([$activo ? 1 : 0, $id]);
+function cambiarEstadoUsuario($conexion, $id, $activo) {
+    ejecutarConsulta($conexion, 'UPDATE usuarios SET estado_u = ? WHERE id_u = ?', [$activo ? 1 : 0, $id]);
     return $activo ? 'Usuario desbloqueado.' : 'Usuario bloqueado.';
 }
 
@@ -74,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['
     if (empty($email) || empty($password)) {
         $errorLogin = 'Usuario o contraseña incorrectos';
     } else {
-        $usuario = obtenerUsuarioPorEmail($pdo, $email);
+        $usuario = obtenerUsuarioPorEmail($conexion, $email);
         $error = validarCredenciales($email, $password, $usuario);
         if ($error) {
             $errorLogin = $error;
@@ -102,7 +103,7 @@ $esAdmin = $sesionActiva && $_SESSION['usuario_rol'] === 'Administrador';
 if ($esAdmin && $_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['accion']) && $_POST['accion'] === 'registrar_usuario') {
         $resultado = registrarUsuario(
-            $pdo,
+            $conexion,
             trim($_POST['nombre'] ?? ''),
             trim($_POST['apellido'] ?? ''),
             trim($_POST['email'] ?? ''),
@@ -113,16 +114,17 @@ if ($esAdmin && $_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (isset($_POST['accion']) && $_POST['accion'] === 'cambiar_estado') {
         $id = (int) $_POST['usuario_id'];
         $activo = (int) ($_POST['activo'] ?? 0);
-        $mensajeUsuarios = cambiarEstadoUsuario($pdo, $id, $activo);
+        $mensajeUsuarios = cambiarEstadoUsuario($conexion, $id, $activo);
     }
 }
 
 $listaUsuarios = [];
 if ($esAdmin) {
-    $listaUsuarios = $pdo->query(
+    $listaUsuarios = filasDe(ejecutarConsulta(
+        $conexion,
         'SELECT id_u AS id, nombre_u AS nombre, email_u AS email, rol_u AS rol, estado_u AS activo
          FROM usuarios ORDER BY id_u'
-    )->fetchAll();
+    ));
 }
 ?>
 <?php
